@@ -10,8 +10,16 @@
     <title>Document</title>
     <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./resources/css/header_nav.css"> 
-    <link rel="stylesheet" href="./resources/css/juke_store.css"> 
-    
+    <link rel="stylesheet" href="./resources/css/jukestore.css"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+    <script type="text/javascript">
+	    $(document).ready(function(){
+	        $('.btn').on('click',function(){
+	        	alert("해당 음악을 구매하시겠습니까?");
+	        	alert(this);
+	        });
+	    });
+    </script>
 </head>
 <body>
     <header>
@@ -73,9 +81,10 @@
                     <div class="img_container">
                         <div class="cover">
                             <div class="album_info">
+                                <p class="hidden mu_code">${item.mu_code}</p>
                                 <p>${item.mu_title}</p>
                                 <p>${item.mu_artist}</p>
-                                <a><button>구매</button></a>
+                                <a class="btn"><button>구매</button></a>
                             </div>
                         </div>
                         <img src="./resources/images/${item.mu_img}.jpg" alt="">

@@ -10,15 +10,14 @@ import com.project.cy.model.dto.JukeboxDTO;
 import com.project.cy.model.dto.JukeboxStoreDTO;
 
 @Repository
-public class JukeboxStoreRepository {
+public class JukeboxRepository {
 	
 	@Autowired
     private SqlSession session;
-    private static String namespace = "com.project.cy.JukeboxStoreMapper.";
+    private static String namespace = "com.project.cy.JukeboxMapper.";
 	
-    public List<JukeboxStoreDTO> All() {
-		return session.selectList(namespace+"All");
+    public int insert(JukeboxDTO dto){
+    	return session.insert(namespace+"insert"+dto);
     }
-
 	
 }

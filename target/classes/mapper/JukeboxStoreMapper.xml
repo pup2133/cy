@@ -5,7 +5,7 @@
 <mapper namespace="com.project.cy.JukeboxStoreMapper">
 
     <select id="All" resultType="JukeboxStore">
-        select mu_img,mu_title,mu_artist from cy_music
+        select mu_code,mu_img,mu_title,mu_artist from cy_music
     </select>
     
 </mapper>

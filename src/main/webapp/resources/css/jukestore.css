@@ -73,6 +73,9 @@ section{
   font-size: 18px;
 }
 /* 앨범 */
+.hidden{
+display:none;
+}
 .img_container{
   position: relative;
 }
