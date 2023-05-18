@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.cy.JukeboxStoreMapper">
+
+    <select id="All" resultType="JukeboxStore">
+        select mu_img,mu_title,mu_artist from cy_music
+    </select>
+    
+</mapper>

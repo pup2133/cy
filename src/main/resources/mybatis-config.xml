@@ -4,6 +4,6 @@
 		"http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias alias="Member" type="com.acorn.batis.Member"/>
+		<typeAlias alias="JukeboxStore" type="com.project.cy.model.dto.JukeboxStoreDTO"/>
 	</typeAliases>
 </configuration>
