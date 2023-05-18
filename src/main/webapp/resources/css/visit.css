@@ -1,0 +1,118 @@
+/* 갤러리 섹션 시작*/
+section{
+    width: 100%;
+    height: 89.7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 섹션 wrap */
+.section_wrap{
+    display: flex;
+    flex-direction: column;
+}
+
+/* 위쪽에 갤러리 밑줄 */
+.guest_title{
+    width: 1400px;
+    height: 28px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.guest_reg{
+    height: 200px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.guest_reg img{
+    width:150px;
+    height:150px;
+    border: 0.5px solid black;
+    border-radius: 50%;
+    margin-right: 50px;
+    margin-left: 30px;
+}
+
+.guest_reg textarea{
+    width: 1025px;
+    height: 130px;
+    outline: none;
+    resize: none;
+    border: 0.5px solid black;
+    border-right: 0;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.reg_btn{
+    position: absolute;
+    border: 0.5px solid black;
+    border-left: 0;
+    bottom: 24.5px;
+    right: 23px;
+    width: 100px;
+    height: 150px;
+}
+
+.reg_btn button{
+    width: 100px;
+    height: 40px;
+    margin-top: 110px;
+    border: 0.5px solid black;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.comment_list{
+    display: flex;
+    height: 450px;
+    flex-direction: column;
+    overflow-y: scroll;
+    background-color: rgb(241, 241, 241, 0.3);
+    padding-top: 20px;
+}
+
+.comment_list img{
+    width:150px;
+    height:150px;
+    border: 0.5px solid black;
+    border-radius: 50%;
+    margin-right: 50px;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.geust_box{
+    display: flex;
+    margin-bottom: 45px;
+}
+.guest_comment{
+    width: 1145px;
+}
+
+.comment{
+    border: 0.5px solid black;
+    width: 1125px;
+    height: 130px;
+    padding: 10px;
+    overflow-y: scroll;
+    background-color: white;
+}
+
+.comment p{
+    font-size: 18px;
+}
+
+.guest_comment :nth-child(3){
+    float: right;
+}
