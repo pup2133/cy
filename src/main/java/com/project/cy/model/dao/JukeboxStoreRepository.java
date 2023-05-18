@@ -19,6 +19,9 @@ public class JukeboxStoreRepository {
     public List<JukeboxStoreDTO> All() {
 		return session.selectList(namespace+"All");
     }
+    public int insert(JukeboxDTO dto){
+    	return session.insert(namespace+"insert",dto);
+    }
 
 	
 }

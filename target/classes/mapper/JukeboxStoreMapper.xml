@@ -8,4 +8,11 @@
         select mu_code,mu_img,mu_title,mu_artist from cy_music
     </select>
     
+    <insert id="insert" parameterType="Jukebox">
+      insert into cy_mymusic
+      	(mu_code,m_id) 
+      VALUES
+      	(#{mu_code},#{m_id})
+    </insert>
+    
 </mapper>
