@@ -1,14 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="./css/header_nav.css"> 
-<link rel="stylesheet" href="./css/visit.css">
+<link rel="stylesheet" href="./resources/css/header_nav.css"> 
+<link rel="stylesheet" href="./resources/css/visit.css">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$(document).ready(function() {
+		let host = $('#host').val();
+		let host_id = $('#host_id').val();
+		let guest_id = $('#guest_id').val();
+		console.log(host);
+		console.log(host_id);
+		console.log(guest_id);
+	});
+</script>
 </head>
 <body>
     <header>
@@ -55,61 +66,44 @@
             </div>
         </nav>
         <section>
+        	<input id="host" type="hidden" value="${host }">
             <div class="section_wrap">
                 <div class="guest_title">
                     <h1>방명록</h1>
                 </div>
-                <div class="guest_reg">
-                    <img src="/커비.png">
-                    <textarea></textarea>
-                    <div class="reg_btn">
-                        <button>등록</button>
-                    </div>
-                </div>
+                <form name="frm" action="./visit/Reg" method="post">
+	                <div class="guest_reg">
+	                	<div class="pic_nickname">
+	                		<img src="${member.h_pic}">
+	                   		<p>${member.m_nick}</p>
+	                	</div>
+	                    <textarea name="v_text"></textarea>
+	                   	<input type="hidden" name="v_hostId" value="yun">
+						<input type="hidden" name="v_guestId" value="yun">
+	                    <div class="reg_btn">
+	                        <button>등록</button>
+	                    </div>
+	                </div>
+                </form>
                 <div class="comment_list">
-                    <div class="geust_box">
-                        <img src="/커비.png">
-                        <div class="guest_comment">
-                            <span>2023.05.17</span>
-                            <div class="comment">
-                                <p>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록</p>
-                            </div>
-                            <span>수정 | 삭제</span>
-                        </div>
-                    </div>
-
-                    <div class="geust_box">
-                        <img src="/커비.png">
-                        <div class="guest_comment">
-                            <span>2023.05.17</span>
-                            <div class="comment">
-                                <p>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록</p>
-                            </div>
-                            <span>수정 | 삭제</span>
-                        </div>
-                    </div>
-
-                    <div class="geust_box">
-                        <img src="/커비.png">
-                        <div class="guest_comment">
-                            <span>2023.05.17</span>
-                            <div class="comment">
-                                <p>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록</p>
-                            </div>
-                            <span>수정 | 삭제</span>
-                        </div>
-                    </div>
-
-                    <div class="geust_box">
-                        <img src="/커비.png">
-                        <div class="guest_comment">
-                            <span>2023.05.17</span>
-                            <div class="comment">
-                                <p>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록<br>방명록</p>
-                            </div>
-                            <span>수정 | 삭제</span>
-                        </div>
-                    </div>
+	                <c:forEach var="list" items="${list }">
+	                	<div class="geust_box">
+	                		<input id="host_id" type="hidden" value="${list.v_hostId }">
+							<input id="guest_id" type="hidden" value="${list.v_guestId }">
+	                		<div class="guest_pic_nick">
+	                			<img src="${list.h_pic }">
+	                    		<p>${list.m_nick }</p>
+	                    		<p>ㅇㅇ${list.v_guestId }</p>
+	                		</div>
+	                        <div class="guest_comment">
+	                            <span>${list.v_time}</span>
+	                            <div class="comment">
+	                                <p>${list.v_text}</p>
+	                            </div>
+	                            <span>수정 | 삭제</span>
+	                        </div>
+	                    </div>
+	                </c:forEach>
                 </div>
             </div>
         </section>
