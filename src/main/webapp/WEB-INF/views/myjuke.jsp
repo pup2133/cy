@@ -20,7 +20,14 @@
     
     
     $(document).ready(function(){
-        
+    	
+    	$(".play_music_info p:nth-child(1), .play_music_info p:nth-child(4)").hide();
+    	$(".play_music").each(function(){
+            var mm_in = $(this).find(".play_music_info p.mm_in").text();
+            if(mm_in === "0"){
+                $(this).hide();
+            }
+        });
     });
     </script>
 </head>
@@ -104,17 +111,20 @@
                 </div>
                 <div>
                     <div class="play_list style-2">
+                    	<c:forEach var="item" items="${mylist}">
                         <div class="play_music">
                             <div class="play_music_info_wrap">
                                 <img src="./resources/images//ive.jpg">
                                 <div class="play_music_info"> 
-                                    <p>I AM</p>
-                                    <p>IVE</p>
+                                	<p>${item.mu_code}</p>
+                                    <p>${item.mu_title }</p>
+                                    <p>${item.mu_artist }</p>
+                                    <p>${item.mm_in}</p>
                                 </div>
                             </div>
                                 <i class="fa-regular fa-x"></i>
                         </div>
-                        
+                        </c:forEach>
                     </div>
                     <button class="save_btn">저장</button>
                 </div>

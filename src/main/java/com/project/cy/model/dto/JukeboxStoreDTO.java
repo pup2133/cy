@@ -5,7 +5,7 @@ public class JukeboxStoreDTO {
 	String mu_title;
 	String mu_artist;
 	String mu_img;
-	
+	//
 	public JukeboxStoreDTO() {
 		// TODO Auto-generated constructor stub
 	}

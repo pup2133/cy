@@ -55,6 +55,7 @@ public class JukeboxController{
 		dto.setMu_code(mu_code);
 		dto.setM_id(m_id);
 		dao.insert(dto);
+//		
 	}
 
 	@GetMapping("/myjuke")

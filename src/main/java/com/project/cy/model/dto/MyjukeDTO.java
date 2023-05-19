@@ -10,7 +10,7 @@ public class MyjukeDTO {
 	String mu_url;
 	String m_id;
 	int mm_in;
-	
+	//
 	public MyjukeDTO() {
 		// TODO Auto-generated constructor stub
 	}

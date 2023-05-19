@@ -12,7 +12,7 @@ import com.project.cy.model.dto.MyjukeDTO;
 
 @Repository
 public class JukeboxStoreRepository {
-	
+	//
 	@Autowired
     private SqlSession session;
     private static String namespace = "com.project.cy.JukeboxStoreMapper.";

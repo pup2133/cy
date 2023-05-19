@@ -3,7 +3,7 @@ package com.project.cy.model.dto;
 public class JukeboxDTO {
 	String mu_code;
 	String m_id;
-	
+	//
 	public JukeboxDTO() {
 		// TODO Auto-generated constructor stub
 	}
