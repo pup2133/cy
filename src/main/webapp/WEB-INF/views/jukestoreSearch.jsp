@@ -49,7 +49,7 @@
                     data: {mu_code: mu_code},
                     success: function(data) {
                         // 성공적으로 서버로 전달되었을 때 실행할 코드
-                        alert("등록됨");
+                        //alert("등록됨");
                     },
                     error: function(err) {
                         // 요청이 실패하거나 에러가 발생했을 때 실행할 코드

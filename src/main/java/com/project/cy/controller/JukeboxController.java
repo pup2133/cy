@@ -1,5 +1,7 @@
 package com.project.cy.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,9 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.cy.model.dao.JukeboxStoreRepository;
 import com.project.cy.model.dto.JukeboxDTO;
+import com.project.cy.model.dto.JukeboxStoreDTO;
 
 @Controller
 public class JukeboxController{
@@ -23,6 +27,19 @@ public class JukeboxController{
 	public String getMusicList(Model model) {
 		model.addAttribute("musiclist",dao.All());
 		return "jukestore";
+	}
+	
+	//검색시 나오는 창
+	@GetMapping("/jukesearchGet")
+	public String getMusicListSearch(Model model,@RequestParam("mu_title") String mu_title) {
+		model.addAttribute("musiclist",dao.AllSearch(mu_title));
+		return "jukestoreSearch";
+	}
+	
+	@PostMapping("/jukesearch")
+	@ResponseBody
+	public List<JukeboxStoreDTO> getMusicList(Model model,@RequestParam("mu_title") String mu_title) {
+		return dao.AllSearch(mu_title);
 	}
 	
 	@PostMapping("/buymusic")

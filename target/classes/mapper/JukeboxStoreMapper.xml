@@ -8,6 +8,11 @@
         select mu_code,mu_img,mu_title,mu_artist from cy_music
     </select>
     
+    <select id="AllSearch" resultType="JukeboxStore">
+        <!-- select mu_img,mu_title,mu_artist from cy_music where mu_title='${mu_title}' -->
+        select mu_code,mu_img,mu_title,mu_artist from cy_music where mu_title like '%${mu_title}%'
+    </select>
+    
     <insert id="insert" parameterType="Jukebox">
       insert into cy_mymusic
       	(mu_code,m_id) 
