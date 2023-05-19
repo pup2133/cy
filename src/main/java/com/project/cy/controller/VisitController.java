@@ -10,5 +10,4 @@ public class VisitController {
 	public String visit() {
 		return "visit";
 	}
-
 }

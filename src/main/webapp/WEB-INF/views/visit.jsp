@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="./css/header_nav.css"> 
-<link rel="stylesheet" href="./css/visit.css">
+<link rel="stylesheet" href="./resources/css/header_nav.css"> 
+<link rel="stylesheet" href="./resources/css/visit.css">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
