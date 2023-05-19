@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.diaryMapper">
+
+
+	<select id="selectDiary" resultType="DiaryDTO">
+		select d.d_num, d.M_ID, m.M_NICK, TO_CHAR(d.D_DATE, 'YYYYmmdd') as d_date,
+		d.D_TEXT
+		from CY_DIARY d
+		join
+		CY_MEMBER m
+		on d.M_ID = m.M_ID
+		where d.m_id = #{m_id}
+	</select>
+
+	<select id="selectDiaryComment" resultType="DiaryCommentDTO">
+		select d.D_NUM, m.M_NICK, TO_CHAR(dc.DC_TIME, 'YYYY-mm-dd hh:mm') dc_time,
+		dc.DC_TEXT, h.H_PIC
+		from CY_DIARY_COMMENT dc
+		join CY_DIARY d
+		on dc.D_NUM = d.D_NUM
+		join CY_MEMBER m
+		on dc.M_ID = m.M_ID
+		join CY_HOME h
+		on dc.M_ID = h.M_ID
+		order by dc.DC_NUM
+	</select>
+
+	<!-- <select id="selectVisit" resultType="visit"> -->
+	<!-- select m.m_nick, h.h_pic, v.v_num, v.v_text, to_char(v.v_time,'yyyy-mm-dd -->
+	<!-- hh24:mi:ss'), v.host_id, v.guest_id -->
+	<!-- from cy_visit v -->
+	<!-- join cy_member m -->
+	<!-- on v.guest_id = m.m_id -->
+	<!-- join cy_home h -->
+	<!-- on -->
+	<!-- h.m_id = m.m_id -->
+	<!-- </select> -->
+
+	<!-- <select id="findMemberId" resultType="String"> -->
+	<!-- select m_id from cy_member where m_id = #{id} -->
+	<!-- </select> -->
+
+	<!-- <insert id="visitInsert" parameterType="visit"> -->
+	<!-- insert into cy_visit -->
+	<!-- (v_num,v_text,v_time,host_id,guest_id) -->
+	<!-- values -->
+	<!-- (SEQ_cy_visit_v_num.currval,#{v_text},systimestamp,#{v_hostId},#{v_guestId}) -->
+	<!-- </insert> -->
+
+</mapper>
