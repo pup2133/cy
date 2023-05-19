@@ -104,7 +104,21 @@ public class visit {
 		this.v_time = v_time;
 		this.v_hostId = v_hostId;
 		this.v_guestId = v_guestId;
+		
 	}
+	
+	
+
+	public visit(String v_num, String v_text, String v_time, String v_hostId, String v_guestId) {
+		super();
+		this.v_num = v_num;
+		this.v_text = v_text;
+		this.v_time = v_time;
+		this.v_hostId = v_hostId;
+		this.v_guestId = v_guestId;
+	}
+
+
 
 	public String str() {
 		return "visit [m_nick=" + m_nick + ", h_pic=" + h_pic + ", v_num=" + v_num + ", v_text=" + v_text + ", v_time="

@@ -127,6 +127,29 @@ section{
     font-size: 18px;
 }
 
+.comment_update{
+	display:none;
+	border: 0.5px solid black;
+    width: 1145px;
+    height: 150px;
+    overflow-y: scroll;
+    background-color: white;
+}
+
+.comment_update textarea{
+	width: 1025px;
+    height: 130px;
+    outline: none;
+    resize: none;
+    padding: 10px;
+    font-size: 18px;
+    border:0;
+}
+
 .guest_comment :nth-child(3){
     float: right;
+}
+
+#edit2{
+	display:none;
 }

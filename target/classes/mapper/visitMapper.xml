@@ -46,7 +46,7 @@
     </select>
     
     <select id="selectVisit" resultType="visit">
-    	select m.m_nick, h.h_pic, v.v_num, v.v_text, to_char(v.v_time,'yyyy-mm-dd hh24:mi:ss'), v.host_id, v.guest_id 
+    	select m.m_nick, h.h_pic, v.v_num, v.v_text, to_char(v.v_time,'yyyy-mm-dd hh24:mi:ss') as v_time, v.host_id as v_hostId, v.guest_id as v_guestId
 		from cy_visit v
 		join cy_member m
 		on v.guest_id = m.m_id
@@ -62,7 +62,20 @@
     	insert into cy_visit
     		(v_num,v_text,v_time,host_id,guest_id) 
     	values
-    		(SEQ_cy_visit_v_num.currval,#{v_text},systimestamp,#{v_hostId},#{v_guestId})
+    		(SEQ_cy_visit_v_num.nextval,#{v_text},systimestamp,#{v_hostId},#{v_guestId})
     </insert>
+    
+   <update id="update" parameterType="visit">
+        update cy_visit
+        set	v_text = #{v_text},
+        	v_time = #{v_time},
+        	host_id = #{v_hostId},
+        	guest_id = #{v_guestId} 
+        where v_num = #{v_num}
+    </update>
+    
+    <delete id="delete" parameterType="String">
+        delete from cy_visit where v_num = #{v_num} 
+    </delete>
     
 </mapper>

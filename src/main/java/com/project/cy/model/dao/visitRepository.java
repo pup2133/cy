@@ -30,4 +30,12 @@ public class visitRepository {
     public String findMemberId(String id) throws Exception{
     	return session.selectOne(namespace+"findMemberId", id);
     }
+    
+    public int update(visit v) throws Exception{
+    	return session.update(namespace+"update", v);
+    }
+    
+    public int delete(String v_num) throws Exception{
+    	return session.delete(namespace+"delete", v_num);
+    }
 }

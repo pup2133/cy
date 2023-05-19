@@ -5,20 +5,52 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>${host }님의 홈페이지</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./resources/css/header_nav.css"> 
 <link rel="stylesheet" href="./resources/css/visit.css">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 	$(document).ready(function() {
-		let host = $('#host').val();
-		let host_id = $('#host_id').val();
-		let guest_id = $('#guest_id').val();
-		console.log(host);
-		console.log(host_id);
-		console.log(guest_id);
+		
+		let host = $("#host").val();
+        let sessionId = $("#sessionId").val();
+        
+        console.log(sessionId);
+        
+        if(host==sessionId){
+        	$(".guest_reg").css("display", "none");
+        	$(".comment_list").css("height","700px");
+        }
+		
+	    $(".geust_box").each(function() {
+	        let hostId = $(this).find("#host_id").val();
+	        let guestId = $(this).find("#guest_id").val();
+	        
+	        
+	        if(guestId!=sessionId&&host!=sessionId){
+	        	$(this).find("#edit").css("display", "none");
+	        	$(this).find("#delete").css("display", "none");
+	        }else if(host==sessionId){
+	        	$(this).find("#edit").css("display", "none");
+	        }
+
+	    });
+	    $(".geust_box").on("click", "#edit", function() {
+	        let $comment_update = $(this).closest(".geust_box").find(".comment_update");
+	        let $comment = $(this).closest(".geust_box").find(".comment");
+	        let $comment2 = $(this).closest(".geust_box").find(".comment").children('p').text();
+	        
+	        $comment_update.css("display", "block");
+	        $comment_update.children('textarea').val($comment2);
+	        $comment.css("display", "none");
+	       	
+	        $(this).css('display','none');
+	        $(this).closest(".geust_box").find("#edit2").css('display','block');
+	        
+	    });
 	});
+
 </script>
 </head>
 <body>
@@ -66,7 +98,8 @@
             </div>
         </nav>
         <section>
-        	<input id="host" type="hidden" value="${host }">
+        	<input id="host" type="hidden" value="${host}">
+        	<input id="sessionId" type="hidden" value="${sid}">
             <div class="section_wrap">
                 <div class="guest_title">
                     <h1>방명록</h1>
@@ -93,15 +126,31 @@
 	                		<div class="guest_pic_nick">
 	                			<img src="${list.h_pic }">
 	                    		<p>${list.m_nick }</p>
-	                    		<p>ㅇㅇ${list.v_guestId }</p>
 	                		</div>
-	                        <div class="guest_comment">
-	                            <span>${list.v_time}</span>
-	                            <div class="comment">
-	                                <p>${list.v_text}</p>
-	                            </div>
-	                            <span>수정 | 삭제</span>
-	                        </div>
+	                		<form action="visit/commentUpdate" method="post">
+		                        <div class="guest_comment">
+		                        	<input type="hidden" name="v_num" value="${list.v_num }">
+									<input type="hidden" name="v_time" value="${list.v_time }">
+		                        	<input type="hidden" name="v_hostId" value="${list.v_hostId }">
+		                        	<input type="hidden" name="v_guestId" value="${list.v_guestId }">
+		                            <span>${list.v_time}</span>
+		                            <div class="comment">
+		                                <p>${list.v_text}</p>
+		                            </div>
+		                            <div class="comment_update">
+		                            	<textarea name="v_text"></textarea>
+		                            </div>
+		                            <div>
+		                            	<button type="button" id="edit">수정</button>
+		                            	<button id="edit2">수정2</button>
+		                            	<span>|</span>
+		                            </div>
+		                        </div>
+	                       	</form>
+	                       	<form action="visit/delete" method="post">
+	                       		<input type="hidden" name="v_num" value="${list.v_num }">
+	                       		<button id="delete">삭제</button>
+	                       	</form>
 	                    </div>
 	                </c:forEach>
                 </div>
