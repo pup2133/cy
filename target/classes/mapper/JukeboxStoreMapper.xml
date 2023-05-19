@@ -20,4 +20,13 @@
       	(#{mu_code},#{m_id})
     </insert>
     
+    <select id="Myjuke" resultType="Myjukebox">
+        select mu.mu_code, mu.mu_title ,mu.mu_artist, mu.mu_genre, mu.mu_date, mu.mu_img, mu.mu_url, mm.m_id, mm.mm_in 
+		from cy_music mu 
+		join cy_mymusic mm 
+		on mu.mu_code = mm.mu_code 
+		where m_id=#{m_id}
+    </select>
+
+    
 </mapper>

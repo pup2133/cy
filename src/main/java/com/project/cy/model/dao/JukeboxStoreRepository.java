@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.cy.model.dto.JukeboxDTO;
 import com.project.cy.model.dto.JukeboxStoreDTO;
+import com.project.cy.model.dto.MyjukeDTO;
 
 @Repository
 public class JukeboxStoreRepository {
@@ -27,6 +28,12 @@ public class JukeboxStoreRepository {
     public int insert(JukeboxDTO dto){
     	return session.insert(namespace+"insert",dto);
     }
+    
+    public List<MyjukeDTO> getMyjuke(String m_id){
+		return session.selectList(namespace+"Myjuke",m_id);
+    	
+    }
+    
 
 	
 }
