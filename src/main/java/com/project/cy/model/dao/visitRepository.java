@@ -28,7 +28,11 @@ public class visitRepository {
     }
 
     public String findMemberId(String id) throws Exception{
-    	return session.selectOne(namespace+"findMemberId", id);
+    	if(id==null) {
+    		return null;
+    	}else {
+        	return session.selectOne(namespace+"findMemberId", id);
+    	}
     }
     
     public int update(visit v) throws Exception{

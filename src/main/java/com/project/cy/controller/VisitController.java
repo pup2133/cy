@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.cy.model.dao.visitRepository;
 import com.project.cy.model.dto.visit;
@@ -28,8 +29,8 @@ public class VisitController {
 		try {
 
 			String hostId = dao.findMemberId(id);
-			session.setAttribute("sessionId", "yun");
-
+			
+			session.setAttribute("sessionId", "yun2");
 			String sessionId = (String) session.getAttribute("sessionId");
 
 			if (hostId != null) {
@@ -42,7 +43,7 @@ public class VisitController {
 				model.addAttribute("sessionId", sessionId);
 
 			} else {
-				return "home";
+				return "error";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -66,10 +67,10 @@ public class VisitController {
 	}
 
 	@PostMapping("visit/commentUpdate")
+	@ResponseBody
 	public String commentUpdate(visit v) {
 
-		visit vi = new visit(v.getV_num(), v.getV_text(), v.getV_time(), v.getV_hostId(), v.getV_guestId());
-
+		visit vi = new visit(v.getV_num(), v.getV_text(), v.getV_time(), v.getV_hostId(), v.getV_guestId());		
 		String host = v.getV_hostId();
 
 		try {
@@ -78,7 +79,7 @@ public class VisitController {
 			e.printStackTrace();
 		}
 
-		return "redirect:/visit?id=" + host;
+		return "s";
 
 	}
 
@@ -93,5 +94,5 @@ public class VisitController {
 		return "redirect:/visit?id=" + hOr;
 
 	}
-
+	
 }
