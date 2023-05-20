@@ -18,17 +18,47 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
     <script type="text/javascript">
     
-    
     $(document).ready(function(){
-    	
-    	$(".play_music_info p:nth-child(1), .play_music_info p:nth-child(4)").hide();
+    	//날짜 형식 변경
+    	$(".music_info p:nth-child(3)").each(function() {
+            let date = $(this).text();
+            let formattedDate = formatDate(date);
+            $(this).text(formattedDate);
+        });
+    	//숨기기
+    	$(".hidden").hide();
+    	//플레이리스트 필터
     	$(".play_music").each(function(){
-            var mm_in = $(this).find(".play_music_info p.mm_in").text();
+            let mm_in = $(this).find(".play_music_info p:nth-child(4)").text();
             if(mm_in === "0"){
                 $(this).hide();
             }
         });
+    	
+    	//추가기능
+    	//add버튼 클릭되면 노래의 no값 가져오기
+    	//controller에서 addPlaylist실행하여 리스트 업데이트 후 가져옴
+    	
+    	
+    	
+    	
+    	
     });
+    
+  	//날짜형식 변경 함수
+	function formatDate(dateString) {
+        let date = new Date(dateString);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+
+        // 원하는 날짜 형식으로 조합
+        let formattedDate = year + "." + padZero(month) + "." + padZero(day);
+        return formattedDate;
+	}
+	function padZero(number) {
+    	return (number < 10 ? "0" : "") + number;
+	}
     </script>
 </head>
 
@@ -80,12 +110,12 @@
         <section>
             <div class="section_title">
                 <span>주크박스</span>
-                <a href="juke_store.html"><button class="btn-15 custom-btn">상점가기</button></a>
+                <a href="jukestore"><button class="btn-15 custom-btn">상점가기</button></a>
             </div>
             <div class="music_section">
                 <div class="music_wrap style-2">
                     <div class="music_list_wrap">
-                        <!-- 반복시작 -->
+
                         <c:forEach var="item" items="${mylist}">
                         <div class="music_list"> 
                             <a class="cover" href="">
@@ -99,32 +129,33 @@
                                 <p>${item.mu_artist }</p>
                                 <p>${item.mu_date }</p>
                                 <p>${item.mu_genre }</p>
+                            	<p class="hidden">${item.mu_code }</p>
                             </div>
                         </div>
                         </c:forEach>
-                        <!-- 반복종료 -->
                         
-
                     </div>
                 </div>
                 <div class="line">
                 </div>
                 <div>
                     <div class="play_list style-2">
+                    
                     	<c:forEach var="item" items="${mylist}">
                         <div class="play_music">
                             <div class="play_music_info_wrap">
-                                <img src="./resources/images//ive.jpg">
+                                <img src="./resources/images/${item.mu_img }.jpg">
                                 <div class="play_music_info"> 
-                                	<p>${item.mu_code}</p>
+                                	<p class="hidden">${item.mu_code}</p>
                                     <p>${item.mu_title }</p>
                                     <p>${item.mu_artist }</p>
-                                    <p>${item.mm_in}</p>
+                                    <p class="hidden">${item.mm_in}</p>
                                 </div>
                             </div>
                                 <i class="fa-regular fa-x"></i>
                         </div>
                         </c:forEach>
+                        
                     </div>
                     <button class="save_btn">저장</button>
                 </div>

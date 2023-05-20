@@ -121,11 +121,11 @@ section{
     display: flex;
     align-items: center;
 }
-.play_music_info :nth-child(1){
+.play_music_info :nth-child(2){
     font-size: 15px;
     font-weight: 800;
 }
-.play_music_info :nth-child(2){
+.play_music_info :nth-child(3){
     font-size: 12px;
 }
 /* 플레이리스트 저장버튼 */
@@ -148,7 +148,6 @@ section{
   height: 40px;
   padding: 10px 25px;
   border: 2px solid #000;
-  font-family: 'Lato', sans-serif;
   font-weight: 500;
   background: transparent;
   cursor: pointer;
@@ -157,11 +156,11 @@ section{
   display: inline-block;
 }
 .btn-15 {
-    background: #000;
+   background: #000;
    color: #fff;
    z-index: 1;
  }
- .btn-15:after {
+.btn-15:after {
    position: absolute;
    content: "";
    width: 0;
@@ -169,7 +168,7 @@ section{
    top: 0;
    right: 0;
    z-index: -1;
-    background: #e0e5ec;
+   background: white;
    transition: all 0.3s ease;
  }
  .btn-15:hover {

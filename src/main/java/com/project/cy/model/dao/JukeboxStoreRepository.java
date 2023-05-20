@@ -21,8 +21,8 @@ public class JukeboxStoreRepository {
 		return session.selectList(namespace+"All");
     }
     
-    public List<JukeboxStoreDTO> AllSearch(String mu_title) {
-		return session.selectList(namespace+"AllSearch",mu_title);
+    public List<JukeboxStoreDTO> AllSearch(String mu_artist) {
+		return session.selectList(namespace+"AllSearch",mu_artist);
     }
     
     public int insert(JukeboxDTO dto){
@@ -31,9 +31,9 @@ public class JukeboxStoreRepository {
     
     public List<MyjukeDTO> getMyjuke(String m_id){
 		return session.selectList(namespace+"Myjuke",m_id);
-    	
     }
     
+
 
 	
 }

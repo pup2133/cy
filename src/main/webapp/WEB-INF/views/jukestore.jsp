@@ -17,10 +17,9 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
     <script type="text/javascript">
-    
     //구매기능
     $(document).ready(function(){
-        $('.btn').on('click',function(){
+        $(document).on('click','.btn',function(){
         	let mu_code =  $(this).data('mu-code');
             Swal.fire({
                 title: '해당 곡을 구매하시겠습니까?',
@@ -41,7 +40,7 @@
                 });
                 }
                 //let mu_code =  $(this).closest('.album').find('.mu_code').text();
-                
+               
              	// AJAX 요청
                 $.ajax({
                     type: "POST",
@@ -59,31 +58,46 @@
                 
             })
         });
-        //검색기능
-        
+        //검색기능 (새로고침 없이 제이쿼리)
         $('#musicInput').on('keypress',function(){
         	if (event.keyCode === 13) {
-        		alert("엔터");
-        		
-                let mu_title = $(this).val().trim();
-                alert(mu_title);
-                if (mu_title !== '') {
-                    // AJAX request to the controller
-                    $.ajax({
-                        type: "POST",
-                        //dataType:"text",
-                        url: "jukesearch",
-                        data: { "mu_title": mu_title },
-                        success: function(data) {
-                        	window.location.href="./jukesearchGet?mu_title="+mu_title;
-                        },
-                        error: function(err) {
-                            // Handle errors
-                            console.log(err);
-                        }
-                    });
-                }
-        	
+                let mu_artist = $(this).val().trim();
+                //alert(mu_artist);
+                  // AJAX request to the controller
+                  $.ajax({
+                      type: "POST",
+                      //dataType:"text",
+                      url: "jukesearch",
+                      data: { "mu_artist": mu_artist },
+                      success: function(data) {
+                      	var albumsHTML = '';
+                          for (var i = 0; i < data.length; i++) {
+                              var item = data[i];
+                              var albumHTML = '<div class="album">';
+                              albumHTML += '<div class="img_container">';
+                              albumHTML += '<div class="cover">';
+                              albumHTML += '<div class="album_info">';
+                              albumHTML += '<p class="hidden mu_code">' + item.mu_code + '</p>';
+                              albumHTML += '<p>' + item.mu_title + '</p>';
+                              albumHTML += '<p>' + item.mu_artist + '</p>';
+                              albumHTML += '<a class="btn" data-mu-code="' + item.mu_code + '"><button>구매</button></a>';
+                              albumHTML += '</div>';
+                              albumHTML += '</div>';
+                              albumHTML += '<img src="./resources/images/' + item.mu_img + '.jpg" alt="">';
+                              albumHTML += '</div>';
+                              albumHTML += '<span>' + item.mu_artist + '</span>';
+                              albumHTML += '</div>';
+
+                              albumsHTML += albumHTML;
+                          }
+                          // 생성된 HTML을 DOM에 추가
+                          $('.albums').html(albumsHTML);
+                      },
+                      error: function(err) {
+                          // Handle errors
+                          console.log(err);
+                      }
+                  });
             }
         })
         
