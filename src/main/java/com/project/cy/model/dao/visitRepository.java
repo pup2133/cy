@@ -1,6 +1,8 @@
 package com.project.cy.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,11 @@ public class visitRepository {
         return session.insert(namespace+"visitInsert", dto);
     }
     
-    public List<visit> selectVisit() throws Exception{
-    	return session.selectList(namespace+"selectVisit");
+    public List<visit> selectVisit(int startItem, int itemsPerPage) throws Exception{
+        Map<String, Integer> params = new HashMap<>();
+        params.put("startItem", startItem);
+        params.put("itemsPerPage", itemsPerPage);
+    	return session.selectList(namespace+"selectVisit", params);
     }
 
     public String findMemberId(String id) throws Exception{
@@ -35,6 +40,10 @@ public class visitRepository {
     	}
     }
     
+    public int getTotalCount() throws Exception{
+    	return session.selectOne(namespace+"visitCount");
+    }
+    
     public int update(visit v) throws Exception{
     	return session.update(namespace+"update", v);
     }
@@ -42,4 +51,6 @@ public class visitRepository {
     public int delete(String v_num) throws Exception{
     	return session.delete(namespace+"delete", v_num);
     }
+    
+    
 }
