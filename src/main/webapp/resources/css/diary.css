@@ -165,12 +165,17 @@ section {
   text-decoration: none;
 }
 
+.com_nick span{
+  font-size: 12px;
+  margin-left: 5px;
+}
+
 .calendar_wrap {
   width: 30%;
   height: 50%;
 }
 
-/* 캘린더 */
+/* 罹섎┛�뜑 */
 td {
   width: 50px;
   height: 50px;

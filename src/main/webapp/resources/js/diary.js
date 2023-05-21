@@ -11,6 +11,7 @@ window.onload = function () {
 
   //오늘 날짜 출력
   change_diarydate();
+  d_text_sel()
 };
 
 let nowMonth = new Date(); // 현재 달을 페이지를 로드한 날의 달로 초기화
@@ -223,17 +224,8 @@ function resize(obj) {
 
 //댓글 수정 readonly 풀기
 let update = 0;
-function update_text(obj) {
+function update_comment(obj, dc_num) {
   var area = obj.parentElement.parentElement.nextElementSibling;
-  // if (update == 0) {
-  //   area.style.background = "white";
-  //   area.readOnly = false;
-  //   update = 1;
-  // } else if(update == 1){
-  //   area.style.background = "none";
-  //   area.readOnly = true;
-  //   update = 0;
-  // }
 
   if (update == 0) {
     $(area).removeAttr("readonly", false);
@@ -242,9 +234,26 @@ function update_text(obj) {
   } else if (update == 1) {
     $(area).attr("readonly", true);
     $(area).css("background", "none");
+    
+    $.ajax({
+      url: "diary/commentUpdate",
+      method: "POST",
+      data: {
+        dc_num: dc_num,
+        dc_text: $(area).val()
+      },
+      success: function(data){
+      	alert("수정완료");
+      },
+      error:function(err){
+        console.log(err);
+      }    
+    });
+    
     update = 0;
   }
 }
+
 
 function change_diarydate() {
   let diary_date = document.getElementById("diary_date");

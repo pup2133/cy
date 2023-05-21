@@ -19,8 +19,16 @@ public class DiaryRepository {
 	public List<DiaryDTO> selectDiary(String m_id) throws Exception {
 		return session.selectList(namespace + "selectDiary", m_id);
 	}
-	
+
 	public List<DiaryCommentDTO> selectDiaryComment(String m_id) throws Exception {
 		return session.selectList(namespace + "selectDiaryComment", m_id);
+	}
+
+	public int updateComment(DiaryCommentDTO dc) {
+		return session.update(namespace + "updateDiaryComment", dc);
+	}
+
+	public int deleteComment(String dc_num) {
+		return session.delete(namespace + "deleteDiaryComment", dc_num);
 	}
 }

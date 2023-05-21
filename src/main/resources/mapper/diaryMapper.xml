@@ -16,7 +16,7 @@
 	</select>
 
 	<select id="selectDiaryComment" resultType="DiaryCommentDTO">
-		select d.D_NUM, m.M_NICK, TO_CHAR(dc.DC_TIME, 'YYYY-mm-dd hh:mm') dc_time,
+		select dc.dc_num, d.D_NUM, m.M_NICK, TO_CHAR(dc.DC_TIME, 'YYYY-mm-dd hh24:mm') dc_time,
 		dc.DC_TEXT, h.H_PIC
 		from CY_DIARY_COMMENT dc
 		join CY_DIARY d
@@ -27,7 +27,14 @@
 		on dc.M_ID = h.M_ID
 		order by dc.DC_NUM
 	</select>
+	
+	<update id="updateDiaryComment" parameterType="DiaryCommentDTO">
+		update CY_DIARY_COMMENT set dc_text = #{dc_text} where dc_num = #{dc_num}
+	</update>
 
+	<delete id="deleteDiaryComment" parameterType="String">
+		delete from CY_DIARY_COMMENT where dc_num = #{dc_num}
+	</delete>
 	<!-- <select id="selectVisit" resultType="visit"> -->
 	<!-- select m.m_nick, h.h_pic, v.v_num, v.v_text, to_char(v.v_time,'yyyy-mm-dd -->
 	<!-- hh24:mi:ss'), v.host_id, v.guest_id -->

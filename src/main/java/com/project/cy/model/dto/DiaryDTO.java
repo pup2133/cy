@@ -55,6 +55,7 @@ public class DiaryDTO {
 		this.d_date = d_date;
 		this.d_text = d_text;
 	}
+	
 
 	public DiaryDTO() {
 		// TODO Auto-generated constructor stub
