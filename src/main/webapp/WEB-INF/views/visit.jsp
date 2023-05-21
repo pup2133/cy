@@ -22,9 +22,9 @@
 		if (host == sessionId) {
 			$(".guest_reg").hide();
 		    $(".comment_list").css("height", "700px");
-		    $('input[name="hOr"]').val(sessionId);
+		    $('input[name="userType"]').val(sessionId);
 		} else {
-		    $('input[name="hOr"]').val(host);
+		    $('input[name="userType"]').val(host);
 		}
 		
 		$(".geust_box").each(function() {
@@ -69,7 +69,7 @@
 		    
 		    
 			$.ajax({
-				url: "visit/commentUpdate", // 요청을 보낼 URL
+				url: "visit/edit", // 요청을 보낼 URL
 				method: "POST",
 				dataType: "text",
 				data: { 
@@ -148,7 +148,7 @@
                 <div class="guest_title">
                     <h1>방명록</h1>
                 </div>
-                <form name="frm" action="./visit/Reg" method="post">
+                <form name="frm" action="visit/reg" method="post">
 	                <div class="guest_reg">
 	                	<div class="pic_nickname">
 	                		<img src="${member.h_pic}">
@@ -169,7 +169,7 @@
 	                			<img src="${list.h_pic }">
 	                    		<p>${list.m_nick }</p>
 	                		</div>
-	                		<form name="frmUpdate" action="visit/commentUpdate" method="post">
+	                		<form name="frmUpdate" action="visit/edit" method="post">
 		                        <div class="guest_comment">
 		                        	<input type="hidden" name="v_num" value="${list.v_num }">
 									<input type="hidden" name="v_time" value="${list.v_time }">
@@ -191,7 +191,7 @@
 	                       	<span id="line">|</span>
 	                       	<form name="frmDelete" action="visit/delete" method="post">
 	                       		<input type="hidden" name="v_num" value="${list.v_num }">
-	                       		<input type="hidden" name="hOr" value="">
+	                       		<input type="hidden" name="userType" value="">
 	                       		<button id="delete">삭제</button>
 	                       	</form>
 	                    </div>

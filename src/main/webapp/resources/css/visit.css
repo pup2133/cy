@@ -146,8 +146,8 @@ section {
 .comment_update {
 	display: none;
 	border: 0.5px solid black;
-	width: 1145px;
-	height: 150px;
+	width: 1125px;
+	height: 130px;
 	overflow-y: scroll;
 	background-color: white;
 }

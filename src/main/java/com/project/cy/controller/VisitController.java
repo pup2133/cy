@@ -14,52 +14,51 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.cy.model.dao.visitRepository;
 import com.project.cy.model.dto.visit;
+import com.project.cy.model.service.visitService;
 
 @Controller
 public class VisitController {
 
-	visitRepository dao;
+	visitService service;
 
 	@Autowired
-	public VisitController(visitRepository dao) {
-		this.dao = dao;
+	public void setService(visitService service) {
+		this.service = service;
 	}
 
 	@GetMapping("visit")
 	public String visit(@RequestParam(defaultValue = "1") int page, Model model, String id, HttpSession session) {
 
+		// 임시 세션 아이디
+		session.setAttribute("sessionId", "yun2");
+		String sessionId = (String) session.getAttribute("sessionId");
+
 		try {
-			int totalCount = dao.getTotalCount();
-			int itemsPerPage = 4; // 페이지당 데이터 개수
-			int totalPages = (int) Math.ceil((double) totalCount / itemsPerPage); // 총 페이지 수
-
+			int totalCount = service.getTotalCount(); // 방명록이 총 몇개 있는지
+			int itemsPerPage = 4; // 방명록 페이지당 보여줄 개수
+			int totalPages = (int) Math.ceil((double) totalCount / itemsPerPage); // 방명록 총 페이지 수
 			int startItem = (page - 1) * itemsPerPage; // 조회 시작 위치
-			// int endItem = startItem + itemsPerPage - 1; // 조회 끝 위치
+			int maxPaginationLinks = 5; // 보여줄 페이지 제한 최대 5개까지만
+			int startPage = Math.max(1, page - maxPaginationLinks / 2); // 시작 페이지
+			int endPage = Math.min(startPage + maxPaginationLinks - 1, totalPages); // 끝 페이지
 
-			int maxPaginationLinks = 5; // 보여줄 링크 개수 제한
-			int startPage = Math.max(1, page - maxPaginationLinks / 2);
-			int endPage = Math.min(startPage + maxPaginationLinks - 1, totalPages);
-
-			String hostId = dao.findMemberId(id);
-
-			session.setAttribute("sessionId", "yun2");
-			String sessionId = (String) session.getAttribute("sessionId");
+			String hostId = service.getMemberId(id); // 호스트 아이디가 존재하는지 확인
 
 			if (hostId != null) {
 
-				List<visit> result = dao.selectVisit(startItem, itemsPerPage);
+				List<visit> visitList = service.getVisit(startItem, itemsPerPage);
 
-				model.addAttribute("member", dao.select(sessionId));
-				model.addAttribute("list", result);
 				model.addAttribute("host", hostId);
 				model.addAttribute("sessionId", sessionId);
+				model.addAttribute("member", service.getMember(sessionId));
+				model.addAttribute("list", visitList);
 				model.addAttribute("totalPages", totalPages);
 				model.addAttribute("currentPage", page);
 				model.addAttribute("startPage", startPage);
 				model.addAttribute("endPage", endPage);
 
 			} else {
-				return "error";
+				return "error"; // 없는 페이지일 경우 에러페이지로 이동
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,45 +67,45 @@ public class VisitController {
 		return "visit";
 	}
 
-	@PostMapping("visit/Reg")
-	public String visitReg(visit v) {
+	@PostMapping("visit/reg")
+	public String visitReg(visit dto) {
 
-		String host = v.getV_hostId();
+		String hostId = dto.getV_hostId();
 
 		try {
-			visit vi = new visit(v.getV_text(), v.getV_hostId(), v.getV_guestId());
-			dao.insert(vi);
+			visit newVisit = new visit(dto.getV_text(), dto.getV_hostId(), dto.getV_guestId());
+			service.addVisit(newVisit);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/visit?id=" + host;
+		
+		return "redirect:/visit?id=" + hostId;
 	}
 
-	@PostMapping("visit/commentUpdate")
+	@PostMapping("visit/edit")
 	@ResponseBody
-	public Boolean commentUpdate(visit v) {
-		
-		visit vi = new visit(v.getV_num(), v.getV_text(), v.getV_time(), v.getV_hostId(), v.getV_guestId());
-		
+	public Boolean commentUpdate(visit dto) {
+
+		visit editVisit = new visit(dto.getV_num(), dto.getV_text(), dto.getV_time(), dto.getV_hostId(), dto.getV_guestId());
+
 		try {
-			dao.update(vi);
+			service.editVisit(editVisit);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		return true;
-
 	}
 
 	@PostMapping("visit/delete")
-	public String commentDelete(String v_num, String hOr) {
+	public String commentDelete(String v_num, String userType) {
 
 		try {
-			dao.delete(v_num);
+			service.deleteVisit(v_num);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:/visit?id=" + hOr;
+		return "redirect:/visit?id=" + userType;
 
 	}
 
