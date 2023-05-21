@@ -88,6 +88,18 @@ public class JukeboxController{
 		//String m_id = session.getId();
 		String m_id = "dd";  //임시
 		dao.addPlay(m_id, mu_code);
+		System.out.println(dao.getMyjuke(m_id));
+		return dao.getMyjuke(m_id);
+	}
+	//플레이리스트 제거
+	@PostMapping("/subPlaylist")
+	@ResponseBody
+	public List<MyjukeDTO> subPlaylist(@RequestParam("mu_code") String mu_code){
+		//아이디 세션 가져오기
+		//String m_id = session.getId();
+		String m_id = "dd";  //임시
+		dao.subPlay(m_id, mu_code);
+		System.out.println(dao.getMyjuke(m_id));
 		return dao.getMyjuke(m_id);
 	}
 	

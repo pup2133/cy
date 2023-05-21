@@ -16,6 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+    </head>
     <script type="text/javascript">
     
     $(document).ready(function(){
@@ -35,7 +36,7 @@
             }
         });
     	
-    	//플레이리스추가기능
+    	//플레이리스트 추가기능
     	$(document).on("click",".cover",function(){
     		let mu_code = $(this).siblings(".music_info").find(".hidden").text();
     	   	$.ajax({
@@ -43,33 +44,61 @@
     	   		url:"addPlaylist",
     	   		data:{mu_code:mu_code},
     	   		success:function(data){
-    	   			console.log(data);
-    	   			addPlaylistItem(data);
+    	   			playlistItem(data);
     	   		},
     	   		error:function(err){	
     	   		}
     	   	})
     	})
+    	
+    	//플레이리스트 제거기능
+    	$(document).on("click",".fa-x",function(){
+    		let mu_code = $(this).siblings(".play_music_info_wrap").find(".code").text();
+    	   	$.ajax({
+    	   		type:"POST",
+    	   		url:"subPlaylist",
+    	   		data:{mu_code:mu_code},
+    	   		success:function(data){
+    	   			playlistItem(data);
+    	   		},
+    	   		error:function(err){	
+    	   		}
+    	   	})
+    	})
+    	
     });
     //ajax로 플레이리스트 html변경 함수
-    function addPlaylistItem(data){
+    function playlistItem(data){
+    	let htmls="";
 	   	for(let i = 0; i < data.length; i++){
 	   		let item = data[i]
-	   	    let html = '<div class="play_music">' +
-	   	      '<div class="play_music_info_wrap">' +
-	   	      '<img src="./resources/images/' + item.mu_img + '.jpg">' +
-	   	      '<div class="play_music_info">' +
-	   	      '<p class="hidden">' + item.mu_code + '</p>' +
-	   	      '<p>' + item.mu_title + '</p>' +
-	   	      '<p>' + item.mu_artist + '</p>' +
-	   	      '<p class="hidden">' + item.mm_in + '</p>' +
-	   	      '</div>' +
-	   	      '</div>' +
-	   	      '<i class="fa-regular fa-x"></i>' +
-	   	      '</div>';
+	   	    let html = '<div class="play_music">' ;
+	   	    html+= '<div class="play_music_info_wrap">' ;
+	   	    html+= '<img src="./resources/images/' + item.mu_img + '.jpg">' ;
+		   	html+= '<div class="play_music_info">' ;
+		   	html+= '<p class="hidden code">' + item.mu_code + '</p>' ;
+		   	html+= '<p>' + item.mu_title + '</p>' ;
+		   	html+= '<p>' + item.mu_artist + '</p>' ;
+		   	html+= '<p class="hidden">' + item.mm_in + '</p>' ;
+		   	html+= '</div>' ;
+		   	html+= '</div>' ;
+		   	html+= '<i class="fa-regular fa-x"></i>' ;
+		   	html+= '</div>';
 	   	      
-	   	    $(".play_list").html(html);
+		   	htmls += html;
 	   	  };
+	   	  $(".play_list").html(htmls);
+	   	  
+   		//숨기기
+    	$(".hidden").hide();
+    	//플레이리스트 필터
+    	$(".play_music").each(function(){
+            let mm_in = $(this).find(".play_music_info p:nth-child(4)").text();
+            if(mm_in === "0"){
+                $(this).hide();
+            }
+        });
+	   	  
     }
     
   	//날짜형식 변경 함수
@@ -87,7 +116,7 @@
     	return (number < 10 ? "0" : "") + number;
 	}
     </script>
-</head>
+
 
 <body>
     <header>
@@ -145,11 +174,11 @@
 
                         <c:forEach var="item" items="${mylist}">
                         <div class="music_list"> 
-                            <a class="cover" href="">
+                            <div class="cover" href="">
                                 <div>
                                     +
                                 </div>
-                            </a>
+                            </div>
                             <img src="./resources/images/${item.mu_img}.jpg" alt="">
                             <div class="music_info">
                                 <p>${item.mu_title }</p>
@@ -174,7 +203,7 @@
                             <div class="play_music_info_wrap">
                                 <img src="./resources/images/${item.mu_img }.jpg">
                                 <div class="play_music_info"> 
-                                	<p class="hidden">${item.mu_code}</p>
+                                	<p class="hidden code">${item.mu_code}</p>
                                     <p>${item.mu_title }</p>
                                     <p>${item.mu_artist }</p>
                                     <p class="hidden">${item.mm_in}</p>

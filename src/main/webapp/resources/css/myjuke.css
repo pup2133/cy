@@ -127,6 +127,9 @@ section{
 .play_music_info :nth-child(2){
     font-size: 12px;
 }
+.fa-x{
+	cursor:pointer;
+}
 /* 플레이리스트 타이틀 */
 .playlist_title{
   height: 50px;

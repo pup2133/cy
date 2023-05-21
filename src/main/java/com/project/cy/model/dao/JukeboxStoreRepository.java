@@ -40,5 +40,11 @@ public class JukeboxStoreRepository {
         parameters.put("mu_code", mu_code);
         return session.update(namespace + "addPlay", parameters);
     }
+    public int subPlay(String m_id,String mu_code) {
+    	Map<String, Object> parameters = new HashMap<>();
+        parameters.put("m_id", m_id);
+        parameters.put("mu_code", mu_code);
+        return session.update(namespace + "subPlay", parameters);
+    }
 	
 }

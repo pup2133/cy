@@ -33,5 +33,12 @@
 		set mm_in=1 
 		where m_id=#{m_id} and mu_code=#{mu_code}
 	</update>
+	
+	<update id="subPlay" parameterType="Myjukebox">
+		update cy_mymusic 
+		set mm_in=0
+		where m_id=#{m_id} and mu_code=#{mu_code}
+	</update>
+	
     
 </mapper>
