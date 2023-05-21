@@ -32,8 +32,6 @@ public class JukeboxStoreRepository {
     public List<MyjukeDTO> getMyjuke(String m_id){
 		return session.selectList(namespace+"Myjuke",m_id);
     }
-    
-
-
+   
 	
 }

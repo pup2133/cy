@@ -4,24 +4,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./resources/css/header_nav.css"> 
-    <link rel="stylesheet" href="./resources/css/jukestore.css"> 
-    <!-- sweet alert -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="./resources/css/header_nav.css"> 
+<link rel="stylesheet" href="./resources/css/jukestore.css"> 
+<!-- sweet alert -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+<script type="text/javascript">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
-    <script type="text/javascript">
-    //구매기능
     $(document).ready(function(){
-        $(document).on('click','.btn',function(){
-        	let mu_code =  $(this).data('mu-code');
-            Swal.fire({
+    	//구매기능
+    	$(document).on('click','.btn',function(){
+    		let mu_code =  $(this).data('mu-code');
+    		Swal.fire({
                 title: '해당 곡을 구매하시겠습니까?',
                 text: "sdfsf",
                 icon: 'warning',
@@ -32,32 +33,46 @@
                 cancelButtonText: '취소',
                 reverseButtons: true, // 버튼 순서 거꾸로
             }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                icon: 'success',
-                title: '구매완료',
-                text: '구매가 완료되었습니다.',
-                });
-                }
-                //let mu_code =  $(this).closest('.album').find('.mu_code').text();
-               
-             	// AJAX 요청
-                $.ajax({
-                    type: "POST",
-                    url: "buymusic",
-                    data: {mu_code: mu_code},
-                    success: function(data) {
-                        // 성공적으로 서버로 전달되었을 때 실행할 코드
-                        alert("등록됨");
-                    },
-                    error: function(err) {
-                        // 요청이 실패하거나 에러가 발생했을 때 실행할 코드
-                        console.log(err)
-                    }
-                });
-                
+    			//중복유효성 검사
+	    		$.ajax({
+	    			type: "POST",
+	    			dataType:"text",
+	                url: "checkDuplicatePurchase",
+	                data: {"mu_code": mu_code},
+	                success: function(data) {
+	                    console.log(data);
+	                    if(data==="true"){
+	                    	Swal.fire({
+		                        icon: 'warning',
+		                        title: '중복구매',
+		                        text: '이미 구매한 곡입니다.',
+	                        });
+	                    }else{
+	                    	Swal.fire({
+	                            icon: 'success',
+	                            title: '구매완료',
+	                            text: '구매가 완료되었습니다.',
+	                        });
+	                    	$.ajax({
+	                            type: "POST",
+	                            url: "buymusic",
+	                            data: {mu_code: mu_code},
+	                            success: function(data) {
+	                            },
+	                            error: function(err) {
+	                                console.log(err)
+	                            }
+	                        });
+	                    }
+	                },
+	                error: function(err) {
+	                    console.log(err)
+	                }
+	    		})
+    			//
             })
-        });
+    	})
+
         //검색기능 (새로고침 없이 제이쿼리)
         $('#musicInput').on('keypress',function(){
         	if (event.keyCode === 13) {

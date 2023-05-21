@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,6 +50,25 @@ public class JukeboxController{
 		dto.setMu_code(mu_code);
 		dto.setM_id(m_id);
 		dao.insert(dto);
+	}
+	
+	@PostMapping("/checkDuplicatePurchase")
+	@ResponseBody
+	public String checkDuplicatePurchase(@RequestParam("mu_code") String mu_code) {
+		System.out.println(mu_code);
+		//아이디 세션 가져오기
+		//String m_id = session.getId();
+		String m_id = "dd";  //임시
+		String isDu = "false";
+		ArrayList<MyjukeDTO> mylist = (ArrayList<MyjukeDTO>) dao.getMyjuke(m_id);
+		for(Object item:mylist) {
+			System.out.println(item);
+			if(((MyjukeDTO)item).getMu_code().equals(mu_code)) {
+				isDu="true";
+			}
+		}
+		System.out.println(isDu);
+		return isDu;
 	}
 
 	//--마이 주크박스--
