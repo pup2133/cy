@@ -86,6 +86,7 @@ section{
     text-align: center;
     display: none;
     transition: 0.5s;
+    cursor:pointer;
 }
 .music_info :nth-child(1){
     font-size: 25px;
