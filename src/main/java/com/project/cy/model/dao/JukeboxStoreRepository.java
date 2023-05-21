@@ -1,6 +1,8 @@
 package com.project.cy.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,11 @@ public class JukeboxStoreRepository {
     public List<MyjukeDTO> getMyjuke(String m_id){
 		return session.selectList(namespace+"Myjuke",m_id);
     }
-   
+    public int addPlay(String m_id,String mu_code) {
+    	Map<String, Object> parameters = new HashMap<>();
+        parameters.put("m_id", m_id);
+        parameters.put("mu_code", mu_code);
+        return session.update(namespace + "addPlay", parameters);
+    }
 	
 }

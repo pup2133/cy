@@ -62,12 +62,10 @@ public class JukeboxController{
 		String isDu = "false";
 		ArrayList<MyjukeDTO> mylist = (ArrayList<MyjukeDTO>) dao.getMyjuke(m_id);
 		for(Object item:mylist) {
-			System.out.println(item);
 			if(((MyjukeDTO)item).getMu_code().equals(mu_code)) {
 				isDu="true";
 			}
 		}
-		System.out.println(isDu);
 		return isDu;
 	}
 
@@ -83,16 +81,14 @@ public class JukeboxController{
 	}
 	
 	//플레이리스트 추가
-//	@GetMapping("/addPlaylist")
-//	public List<MyjukeDTO> addPlaylist(){
-//		//해당되는 리스트 no으로 가져오기
-//		//no이 0 이면 1로 바꿔주고 1이면 그냥 두기
-//		//
-//		return ;
-//		
-//	}
-	
-	
-
+	@PostMapping("/addPlaylist")
+	@ResponseBody
+	public List<MyjukeDTO> addPlaylist(@RequestParam("mu_code") String mu_code){
+		//아이디 세션 가져오기
+		//String m_id = session.getId();
+		String m_id = "dd";  //임시
+		dao.addPlay(m_id, mu_code);
+		return dao.getMyjuke(m_id);
+	}
 	
 }

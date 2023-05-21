@@ -35,15 +35,42 @@
             }
         });
     	
-    	//추가기능
-    	//add버튼 클릭되면 노래의 no값 가져오기
-    	//controller에서 addPlaylist실행하여 리스트 업데이트 후 가져옴
-    	
-    	
-    	
-    	
-    	
+    	//플레이리스추가기능
+    	$(document).on("click",".cover",function(){
+    		let mu_code = $(this).siblings(".music_info").find(".hidden").text();
+    	   	$.ajax({
+    	   		type:"POST",
+    	   		url:"addPlaylist",
+    	   		data:{mu_code:mu_code},
+    	   		success:function(data){
+    	   			console.log(data);
+    	   			addPlaylistItem(data);
+    	   		},
+    	   		error:function(err){	
+    	   		}
+    	   	})
+    	})
     });
+    //ajax로 플레이리스트 html변경 함수
+    function addPlaylistItem(data){
+	   	for(let i = 0; i < data.length; i++){
+	   		let item = data[i]
+	   	    let html = '<div class="play_music">' +
+	   	      '<div class="play_music_info_wrap">' +
+	   	      '<img src="./resources/images/' + item.mu_img + '.jpg">' +
+	   	      '<div class="play_music_info">' +
+	   	      '<p class="hidden">' + item.mu_code + '</p>' +
+	   	      '<p>' + item.mu_title + '</p>' +
+	   	      '<p>' + item.mu_artist + '</p>' +
+	   	      '<p class="hidden">' + item.mm_in + '</p>' +
+	   	      '</div>' +
+	   	      '</div>' +
+	   	      '<i class="fa-regular fa-x"></i>' +
+	   	      '</div>';
+	   	      
+	   	    $(".play_list").html(html);
+	   	  };
+    }
     
   	//날짜형식 변경 함수
 	function formatDate(dateString) {
@@ -139,6 +166,7 @@
                 <div class="line">
                 </div>
                 <div>
+                	<div class="playlist_title">PLAYLIST</div>
                     <div class="play_list style-2">
                     
                     	<c:forEach var="item" items="${mylist}">
@@ -157,7 +185,6 @@
                         </c:forEach>
                         
                     </div>
-                    <button class="save_btn">저장</button>
                 </div>
             </div>
         </section>

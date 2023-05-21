@@ -27,6 +27,11 @@
 		on mu.mu_code = mm.mu_code 
 		where m_id=#{m_id}
     </select>
-
+	
+	<update id="addPlay" parameterType="Myjukebox">
+		update cy_mymusic 
+		set mm_in=1 
+		where m_id=#{m_id} and mu_code=#{mu_code}
+	</update>
     
 </mapper>

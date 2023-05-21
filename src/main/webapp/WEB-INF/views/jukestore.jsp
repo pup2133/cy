@@ -85,10 +85,10 @@
                       url: "jukesearch",
                       data: { "mu_artist": mu_artist },
                       success: function(data) {
-                      	var albumsHTML = '';
-                          for (var i = 0; i < data.length; i++) {
-                              var item = data[i];
-                              var albumHTML = '<div class="album">';
+                      	let albumsHTML = '';
+                          for (let i = 0; i < data.length; i++) {
+                              let item = data[i];
+                              let albumHTML = '<div class="album">';
                               albumHTML += '<div class="img_container">';
                               albumHTML += '<div class="cover">';
                               albumHTML += '<div class="album_info">';
