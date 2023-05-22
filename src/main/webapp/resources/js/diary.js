@@ -8,11 +8,21 @@ window.onload = function () {
   for (let i = 0; i < comsl; i++) {
     resize(coms[i]);
   }
-
+  
   //오늘 날짜 출력
-  change_diarydate();
-  d_text_sel()
+  c_day();
+  
+  d_text_sel();
+  choiceDate(days);
+  
+  choiceYear2 = days_str.substr(0, 4);
+  choiceMonth2 = days_str.substring(4, 6);
+  choiceDay2 = days_str.substring(6, 8);
+  
+  change_diarydate(choiceYear2, choiceMonth2, choiceDay2);
+  
 };
+
 
 let nowMonth = new Date(); // 현재 달을 페이지를 로드한 날의 달로 초기화
 let today = new Date(); // 페이지를 로드한 날짜를 저장
@@ -30,6 +40,8 @@ if (choiceDay.length == 1) {
 
 let choicedays = choiceYear + choiceMonth + choiceDay;
 console.log(choicedays);
+
+
 
 // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣는다.
 function buildCalendar() {
@@ -125,8 +137,7 @@ function buildCalendar() {
       nowColumn.className = "pastDay";
       nowColumn.onclick = function () {
         choiceDate(this);
-        change_diarydate();
-        d_text_sel();
+        location.href = "diary?m_id=rhkddlf&days=" + choicedays;
       };
     } else if (
       nowDay.getFullYear() == today.getFullYear() &&
@@ -137,31 +148,17 @@ function buildCalendar() {
       nowColumn.className = "today";
       nowColumn.onclick = function () {
         choiceDate(this);
-        change_diarydate();
-        d_text_sel();
+        location.href = "diary?m_id=rhkddlf&days=" + choicedays;
       };
     } else {
       // 미래인 경우
       nowColumn.className = "futureDay";
       nowColumn.onclick = function () {
         choiceDate(this);
-        change_diarydate();
-        d_text_sel();
+        location.href = "diary?m_id=rhkddlf&days=" + choicedays;
       };
     }
   }
-}
-
-function choice_date(nowColumn) {
-  choiceDay = nowColumn.innerText;
-  choiceYear = nowMonth.getFullYear().toString();
-  choiceMonth = (nowMonth.getMonth() + 1).toString();
-  if (choiceMonth.length == 1) {
-    choiceMonth = "0" + choiceMonth;
-  }
-
-  choicedays = choiceYear + choiceMonth + choiceDay;
-  console.log(choicedays);
 }
 
 // 날짜 선택
@@ -181,9 +178,8 @@ function choiceDate(nowColumn) {
   if (choiceMonth.length == 1) {
     choiceMonth = "0" + choiceMonth;
   }
-
   choicedays = choiceYear + choiceMonth + choiceDay;
-  console.log(choicedays);
+  console.log(choicedays);  
 }
 
 // 이전달 버튼 클릭
@@ -243,7 +239,7 @@ function update_comment(obj, dc_num) {
         dc_text: $(area).val()
       },
       success: function(data){
-      	alert("수정완료");
+      	location.reload();
       },
       error:function(err){
         console.log(err);
@@ -255,7 +251,39 @@ function update_comment(obj, dc_num) {
 }
 
 
-function change_diarydate() {
+function change_diarydate(y, m, d) {
   let diary_date = document.getElementById("diary_date");
-  diary_date.innerHTML = choiceYear + " - " + choiceMonth + " - " + choiceDay;
+  diary_date.innerHTML = y + " - " + m + " - " + d;
+}
+
+
+//댓글 수정 readonly 풀기
+let updateText = 0;
+function update_Text() {
+  let area = document.getElementById("d_text");
+  let d_num_ = d_num.value;
+  
+  if (updateText == 0) {
+    $(area).removeAttr("readonly", false);
+    $(area).focus();
+    updateText = 1;
+  } else if (updateText == 1) {
+    $(area).attr("readonly", true);
+    
+    $.ajax({
+      url: "diary/textUpdate",
+      method: "POST",
+      data: {
+        d_num: d_num_,
+        d_text: $(area).val()
+      },
+      success: function(data){
+      },
+      error:function(err){
+        console.log(err);
+      }    
+    });
+    
+    updateText = 0;
+    }
 }

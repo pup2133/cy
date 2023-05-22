@@ -11,7 +11,6 @@
 <title>다이어리</title>
 <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
-<script src="resources/js/diary.js"></script>
 <link rel="stylesheet" href="resources/css/header_nav.css" />
 <link rel="stylesheet" href="resources/css/diary.css" />
 <script type="text/javascript">
@@ -21,7 +20,7 @@
 function d_text_sel() {
 	<%list = (ArrayList<DiaryDTO>) request.getAttribute("list");
 	listC = (ArrayList<DiaryCommentDTO>) request.getAttribute("listC");
-	System.out.println("삭제후 크기: "+listC.size());%>
+	%>
 	let wrap = document.getElementById('comment_all');
 	
 	//초기화
@@ -32,13 +31,20 @@ function d_text_sel() {
 	<%
 
 for (DiaryDTO d : list) {%>
-		
-		if(choicedays == <%=d.getD_date()%>){
+		if(days_str == <%=d.getD_date()%>){
 			$("textarea[name=d_text]").text("<%=d.getD_text()%>");
+			
+			document.getElementById("d_num").value = <%=d.getD_num()%>;
+			document.getElementById("d_num2").value = <%=d.getD_num()%>;
+			document.getElementById("d_date").value = <%=d.getD_date()%>;
+			
 			<%int cnt=0;
 			for (DiaryCommentDTO dc : listC) {%>
 	<%if (d.getD_num().equals(dc.getD_num())) {
-	System.out.println(dc.getDc_text());%>	
+	System.out.println(dc.getDc_text());
+	String dc_id = dc.getM_id();
+	request.setAttribute("dc_id", dc_id);
+	%>	
 	temp='<div class="comment_list">';
 	temp+='<div class="com_profile" style="background-image: url(<%=dc.getH_pic()%>)"></div>';
 	temp+='<div class="com_text">';
@@ -47,9 +53,14 @@ for (DiaryDTO d : list) {%>
 	temp+='<b><%=dc.getM_nick()%></b>';
 	temp+='<span><%=dc.getDc_time()%></span>';
 	temp+='</div>';
-	temp+='<div class="com_up_del">';
+	temp+='<div class="com_up_del" id="com_up_del<%=dc.getDc_num()%>">';
+// 	temp+='<c:if test="${param.m_id == sessionScope.sessionId}">';
+<%-- 	temp+='<a href="javascript:void(0);" class="com_under" onclick="delete_comment(this, <%=dc.getDc_num()%>)">삭제</a>'; --%>
+// 	temp+='</c:if>';
+	temp+='<c:if test="${dc_id == sessionScope.sessionId}">';
 	temp+='<a href="javascript:void(0);" class="com_under" onclick="update_comment(this, <%=dc.getDc_num()%>)">수정</a> | ';
 	temp+='<a href="javascript:void(0);" class="com_under" onclick="delete_comment(this, <%=dc.getDc_num()%>)">삭제</a>';
+	temp+='</c:if>';
 	temp+='</div>';
 	temp+='</div>';
 	temp+='<textarea name="" id="" class="comment_" maxlength="100" onkeydown="resize(this)" onkeyup="resize(this)" readonly><%=dc.getDc_text()%></textarea>';
@@ -78,8 +89,7 @@ function delete_comment(obj, dc_num) {
         dc_num: dc_num,
       },
       success: function(data){
-      	alert("삭제 완료");
-      	com.remove();
+      	location.reload();
       	
       },
       error:function(err){
@@ -91,7 +101,14 @@ function delete_comment(obj, dc_num) {
   com.remove();
 }
 
+let days;
+let days_str;
+function c_day() {
+	days = document.getElementById("<%=request.getParameter("days")%>");
+	days_str = "<%=request.getParameter("days")%>";
+	}
 </script>
+<script src="resources/js/diary.js"></script>
 </head>
 <body>
 	<header>
@@ -155,19 +172,21 @@ function delete_comment(obj, dc_num) {
 			<div class="diary_cal">
 				<div class="diary">
 					<h1 id="diary_date">오늘의 일기 or 날짜?</h1>
-					<textarea name="d_text" id="" class="diary_text" readonly></textarea>
+					<textarea name="d_text" id="d_text" class="diary_text" readonly></textarea>
+					<input type="hidden" name="d_num" id="d_num">
 					<div class="text_up_del">
-						<a href="diary_update.html">수정</a>
-						|
-						<a href="">삭제</a>
+						<c:if test="${sessionScope.sessionId == param.m_id}">
+							<a href="javascript:void(0);" onclick="update_Text()">수정</a>
+						</c:if>
 					</div>
 
 					<div class="comment_wrap" id="comment_wrap">
 						<h4 id="com_cnt">댓글(count)</h4>
-						<div class="comment">
-							<textarea name="" id="" class="coment_text"></textarea>
-							<input type="button" value="등록" id="com_sub" />
-						</div>
+						<form class="comment" method="post" name="frm" action="diary/commentReg">
+							<input type="hidden" name="d_num" id="d_num2"> <input type="hidden" name="d_date" id="d_date">
+							<textarea name="dc_text" id="dc_text" class="coment_text"></textarea>
+							<input type="submit" value="등록  " id="com_sub" />
+						</form>
 						<div id="comment_all"></div>
 					</div>
 				</div>
@@ -193,8 +212,10 @@ function delete_comment(obj, dc_num) {
 						</thead>
 						<tbody></tbody>
 					</table>
-					<a href="diary_reg.html" class="diary_reg">
-						<i class="fa-solid fa-pen"> 일기쓰기</i>
+					<a href="diary_reg" class="diary_reg">
+						<c:if test="${sessionScope.sessionId == param.m_id}">
+							<i class="fa-solid fa-pen"> 일기쓰기</i>
+						</c:if>
 					</a>
 				</div>
 			</div>

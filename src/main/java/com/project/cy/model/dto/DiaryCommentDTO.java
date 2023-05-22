@@ -3,12 +3,11 @@ package com.project.cy.model.dto;
 public class DiaryCommentDTO {
 	String dc_num;
 	String d_num;
+	String m_id;
 	String m_nick;
 	String dc_time;
 	String dc_text;
 	String h_pic;
-	
-	
 
 	public String getDc_num() {
 		return dc_num;
@@ -58,23 +57,35 @@ public class DiaryCommentDTO {
 		this.h_pic = h_pic;
 	}
 
-	
+	public String getM_id() {
+		return m_id;
+	}
 
-	public DiaryCommentDTO(String dc_num, String d_num, String m_nick, String dc_time, String dc_text, String h_pic) {
+	public void setM_id(String m_id) {
+		this.m_id = m_id;
+	}
+
+	public DiaryCommentDTO(String dc_num, String d_num, String m_id, String m_nick, String dc_time, String dc_text, String h_pic) {
 		super();
 		this.dc_num = dc_num;
 		this.d_num = d_num;
+		this.m_id = m_id;
 		this.m_nick = m_nick;
 		this.dc_time = dc_time;
 		this.dc_text = dc_text;
 		this.h_pic = h_pic;
 	}
-	
-	
 
 	public DiaryCommentDTO(String dc_num, String dc_text) {
 		super();
 		this.dc_num = dc_num;
+		this.dc_text = dc_text;
+	}
+
+	public DiaryCommentDTO(String d_num, String m_id, String dc_text) {
+		super();
+		this.d_num = d_num;
+		this.m_id = m_id;
 		this.dc_text = dc_text;
 	}
 

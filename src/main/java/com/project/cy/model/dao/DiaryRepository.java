@@ -1,5 +1,6 @@
 package com.project.cy.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -20,8 +21,8 @@ public class DiaryRepository {
 		return session.selectList(namespace + "selectDiary", m_id);
 	}
 
-	public List<DiaryCommentDTO> selectDiaryComment(String m_id) throws Exception {
-		return session.selectList(namespace + "selectDiaryComment", m_id);
+	public List<DiaryCommentDTO> selectDiaryComment() throws Exception {
+		return session.selectList(namespace + "selectDiaryComment");
 	}
 
 	public int updateComment(DiaryCommentDTO dc) {
@@ -30,5 +31,17 @@ public class DiaryRepository {
 
 	public int deleteComment(String dc_num) {
 		return session.delete(namespace + "deleteDiaryComment", dc_num);
+	}
+	
+	public int insertDiary(DiaryDTO d) {
+		return session.insert(namespace + "insertDiary", d);
+	}
+	
+	public int insertDiaryComment(DiaryCommentDTO dc) {
+		return session.insert(namespace + "insertDiaryComment", dc);
+	}
+	
+	public int updateText(HashMap<String, Object> map) {
+		return session.update(namespace + "updateDiaryText", map);
 	}
 }

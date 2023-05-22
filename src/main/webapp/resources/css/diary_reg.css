@@ -1,0 +1,75 @@
+section {
+  width: 100%;
+  height: 89.7vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.section_wrap {
+  display: flex;
+}
+
+.section_title {
+  border-bottom: 1px solid;
+  width: 90%;
+  height: 80px;
+  position: absolute;
+  top: 0;
+  left: 5%;
+  line-height: 80px;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.diary_cal {
+  width: 90%;
+  display: flex;
+  position: absolute;
+  top: 130px;
+  justify-content: space-around;
+}
+
+.diary {
+  width: 50%;
+  background-color: #f7f7f7;
+  border: 1px solid rgb(70, 66, 66)7f7;
+  position: relative;
+  height: 450px;
+}
+
+.diary::-webkit-scrollbar {
+  display: none;
+}
+
+.diary h1 {
+  text-align: center;
+  margin-top: 10px;
+  position: relative;
+}
+
+.diary_text {
+  display: block;
+  margin: 5px auto;
+  width: 80%;
+  border: 1px solid #cfcfcf;
+  background-color: white;
+  height: 350px;
+  padding: 10px;
+  word-wrap: break-word;
+  outline: none;
+  resize: none;
+}
+
+.text_btn {
+  position: absolute;
+  right: 10%;
+}
+.text_btn a {
+  color: black;
+  text-decoration: none;
+}
+.text_btn a:hover{
+  text-decoration: underline;
+}

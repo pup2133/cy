@@ -55,7 +55,13 @@ public class DiaryDTO {
 		this.d_date = d_date;
 		this.d_text = d_text;
 	}
-	
+
+	public DiaryDTO(String m_id, String d_text) {
+		super();
+		this.m_id = m_id;
+		this.d_text = d_text;
+	}
+
 
 	public DiaryDTO() {
 		// TODO Auto-generated constructor stub
