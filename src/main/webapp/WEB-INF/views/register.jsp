@@ -1,43 +1,70 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8" />
 <title>Insert title here</title>
-<link rel="stylesheet" href="./resources/css/register.css" />
+<link rel="stylesheet" type="text/css" href="./resources/css/register.css" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+function dup(){
+	
+	let id = $('input[name=m_id]').val();
+	
+	console.log(id);
+	
+	if(id==""){
+		Swal.fire('ì•„ì´ë”” ì¤‘ë³µ ì²´í¬', 'ì•„ì´ë””ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”', 'error')
+		return;
+	}
+	
+	$.ajax({
+			type : "post",
+			dataType : "text",
+			url : "dup",
+			data : {
+				"m_id" : id,
+			},
+			success : function(data, status) {
+				console.log(data);
+				if (data == 1) {
+					Swal.fire('ì•„ì´ë”” ì¤‘ë³µ ì²´í¬', 'ì‚¬ìš©ê°€ëŠ¥í•œ ì•„ì´ë”” ì…ë‹ˆë‹¤', 'success').then(function() {
+					})
+				} else if (data == 2) {
+					Swal.fire('ì•„ì´ë”” ì¤‘ë³µ ì²´í¬', 'ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ì•„ì´ë”” ì…ë‹ˆë‹¤', 'error')
+				}
+			},
+			error : function(err) {
+				console.log(err);
+			}
+		})
+}
+</script>
 </head>
   <body>
     <div class="container">
-      <h1>È¸¿ø°¡ÀÔ</h1>
+      <h1>íšŒì›ê°€ì…</h1>
       <hr />
       <form>
-        <h5>¾ÆÀÌµğ</h5>
-        <input type="text" placeholder="¾ÆÀÌµğ ÀÔ·Â" required />
-        <h5>ºñ¹Ğ¹øÈ£</h5>
-        <input type="password" placeholder="ºñ¹Ğ¹øÈ£ ÀÔ·Â" required />
-        <h5>ÀÌ¸§</h5>
-        <input type="text" placeholder="ÀÌ¸§ ÀÔ·Â" required />
-        <h5>´Ğ³×ÀÓ</h5>
-        <input type="text" placeholder="´Ğ³×ÀÓ ÀÔ·Â" required />
-        <h5>»ı³â¿ùÀÏ</h5>
-        <input type="text" placeholder="¿¹) 200118" required />
-        <h5>ÀÌ¸ŞÀÏ</h5>
-        <input type="text" placeholder="¿¹) mouson@gmail.com" required />
-        <h5>ÀüÈ­¹øÈ£</h5>
-        <input type="text" placeholder="±âÈ£¾øÀÌ ¹øÈ£¸¸ ÀÔ·Â" required />
-        <h5>°ø°³¿©ºÎ ¼±ÅÃ</h5>
-        <div class="radio">
-          <label>
-          <input type="radio" name="contact" checked />
-          <span>°ø°³</span>
-          </label>
-          <label>
-            <input type="radio" name="contact" />
-            <span>ºñ°ø°³</span>
-          </label>
+        <h5>ì•„ì´ë””</h5>  
+        <div class="input-container">
+          <input type="text" name="m_id" placeholder="ì•„ì´ë”” ì…ë ¥" required />
+          <input type="button" value="ì¤‘ë³µí™•ì¸" class="doublecheck" onclick="dup()">
         </div>
-        <button type="submit">È¸¿ø°¡ÀÔ</button>
+        <h5>ë¹„ë°€ë²ˆí˜¸</h5>
+        <input type="password" name="m_pw" placeholder="ë¹„ë°€ë²ˆí˜¸ ì…ë ¥" required />
+        <h5>ì´ë¦„</h5>
+        <input type="text" name="m_name" placeholder="ì´ë¦„ ì…ë ¥" required />
+        <h5>ë‹‰ë„¤ì„</h5>
+        <input type="text" name="m_nick" placeholder="ë‹‰ë„¤ì„ ì…ë ¥" required />
+        <h5>ìƒë…„ì›”ì¼</h5>
+        <input type="text" name="m_birth" placeholder="ì˜ˆ) 2023-05-22" required />
+        <h5>ì´ë©”ì¼</h5>
+        <input type="text" name="m_email" placeholder="ì˜ˆ) racon@gmail.com" required />
+        <h5>ì „í™”ë²ˆí˜¸</h5>
+        <input type="text" name="m_tel" placeholder="ê¸°í˜¸ì—†ì´ ë²ˆí˜¸ë§Œ ì…ë ¥" required />
+        <button type="submit">íšŒì›ê°€ì…</button>
       </form>
     </div>
   </body>

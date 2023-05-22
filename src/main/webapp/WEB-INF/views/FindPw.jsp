@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset=UTF-8>
     <title>Insert title here</title>
     <link rel="stylesheet" href="./resources/css/Find.css" />
 </head>
@@ -15,9 +15,9 @@
 
       <form action="FindPw" method="post">
         <h3>아이디</h3>
-        <input type="text" name="" placeholder="아이디를 입력해주세요" required />
+        <input type="text" placeholder="아이디를 입력해주세요" required />
         <h3>이메일</h3>
-        <input type="text" name="" placeholder="예) mouson@gmail.com" required />
+        <input type="text" placeholder="예) mouson@gmail.com" required />
         <button type="submit">비밀번호 찾기</button>
       </form>
     </div>

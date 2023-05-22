@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,16 +8,16 @@
   </head>
   <body>
     <div class="container">
-      <h1>���̵� ã��</h1>
+      <h1>아이디 찾기</h1>
       <hr />
-      <p>ȸ�����Խ� �Է��ߴ� �̸��� �̸����� �Է����ּ���</p>
+      <p>회원가입시 입력했던 이름과 이메일을 입력해주세요</p>
 
       <form action="FindId" method="post">
-        <h3>�̸�</h3>
-        <input type="text" placeholder="�̸��� �Է����ּ���" required />
-        <h3>�̸���</h3>
-        <input type="text" placeholder="��) mouson@gmail.com" required />
-        <button type="submit">���̵� ã��</button>
+        <h3>이름</h3>
+        <input type="text" placeholder="이름을 입력해주세요" required />
+        <h3>이메일</h3>
+        <input type="text" placeholder="예) mouson@gmail.com" required />
+        <button type="submit">아이디 찾기</button>
       </form>
     </div>
   </body>

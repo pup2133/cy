@@ -18,12 +18,23 @@ public class LoginRepository {
 		return session.selectOne(namespace + "login",id);
 	}
 	
+	public int register(Login member){
+		System.out.println("실행");
+		return session.insert(namespace+"register",member);
+	}
+	
+	public String duplication(String m_id) {
+		System.out.println("실행");
+		return session.selectOne(namespace+"duplication",m_id);
+	}
+	
 	public Login FindId() {
-		return session.selectOne(namespace+"FindId");
+		return session.selectOne(namespace+"findId");
 	}
 	
 	public Login FindPw() {
-		return session.selectOne(namespace+"FindPw");
+		return session.selectOne(namespace+"findPw");
 	}
+	
 	
 }

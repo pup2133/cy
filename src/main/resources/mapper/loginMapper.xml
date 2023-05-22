@@ -7,23 +7,33 @@
 	<select id="login" resultType="Login">
 		SELECT m_id ,m_pw
 		FROM cy_member
-    	where m_id = #{id}
+    	WHERE m_id = #{m_id}
 	</select>
 	
-		<select id="findId" resultType="Login">
+	<select id="findId" resultType="Login">
 		SELECT m_name , m_email
 		FROM cy_member
-    	where m_name = #{name}
-    	where m_email = #{email}
+    	WHERE m_name = #{m_name}
+    	AND m_email = #{m_email}
 	</select>
       
-    <select id="FindPw" resultType="Login" >
+    <select id="findPw" resultType="Login" >
     	SELECT m_id , m_email
 		FROM cy_member
-    	where m_id = #{id}
-    	where m_email = #{email}
-    
+    	WHERE m_id = #{m_id}
+    	AND m_email = #{m_email}
     </select>
+    
+    <insert id="register" parameterType="Login">
+    	INSERT INTO cy_member (m_id, m_pw ,m_name, m_nick, m_birth, m_email,m_tel)
+		VALUES (#{m_id},#{m_pw},#{m_name},#{m_nick},#{m_birth},#{m_email},#{m_tel})
+    </insert>
+        
+    <select id="duplication" resultType="String">
+    	SELECT m_id
+    	FROM cy_member
+    	WHERE m_id = #{m_id}
+    </select>   
         
         
         
