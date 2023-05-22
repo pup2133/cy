@@ -43,7 +43,8 @@ $(document).ready(function(){
                     data: {f_num: f_num},
                     success: function(data) {
                         // 삭제 성공 시에만 새로고침
-                    	document.location.href = document.location.href;
+                        console.log(data);
+                    	window.location.reload();
                     },
                     error: function(err) {
                         console.log(err)
@@ -123,7 +124,6 @@ $(document).ready(function(){
                     </div>
                     </c:forEach>
                     <!-- 반복종료 -->
-
                 </div>
 
 

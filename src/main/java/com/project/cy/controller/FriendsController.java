@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.cy.model.dao.FriendsRepository;
 import com.project.cy.model.dto.FriendsDTO;
@@ -32,12 +33,12 @@ public class FriendsController {
 		System.out.println(list1);
 		return "friends";
 	}
-	
+	@ResponseBody
 	@PostMapping("/deleteFriend")
 	public String deleteFriend(@RequestParam int f_num) {
 		//String m_id = session.getId();
 		int result = dao.delete(f_num);
-		return "";
+		return "ddd";
 	}
 	
 	
