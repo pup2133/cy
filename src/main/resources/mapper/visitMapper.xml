@@ -46,5 +46,5 @@
 	<delete id="deleteVisit" parameterType="String">
 		DELETE FROM cy_visit WHERE v_num = #{v_num}
 	</delete>
-
+	
 </mapper>

@@ -9,9 +9,9 @@ import com.project.cy.model.dto.visit;
 
 @Service
 public class visitService implements visitServiceImp {
-	
+
 	visitRepository dao;
-	
+
 	@Autowired
 	public void setDao(visitRepository dao) {
 		this.dao = dao;

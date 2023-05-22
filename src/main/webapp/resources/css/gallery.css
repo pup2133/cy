@@ -1,0 +1,212 @@
+/* 갤러리 섹션 시작*/
+section{
+    width: 100%;
+    height: 89.7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    user-select: none;
+}
+
+/* 섹션 wrap */
+.section_wrap{
+    display: flex;
+    flex-direction: column;
+}
+
+/* 위쪽에 갤러리 밑줄 */
+.gallery_title{
+    width: 1400px;
+    height: 28px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.gallery_title i{
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+/* 갤러리 감싸는 부분 오버플로우 시 스크롤*/
+.gallery_wrap{
+    height: 750px;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+/* 게시글 시작 부분*/
+.gallery{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* 게시글 제목 + 수정 | 삭제 */
+.title{
+    width: 702px;
+    height: 28px;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+/* 게시글 사진 */
+.gallery_img{
+    border: 1px solid black;
+    width: 700px;
+    height: 700px;
+    margin-right: 20px;
+}
+
+.gallery_img img{
+    width: 700px;
+    height: 700px;
+}
+
+/* 게시글 텍스트 + 댓글 있는 곳 위에 날짜*/
+.gallery_right h3{
+    text-align: right;
+}
+
+/* 게시글 텍스트 + 댓글 */
+.gallery_box{
+    margin-top: 10px;
+    border: 1px solid black;
+    width: 400px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* 댓글 감싸는 부분 오버플로우 시 스크롤*/
+.comment_wrap{
+    height: 75%;
+    padding: 10px;
+    display: none;
+    overflow-y: scroll;
+    position: absolute;
+    top: 0;
+}
+
+/* 댓글 부분 시작 */
+.comment{
+    display: flex;
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.comment_profile{
+    width: 20%;
+    margin-right: 10px;
+}
+
+.comment_profile img{
+    width: 75px;
+    height: 75px;
+    border: 0.5px solid black;
+    border-radius: 50%;
+}
+
+.comment_info{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.comment_info :nth-child(1){
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.comment_info :nth-child(2){
+    display: flex;
+    justify-content: space-between;
+}
+/* 댓글 부분 끝 */
+
+/* 게시글 텍스트 부분 시작 */
+.gallery_text{
+    position: relative;
+    height: 92%;
+    padding: 10px;
+}
+
+.gallery_text span{
+    color: red;
+    font-size: 36px;
+    position: absolute;
+    bottom: 20px;
+    right: 6px;
+}
+
+.gallery_comment{
+    height: 8%;
+    color: white;
+    background-color: black;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.gallery_comment h3{
+    text-align: left;
+    line-height: 50px;
+    margin-left: 10px;
+}
+
+/* 게시글 텍스트 부분 끝 */
+
+/* 댓글 작성 부분 시작 */
+.comment_reg{
+    display: none;
+    height: 14%;
+    position: absolute;
+    margin-left: 10px;
+    bottom: 60px;
+    width: 98%;
+
+}
+
+.comment_reg h4{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.comment_reg textarea{
+    width: 79%;
+    height: 70px;
+    border: 0.5px solid black;
+    border-right: 0;
+    resize: none;
+    outline:  none;
+}
+
+.comment_reg button{
+    border: 0.5px solid black;
+    position: absolute;
+    bottom: 3px;
+    right: 11.5px;
+    width: 70px;
+    height: 30px;
+}
+
+.comment_reg div div{
+    position: absolute;
+    top: 24px;
+    right: 11.5px;
+    width: 70px;
+    height: 41px;
+    border-top: 0.5px solid black;
+    border-right: 0.5px solid black;
+}
+/* 댓글 작성 부분 끝 */

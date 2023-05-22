@@ -22,7 +22,7 @@ public class VisitController {
 	visitService service;
 
 	@Autowired
-	public void setService(visitService service) {
+	public VisitController(visitService service) {
 		this.service = service;
 	}
 
@@ -34,6 +34,7 @@ public class VisitController {
 		String sessionId = (String) session.getAttribute("sessionId");
 
 		try {
+			
 			int totalCount = service.getTotalCount(); // 방명록이 총 몇개 있는지
 			int itemsPerPage = 4; // 방명록 페이지당 보여줄 개수
 			int totalPages = (int) Math.ceil((double) totalCount / itemsPerPage); // 방명록 총 페이지 수

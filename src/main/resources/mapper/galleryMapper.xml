@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.galleryMapper">
+
+	<select id="getGalleryList" resultType="gallery">
+		SELECT * FROM cy_gallery order by g_num desc
+	</select>
+
+	<insert id="insertGallery" parameterType="gallery">
+		INSERT INTO cy_gallery 
+		VALUES (SEQ_cy_gallery_g_num.nextval, #{g_title}, #{g_pic}, #{g_text},systimestamp at time zone 'Asia/Seoul', #{m_id}, #{g_secret})
+	</insert>
+	
+</mapper>

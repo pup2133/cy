@@ -1,7 +1,6 @@
 package com.project.cy.model.service;
 
 import java.util.List;
-
 import com.project.cy.model.dto.visit;
 
 public interface visitServiceImp {
@@ -19,5 +18,5 @@ public interface visitServiceImp {
     public int editVisit(visit v) throws Exception;
     
     public int deleteVisit(String v_num) throws Exception;
-
+    
 }
