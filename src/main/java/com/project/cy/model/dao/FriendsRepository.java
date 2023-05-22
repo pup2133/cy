@@ -1,0 +1,30 @@
+package com.project.cy.model.dao;
+
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.project.cy.model.dto.FriendsDTO;
+
+@Repository
+public class FriendsRepository {
+	//
+	@Autowired
+    private SqlSession session;
+    private static String namespace = "com.project.cy.FriendsMapper.";
+	
+    //친구목록 받아오기
+    public List<FriendsDTO> getRecieve(String m_id) {
+		return session.selectList(namespace+"getRecieve",m_id);
+    }
+    public List<FriendsDTO> getSend(String m_id) {
+		return session.selectList(namespace+"getSend",m_id);
+    }
+    public int delete(int f_num) {
+    	return session.delete(namespace+"delete",f_num);
+    }
+	
+}

@@ -7,5 +7,6 @@
 		<typeAlias alias="JukeboxStore" type="com.project.cy.model.dto.JukeboxStoreDTO"/>
 		<typeAlias alias="Jukebox" type="com.project.cy.model.dto.JukeboxDTO"/>
 		<typeAlias alias="Myjukebox" type="com.project.cy.model.dto.MyjukeDTO"/>
+		<typeAlias alias="Friends" type="com.project.cy.model.dto.FriendsDTO"/>
 	</typeAliases>
 </configuration>

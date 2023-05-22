@@ -1,0 +1,92 @@
+@charset "UTF-8";
+/* 🔴라이브러리 */
+/* 스크롤 */
+.style-2::-webkit-scrollbar-track
+{
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); */
+  border-radius:10px;
+  background-color: #ffffff;
+}
+
+.style-2::-webkit-scrollbar
+{
+  width: 4px;
+  background-color: #ffffff;
+}
+
+.style-2::-webkit-scrollbar-thumb
+{
+
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3); */
+  background-color: #cdcdcd;
+}
+
+/* 🔴기본섹션 */
+section{
+    padding: 80px;
+    width: 100%;
+    height: 89.7vh;
+    box-sizing: border-box;
+}
+.section_title{
+  border-bottom: 2px solid black;
+  display: flex;
+  justify-content: space-between;
+}
+.section_title span{
+  font-size: 30px;
+  font-weight: 500;
+}
+
+/* 일촌리스트 */
+.friend_list{
+    height: 600px;
+    width: 100%;
+    overflow-y: scroll;
+    border: 1px solid rgb(205, 205, 205);
+}
+.friend_list_wrap{
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 95%;
+}
+/* 일촌 */
+.friend{
+    border: 1px solid rgb(214, 214, 214);
+    border-radius: 3px;
+    width: 200px;
+    height: 250px;
+    position: relative;
+    margin: 50px;
+}
+.fa-x{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+.friend_info{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.friend_info :nth-child(2){
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 20px;
+}
+.img_wrap{
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    box-shadow: 1px 1px 5px gray;
+}
+.img_wrap img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
