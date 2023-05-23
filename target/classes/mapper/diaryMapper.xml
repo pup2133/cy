@@ -28,6 +28,10 @@
 		order by
 		dc.DC_NUM
 	</select>
+	
+	<insert id="insertDiaryComment" parameterType="DiaryCommentDTO">
+		insert into CY_DIARY_COMMENT(dc_text, d_num, m_id, dc_time) values(#{dc_text}, #{d_num}, #{m_id}, sysdate)
+	</insert>
 
 	<update id="updateDiaryComment" parameterType="DiaryCommentDTO">
 		update CY_DIARY_COMMENT set dc_text = #{dc_text} where dc_num = #{dc_num}
@@ -36,17 +40,18 @@
 	<delete id="deleteDiaryComment" parameterType="String">
 		delete from CY_DIARY_COMMENT where dc_num = #{dc_num}
 	</delete>
+	
 
 	<insert id="insertDiary" parameterType="DiaryDTO">
 		insert into cy_diary(m_id, d_text, d_date) values(#{m_id}, #{d_text}, TO_CHAR(SYSDATE, 'YYYYMMDD'))
 	</insert>
 
-	<insert id="insertDiaryComment" parameterType="DiaryCommentDTO">
-		insert into CY_DIARY_COMMENT(dc_text, d_num, m_id, dc_time) values(#{dc_text}, #{d_num}, #{m_id}, sysdate)
-	</insert>
-	
 	<update id="updateDiaryText" parameterType="hashmap">
 		update CY_DIARY set d_text = #{d_text} where d_num = #{d_num}
 	</update>
+	
+	<delete id="deleteDiaryText" parameterType="String">
+		delete from CY_DIARY where d_num = #{d_num}
+	</delete>
 
 </mapper>

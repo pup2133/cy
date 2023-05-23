@@ -6,5 +6,6 @@
 	<typeAliases>
 		<typeAlias alias="DiaryDTO" type="com.project.cy.model.dto.DiaryDTO" />
 		<typeAlias alias="DiaryCommentDTO" type="com.project.cy.model.dto.DiaryCommentDTO" />
+		<typeAlias alias="ProfileDTO" type="com.project.cy.model.dto.ProfileDTO" />
 	</typeAliases>
 </configuration>

@@ -16,6 +16,8 @@
 <script type="text/javascript">
 <%ArrayList<DiaryDTO> list;
 	ArrayList<DiaryCommentDTO> listC;%>
+
+let hide_d_num;
 	
 function d_text_sel() {
 	<%list = (ArrayList<DiaryDTO>) request.getAttribute("list");
@@ -36,6 +38,7 @@ for (DiaryDTO d : list) {%>
 			
 			document.getElementById("d_num").value = <%=d.getD_num()%>;
 			document.getElementById("d_num2").value = <%=d.getD_num()%>;
+			hide_d_num = <%=d.getD_num()%>;
 			document.getElementById("d_date").value = <%=d.getD_date()%>;
 			
 			<%int cnt=0;
@@ -54,9 +57,6 @@ for (DiaryDTO d : list) {%>
 	temp+='<span><%=dc.getDc_time()%></span>';
 	temp+='</div>';
 	temp+='<div class="com_up_del" id="com_up_del<%=dc.getDc_num()%>">';
-// 	temp+='<c:if test="${param.m_id == sessionScope.sessionId}">';
-<%-- 	temp+='<a href="javascript:void(0);" class="com_under" onclick="delete_comment(this, <%=dc.getDc_num()%>)">삭제</a>'; --%>
-// 	temp+='</c:if>';
 	temp+='<c:if test="${dc_id == sessionScope.sessionId}">';
 	temp+='<a href="javascript:void(0);" class="com_under" onclick="update_comment(this, <%=dc.getDc_num()%>)">수정</a> | ';
 	temp+='<a href="javascript:void(0);" class="com_under" onclick="delete_comment(this, <%=dc.getDc_num()%>)">삭제</a>';
@@ -89,8 +89,6 @@ function delete_comment(obj, dc_num) {
         dc_num: dc_num,
       },
       success: function(data){
-      	location.reload();
-      	
       },
       error:function(err){
         console.log(err);
@@ -99,6 +97,31 @@ function delete_comment(obj, dc_num) {
   }
   
   com.remove();
+}
+
+// 다이어리 삭제
+function delete_text() {
+  let tf = confirm("다이어리를 삭제하시겠습니까??");
+  let d_num = document.getElementById("d_num").value;
+  
+  if (tf) {
+    $.ajax({
+      url: "diary/textDelete",
+      method: "POST",
+      data: {
+        d_num: d_num,
+      },
+      success: function(){
+      },
+      error:function(err){
+        console.log(err);
+      }    
+    });
+    comwrap = document.getElementById("hide_com").style.display = 'none';
+	  $("textarea[name=d_text]").text("");
+	  document.getElementById('comment_all').innerHTML="";
+	  $("h4").text("댓글(0)");
+  }
 }
 
 let days;
@@ -171,21 +194,22 @@ function c_day() {
 			</div>
 			<div class="diary_cal">
 				<div class="diary">
-					<h1 id="diary_date">오늘의 일기 or 날짜?</h1>
+					<h1 id="diary_date"></h1>
 					<textarea name="d_text" id="d_text" class="diary_text" readonly></textarea>
 					<input type="hidden" name="d_num" id="d_num">
 					<div class="text_up_del">
 						<c:if test="${sessionScope.sessionId == param.m_id}">
-							<a href="javascript:void(0);" onclick="update_Text()">수정</a>
+							<a href="javascript:void(0);" onclick="update_Text()">수정</a> | 
+							<a href="javascript:void(0);" onclick="delete_text()">삭제</a>
 						</c:if>
 					</div>
 
 					<div class="comment_wrap" id="comment_wrap">
 						<h4 id="com_cnt">댓글(count)</h4>
-						<form class="comment" method="post" name="frm" action="diary/commentReg">
+						<form class="comment" method="post" name="frm" action="diary/commentReg" id="hide_com">
 							<input type="hidden" name="d_num" id="d_num2"> <input type="hidden" name="d_date" id="d_date">
 							<textarea name="dc_text" id="dc_text" class="coment_text"></textarea>
-							<input type="submit" value="등록  " id="com_sub" />
+							<input type="submit" value="등록" id="com_sub" />
 						</form>
 						<div id="comment_all"></div>
 					</div>

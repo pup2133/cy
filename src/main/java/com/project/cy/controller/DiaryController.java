@@ -30,15 +30,15 @@ public class DiaryController {
 
 	ArrayList<DiaryDTO> list;
 	ArrayList<DiaryCommentDTO> listC;
-	
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyymmdd");
+
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	Calendar c1 = Calendar.getInstance();
 	String strToday = sdf.format(c1.getTime());
 
 	@GetMapping("diary")
 	public String diary(Model model, String m_id, HttpSession session) {
 		try {
-			session.setAttribute("sessionId", "rhkddlf");
+			session.setAttribute("sessionId", "dbfl");
 			session.setAttribute("today", strToday);
 
 			list = (ArrayList<DiaryDTO>) dao.selectDiary(m_id);
@@ -52,13 +52,23 @@ public class DiaryController {
 			e.printStackTrace();
 		}
 
-		
-
 		return "diary";
 	}
+	
+	// 댓글 등록
+		@PostMapping("diary/commentReg")
+		public String commentReg(String d_num, String d_date, String dc_text, HttpSession session) {
+			String m_id = (String) session.getAttribute("sessionId");
+			DiaryCommentDTO dc = new DiaryCommentDTO(d_num, m_id, dc_text);
 
+			dao.insertDiaryComment(dc);
+
+			return "redirect:/diary?m_id=rhkddlf&days=" + d_date;
+		}
+
+	// 댓글 수정
 	@PostMapping("diary/commentUpdate")
-	public String commentUpdate(@RequestParam("dc_num") String dc_num, @RequestParam("dc_text") String dc_text, Model model, String m_id) {
+	public void commentUpdate(@RequestParam("dc_num") String dc_num, @RequestParam("dc_text") String dc_text, Model model, String m_id) {
 
 		DiaryCommentDTO dc = new DiaryCommentDTO(dc_num, dc_text);
 
@@ -71,39 +81,22 @@ public class DiaryController {
 			e.printStackTrace();
 		}
 		model.addAttribute("listC", listC);
-
-		return "redirect:/diary?m_id=rhkddlf";
 	}
 
+	// 댓글 삭제
 	@PostMapping("diary/commentDelete")
-	public String commentDelete(Model model, @RequestParam("dc_num") String dc_num, String m_id) {
+	public void commentDelete(Model model, @RequestParam("dc_num") String dc_num, String m_id) {
 
 		dao.deleteComment(dc_num);
-
-		ArrayList<DiaryCommentDTO> del_list = new ArrayList<DiaryCommentDTO>();
-		for (DiaryCommentDTO l : listC) {
-			if (dc_num.equals(l.getD_num())) {
-				del_list.add(l);
-			}
-		}
-
-		try {
-			listC = (ArrayList<DiaryCommentDTO>) dao.selectDiaryComment();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		model.addAttribute("listC", listC);
-
-		return "redirect:/diary?m_id=rhkddlf";
 	}
 
+	// 다이어리 등록 페이지 이동
 	@GetMapping("diary_reg")
 	public String diary_reg() {
 		return "diary_reg";
 	}
 
+	// 다이어리 등록
 	@PostMapping("diary_reg")
 	public void post_diary_reg(HttpSession session, @RequestParam("d_text") String d_text, HttpServletResponse response) {
 		String m_id = (String) session.getAttribute("sessionId");
@@ -122,27 +115,18 @@ public class DiaryController {
 		try {
 			dao.insertDiary(d);
 		} catch (Exception e) {
-			out.write("<script>alert('이미 등록되어 있습니다.'); location.href='diary?m_id=rhkddlf&days="+strToday+"';</script>");
+			out.write("<script>alert('이미 등록되어 있습니다.'); location.href='diary?m_id=rhkddlf&days=" + strToday + "';</script>");
 			out.flush();
 			out.close();
 		}
-
-		out.write("<script>alert('등록완료!'); location.href='diary?m_id=rhkddlf&days=\"+strToday+\"';</script>");
+System.out.println(strToday);
+		out.write("<script>alert('등록완료!'); location.href='diary?m_id=rhkddlf&days=" + strToday + "';</script>");
 		out.flush();
 		out.close();
 	}
 
-	@PostMapping("diary/commentReg")
-	public String commentReg(String d_num, String d_date, String dc_text, HttpSession session) {
-		String m_id = (String) session.getAttribute("sessionId");
-		DiaryCommentDTO dc = new DiaryCommentDTO(d_num, m_id, dc_text);
 
-		dao.insertDiaryComment(dc);
-
-		return "redirect:/diary?m_id=rhkddlf&days=" + d_date;
-	}
-
-	// 글 수정
+	// 다이어리 수정
 	@PostMapping("diary/textUpdate")
 	public void textUpdate(@RequestParam("d_num") String d_num, @RequestParam("d_text") String d_text, String m_id) {
 
@@ -152,5 +136,11 @@ public class DiaryController {
 
 		dao.updateText(map);
 
+	}
+	
+	@PostMapping("diary/textDelete")
+	public void textUpdate(@RequestParam("d_num") String d_num) {
+
+		dao.deleteText(d_num);
 	}
 }

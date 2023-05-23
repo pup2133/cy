@@ -1,3 +1,9 @@
+c_day();
+
+let choiceYear2 = days_str.substr(0, 4);
+  let choiceMonth2 = days_str.substring(4, 6);
+  let choiceDay2 = days_str.substring(6, 8);
+  
 window.onload = function () {
   buildCalendar();
   // 웹 페이지가 로드되면 buildCalendar 실행
@@ -9,22 +15,22 @@ window.onload = function () {
     resize(coms[i]);
   }
   
+  let d_id = document.getElementById(days_str);
   //오늘 날짜 출력
-  c_day();
-  
   d_text_sel();
-  choiceDate(days);
-  
-  choiceYear2 = days_str.substr(0, 4);
-  choiceMonth2 = days_str.substring(4, 6);
-  choiceDay2 = days_str.substring(6, 8);
+  choiceDate(d_id);
   
   change_diarydate(choiceYear2, choiceMonth2, choiceDay2);
   
+  let comwrap = document.getElementById("hide_com");
+  	
+  if(hide_d_num == undefined){
+  	comwrap.style.display = 'none';
+  }
 };
 
 
-let nowMonth = new Date(); // 현재 달을 페이지를 로드한 날의 달로 초기화
+let nowMonth = new Date(choiceYear2, choiceMonth2-1, choiceDay2); // 현재 달을 페이지를 로드한 날의 달로 초기화
 let today = new Date(); // 페이지를 로드한 날짜를 저장
 today.setHours(0, 0, 0, 0); // 비교 편의를 위해 today의 시간을 초기화
 
@@ -257,7 +263,7 @@ function change_diarydate(y, m, d) {
 }
 
 
-//댓글 수정 readonly 풀기
+//다이어리 수정 readonly 풀기
 let updateText = 0;
 function update_Text() {
   let area = document.getElementById("d_text");

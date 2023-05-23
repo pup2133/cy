@@ -15,6 +15,7 @@ public class DiaryRepository {
 
 	@Autowired
 	private SqlSession session;
+	
 	private static String namespace = "com.project.diaryMapper.";
 
 	public List<DiaryDTO> selectDiary(String m_id) throws Exception {
@@ -23,6 +24,10 @@ public class DiaryRepository {
 
 	public List<DiaryCommentDTO> selectDiaryComment() throws Exception {
 		return session.selectList(namespace + "selectDiaryComment");
+	}
+	
+	public int insertDiaryComment(DiaryCommentDTO dc) {
+		return session.insert(namespace + "insertDiaryComment", dc);
 	}
 
 	public int updateComment(DiaryCommentDTO dc) {
@@ -37,11 +42,11 @@ public class DiaryRepository {
 		return session.insert(namespace + "insertDiary", d);
 	}
 	
-	public int insertDiaryComment(DiaryCommentDTO dc) {
-		return session.insert(namespace + "insertDiaryComment", dc);
-	}
-	
 	public int updateText(HashMap<String, Object> map) {
 		return session.update(namespace + "updateDiaryText", map);
+	}
+	
+	public int deleteText(String d_num) {
+		return session.delete(namespace + "deleteDiaryText", d_num);
 	}
 }
