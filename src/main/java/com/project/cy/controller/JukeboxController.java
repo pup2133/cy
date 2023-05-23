@@ -73,7 +73,7 @@ public class JukeboxController{
 
 	//--마이 주크박스--
 	@GetMapping("/myjuke")
-	public String getMyjuke(Model model) {
+	public String getMyjuke(Model model,String id) {
 		//아이디 세션 가져오기
 		//String m_id = session.getId();
 		String m_id = "dd";  //임시

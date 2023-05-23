@@ -4,6 +4,10 @@
 
 <mapper namespace="com.project.cy.FriendsMapper">
 
+	<select id="getMember" resultType="String">
+		select m_id from cy_member where m_id = #{id}
+	</select>
+
     <select id="getRecieve" resultType="Friends">
         select f.f_num, h.h_pic, m.m_id, m.m_nick
 		from cy_member m
