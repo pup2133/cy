@@ -19,7 +19,6 @@
     </head>
     <script type="text/javascript">
     
-    
     $(document).ready(function(){
     	//host, session 아이디 확인
     	const host = $("#hostId").val();

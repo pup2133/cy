@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.cy.model.dao.FriendsRepository;
 import com.project.cy.model.dto.FriendsDTO;
+import com.project.cy.service.FriendsService;
 
 @Controller	
 public class FriendsController {
 	
 	@Autowired
-	FriendsRepository dao;
+	FriendsService service;
 	
 	@RequestMapping("/friends")
 	public String getFriend(Model model,String id, HttpSession session){
@@ -29,11 +30,11 @@ public class FriendsController {
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		//호스트 아이디 검사
-		String hostId = dao.getMemberId(id);
+		String hostId = service.getMemberId(id);
 		
 		if(hostId!=null) {
-			List<FriendsDTO> list1 = dao.getRecieve(hostId);
-			List<FriendsDTO> list2 = dao.getSend(hostId);
+			List<FriendsDTO> list1 = service.getRecieve(hostId);
+			List<FriendsDTO> list2 = service.getSend(hostId);
 			list1.addAll(list2);
 			model.addAttribute("hostId",hostId);
 			model.addAttribute("sessionId",sessionId);
@@ -48,7 +49,7 @@ public class FriendsController {
 	@PostMapping("/deleteFriend")
 	public String deleteFriend(@RequestParam int f_num) {
 		//String m_id = session.getId();
-		int result = dao.delete(f_num);
+		int result = service.delete(f_num);
 		return "ddd";
 	}
 	

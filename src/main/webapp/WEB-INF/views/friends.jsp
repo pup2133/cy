@@ -112,7 +112,7 @@ $(document).ready(function(){
 
         <section>
         <input type="text" id="hostId" class="hidden" value="${hostId}">
-        <input type="text" id="hostId" class="hidden" value="${sessionId}">
+        <input type="text" id="sessionId" class="hidden" value="${sessionId}">
             <div class="section_title">
                 <span>일촌관리</span>
             </div>
@@ -126,7 +126,7 @@ $(document).ready(function(){
                         <i class="fa-regular fa-x"></i>
                         <div class="friend_info">
                             <div class="img_wrap">
-                                <img src="./resources/images/${item.h_pic }.jpg" alt="">
+                                <img src="./resources/images/${item.h_pic }" alt="">
                             </div>
                             <p class="f_nick">${item.m_nick }</p>
                             <p>${item.m_id }</p>
