@@ -3,6 +3,8 @@ package com.project.cy.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,7 +81,7 @@ public class JukeboxController{
 		//System.out.println(model.addAttribute("mylist",dao.getMyjuke(m_id)));
 		return "myjuke";
 	}
-	
+	//sessionId와 hostId가 같아야 보이는 기능들 /host따로 받을 필요없음
 	//플레이리스트 추가
 	@PostMapping("/addPlaylist")
 	@ResponseBody
