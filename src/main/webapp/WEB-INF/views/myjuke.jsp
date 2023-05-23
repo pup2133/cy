@@ -25,10 +25,6 @@
     	const host = $("#hostId").val();
     	const session = $("#sessionId").val();
 		
-		
-		alert(host);
-		alert(session);
-		
 		if(host!==session){
 			$(".cover").hide();
 			$(".line").hide();

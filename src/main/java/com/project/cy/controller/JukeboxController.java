@@ -41,28 +41,28 @@ public class JukeboxController{
 	}
 	//음악구매
 	@PostMapping("/buymusic")
-	public void buyMusic(@RequestParam("mu_code") String mu_code) {		
-		//아이디 세션 가져오기 - 매개변수에 httprequest추가해서 가져오기
-		//String m_id = session.getId();
-		String m_id = "dd";  //임시
+	public void buyMusic(@RequestParam("mu_code") String mu_code, HttpSession session) {		
+		// 임시 세션 아이디
+		session.setAttribute("sessionId", "dd");
+		String sessionId = (String) session.getAttribute("sessionId");
 		//뮤직코드 가져오기
 		//String mu_code = "a02";
 		
 		JukeboxDTO dto = new JukeboxDTO();
 		dto.setMu_code(mu_code);
-		dto.setM_id(m_id);
+		dto.setM_id(sessionId);
 		dao.insert(dto);
 	}
 	
 	@PostMapping("/checkDuplicatePurchase")
 	@ResponseBody
-	public String checkDuplicatePurchase(@RequestParam("mu_code") String mu_code) {
+	public String checkDuplicatePurchase(@RequestParam("mu_code") String mu_code, HttpSession session) {
 		System.out.println(mu_code);
-		//아이디 세션 가져오기
-		//String m_id = session.getId();
-		String m_id = "dd";  //임시
+		// 임시 세션 아이디
+		session.setAttribute("sessionId", "dd");
+		String sessionId = (String) session.getAttribute("sessionId");
 		String isDu = "false";
-		ArrayList<MyjukeDTO> mylist = (ArrayList<MyjukeDTO>) dao.getMyjuke(m_id);
+		ArrayList<MyjukeDTO> mylist = (ArrayList<MyjukeDTO>) dao.getMyjuke(sessionId);
 		for(Object item:mylist) {
 			if(((MyjukeDTO)item).getMu_code().equals(mu_code)) {
 				isDu="true";
@@ -84,7 +84,7 @@ public class JukeboxController{
 		System.out.println(sessionId);
 		System.out.println(id);
 		if(hostId!=null) {
-			model.addAttribute("mylist",dao.getMyjuke(sessionId));
+			model.addAttribute("mylist",dao.getMyjuke(hostId));
 			model.addAttribute("hostId",hostId);
 			model.addAttribute("sessionId",sessionId);
 		}else {
@@ -99,24 +99,26 @@ public class JukeboxController{
 	//플레이리스트 추가
 	@PostMapping("/addPlaylist")
 	@ResponseBody
-	public List<MyjukeDTO> addPlaylist(@RequestParam("mu_code") String mu_code){
-		//아이디 세션 가져오기
-		//String m_id = session.getId();
-		String m_id = "dd";  //임시
-		dao.addPlay(m_id, mu_code);
-		System.out.println(dao.getMyjuke(m_id));
-		return dao.getMyjuke(m_id);
+	public List<MyjukeDTO> addPlaylist(@RequestParam("mu_code") String mu_code, HttpSession session){
+		// 임시 세션 아이디
+		session.setAttribute("sessionId", "dd");
+		String sessionId = (String) session.getAttribute("sessionId");
+		
+		dao.addPlay(sessionId, mu_code);
+		System.out.println(dao.getMyjuke(sessionId));
+		return dao.getMyjuke(sessionId);
 	}
 	//플레이리스트 제거
 	@PostMapping("/subPlaylist")
 	@ResponseBody
-	public List<MyjukeDTO> subPlaylist(@RequestParam("mu_code") String mu_code){
-		//아이디 세션 가져오기
-		//String m_id = session.getId();
-		String m_id = "dd";  //임시
-		dao.subPlay(m_id, mu_code);
-		System.out.println(dao.getMyjuke(m_id));
-		return dao.getMyjuke(m_id);
+	public List<MyjukeDTO> subPlaylist(@RequestParam("mu_code") String mu_code, HttpSession session){
+		// 임시 세션 아이디
+		session.setAttribute("sessionId", "dd");
+		String sessionId = (String) session.getAttribute("sessionId");
+		
+		dao.subPlay(sessionId, mu_code);
+		System.out.println(dao.getMyjuke(sessionId));
+		return dao.getMyjuke(sessionId);
 	}
 	
 }
