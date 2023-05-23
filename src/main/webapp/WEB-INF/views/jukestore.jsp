@@ -76,14 +76,18 @@
         //검색기능 (새로고침 없이 제이쿼리)
         $('#musicInput').on('keypress',function(){
         	if (event.keyCode === 13) {
-                let mu_artist = $(this).val().trim();
+                let search_word = $(this).val().trim();
+                let search_select = $(".searchbox .searchSelect").val();
                 //alert(mu_artist);
                   // AJAX request to the controller
                   $.ajax({
                       type: "POST",
                       //dataType:"text",
                       url: "jukesearch",
-                      data: { "mu_artist": mu_artist },
+                      data: { 
+                    	  "search_word": search_word,
+                    	  "search_select": search_select
+                    	  },
                       success: function(data) {
                       	let albumsHTML = '';
                           for (let i = 0; i < data.length; i++) {
@@ -167,9 +171,15 @@
         <section>
             <div class="section_title">
                 <span>음악상점</span>
-                <div class="music_search">
-                    <input type="text" id="musicInput" placeholder="음악검색">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                <div class="searchbox">
+                    <select class="searchSelect">
+                        <option value="mu_artist">아티스트</option>
+                        <option value="mu_title">타이틀</option>
+                    </select>
+                    <div class="music_search">
+                        <input type="text" id="musicInput" placeholder="음악검색">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
                 </div>
             </div>
             <div class="albums style-2">

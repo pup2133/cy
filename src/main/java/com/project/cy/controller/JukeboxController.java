@@ -36,8 +36,10 @@ public class JukeboxController{
 	//음악검색
 	@PostMapping("/jukesearch")
 	@ResponseBody
-	public List<JukeboxStoreDTO> getMusicList(Model model,@RequestParam("mu_artist") String mu_artist) {
-		return dao.AllSearch(mu_artist);
+	public List<JukeboxStoreDTO> getMusicList(Model model, String search_word, String search_select) {
+		System.out.println("찾는 단어:"+search_word+" 찾는 범위:"+search_select);
+		System.out.println(dao.AllSearch(search_select ,search_word));
+		return dao.AllSearch(search_select ,search_word);
 	}
 	//음악구매
 	@PostMapping("/buymusic")

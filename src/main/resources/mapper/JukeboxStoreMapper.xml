@@ -14,7 +14,7 @@
     
     <select id="AllSearch" resultType="JukeboxStore">
         <!-- select mu_img,mu_title,mu_artist from cy_music where mu_title='${mu_title}' -->
-        select mu_code,mu_img,mu_title,mu_artist from cy_music where mu_artist like '%${mu_artist}%'
+        select mu_code,mu_img,mu_title,mu_artist from cy_music where lower(${search_select}) like '%'||lower(#{search_word})||'%'
     </select>
     
     <insert id="insert" parameterType="Jukebox">

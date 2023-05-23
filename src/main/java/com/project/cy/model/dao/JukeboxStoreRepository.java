@@ -27,8 +27,13 @@ public class JukeboxStoreRepository {
 		return session.selectList(namespace+"All");
     }
     
-    public List<JukeboxStoreDTO> AllSearch(String mu_artist) {
-		return session.selectList(namespace+"AllSearch",mu_artist);
+    public List<JukeboxStoreDTO> AllSearch(String search_select,String search_word) {
+    	Map<String,Object> parameters = new HashMap<>();
+    	parameters.put("search_select", search_select);
+    	parameters.put("search_word", search_word);
+    	System.out.println("이건 파라미터:"+parameters);
+    	System.out.println(session.selectList(namespace+"AllSearch",parameters));
+		return session.selectList(namespace+"AllSearch",parameters);
     }
     
     public int insert(JukeboxDTO dto){
