@@ -18,6 +18,10 @@ public class JukeboxStoreRepository {
 	@Autowired
     private SqlSession session;
     private static String namespace = "com.project.cy.JukeboxStoreMapper.";
+    
+    public String getMemberId(String id) {
+    	return session.selectOne(namespace+"getMemberId",id);
+    }
 	
     public List<JukeboxStoreDTO> All() {
 		return session.selectList(namespace+"All");

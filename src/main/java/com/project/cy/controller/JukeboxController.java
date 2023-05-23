@@ -73,14 +73,23 @@ public class JukeboxController{
 
 	//--마이 주크박스--
 	@GetMapping("/myjuke")
-	public String getMyjuke(Model model,String id) {
-		//아이디 세션 가져오기
-		//String m_id = session.getId();
-		String m_id = "dd";  //임시
-		model.addAttribute("mylist",dao.getMyjuke(m_id));
+	public String getMyjuke(Model model,String id, HttpSession session) {
+		// 임시 세션 아이디
+		session.setAttribute("sessionId", "dd");
+		String sessionId = (String) session.getAttribute("sessionId");
+		
+		//호스트 아이디 검사
+		String hostId = dao.getMemberId(id);
+		if(hostId!=null) {
+			model.addAttribute("mylist",dao.getMyjuke(sessionId));
+		}else {
+			return "error";
+		}
+		
 		//System.out.println(model.addAttribute("mylist",dao.getMyjuke(m_id)));
 		return "myjuke";
 	}
+	
 	//sessionId와 hostId가 같아야 보이는 기능들 /host따로 받을 필요없음
 	//플레이리스트 추가
 	@PostMapping("/addPlaylist")

@@ -4,6 +4,10 @@
 
 <mapper namespace="com.project.cy.JukeboxStoreMapper">
 
+	<select id="getMemberId" resultType="String">
+		select m_id from cy_member where m_id = #{id}
+	</select>
+
     <select id="All" resultType="JukeboxStore">
         select mu_code,mu_img,mu_title,mu_artist from cy_music
     </select>

@@ -4,7 +4,7 @@
 
 <mapper namespace="com.project.cy.FriendsMapper">
 
-	<select id="getMember" resultType="String">
+	<select id="getMemberId" resultType="String">
 		select m_id from cy_member where m_id = #{id}
 	</select>
 
