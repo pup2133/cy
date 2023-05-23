@@ -46,6 +46,7 @@ $(document).ready(function(){
             reverseButtons: true, // 버튼 순서 거꾸로
         }).then((result) => {
         	
+        		if(result.isConfirmed){
                 $.ajax({
                     type: "POST",
                     url: "deleteFriend",
@@ -59,7 +60,8 @@ $(document).ready(function(){
                         console.log(err)
                     }
                 });
-        	
+        		
+        		}
         });
     });
 });

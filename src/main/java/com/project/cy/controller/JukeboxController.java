@@ -17,21 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.cy.model.dao.JukeboxStoreRepository;
+import com.project.cy.model.dao.JukeboxRepository;
 import com.project.cy.model.dto.JukeboxDTO;
 import com.project.cy.model.dto.JukeboxStoreDTO;
 import com.project.cy.model.dto.MyjukeDTO;
+import com.project.cy.service.JukeboxService;
 
 @Controller
 public class JukeboxController{
 	
 	@Autowired
-	JukeboxStoreRepository dao;
+	JukeboxService service;
 
 	//--주크박스 상점--
 	@GetMapping("/jukestore")
 	public String getMusicList(Model model) {
-		model.addAttribute("musiclist",dao.All());
+		model.addAttribute("musiclist",service.All());
 		return "jukestore";
 	}
 	//음악검색
@@ -39,8 +40,8 @@ public class JukeboxController{
 	@ResponseBody
 	public List<JukeboxStoreDTO> getMusicList(Model model, String search_word, String search_select) {
 		System.out.println("찾는 단어:"+search_word+" 찾는 범위:"+search_select);
-		System.out.println(dao.AllSearch(search_select ,search_word));
-		return dao.AllSearch(search_select ,search_word);
+		System.out.println(service.AllSearch(search_select ,search_word));
+		return service.AllSearch(search_select ,search_word);
 	}
 	//음악구매
 	@PostMapping("/buymusic")
@@ -54,7 +55,7 @@ public class JukeboxController{
 		JukeboxDTO dto = new JukeboxDTO();
 		dto.setMu_code(mu_code);
 		dto.setM_id(sessionId);
-		dao.insert(dto);
+		service.insert(dto);
 	}
 	
 	@PostMapping("/checkDuplicatePurchase")
@@ -65,7 +66,7 @@ public class JukeboxController{
 		session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		String isDu = "false";
-		ArrayList<MyjukeDTO> mylist = (ArrayList<MyjukeDTO>) dao.getMyjuke(sessionId);
+		ArrayList<MyjukeDTO> mylist = (ArrayList<MyjukeDTO>) service.getMyjuke(sessionId);
 		for(Object item:mylist) {
 			if(((MyjukeDTO)item).getMu_code().equals(mu_code)) {
 				isDu="true";
@@ -82,12 +83,12 @@ public class JukeboxController{
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		//호스트 아이디 검사
-		String hostId = dao.getMemberId(id);
+		String hostId = service.getMemberId(id);
 		
 		System.out.println(sessionId);
 		System.out.println(id);
 		if(hostId!=null) {
-			model.addAttribute("mylist",dao.getMyjuke(hostId));
+			model.addAttribute("mylist",service.getMyjuke(hostId));
 			model.addAttribute("hostId",hostId);
 			model.addAttribute("sessionId",sessionId);
 		}else {
@@ -107,9 +108,9 @@ public class JukeboxController{
 		session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		
-		dao.addPlay(sessionId, mu_code);
-		System.out.println(dao.getMyjuke(sessionId));
-		return dao.getMyjuke(sessionId);
+		service.addPlay(sessionId, mu_code);
+		System.out.println(service.getMyjuke(sessionId));
+		return service.getMyjuke(sessionId);
 	}
 	//플레이리스트 제거
 	@PostMapping("/subPlaylist")
@@ -119,9 +120,9 @@ public class JukeboxController{
 		session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		
-		dao.subPlay(sessionId, mu_code);
-		System.out.println(dao.getMyjuke(sessionId));
-		return dao.getMyjuke(sessionId);
+		service.subPlay(sessionId, mu_code);
+		System.out.println(service.getMyjuke(sessionId));
+		return service.getMyjuke(sessionId);
 	}
 	
 }

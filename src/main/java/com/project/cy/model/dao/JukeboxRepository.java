@@ -13,20 +13,21 @@ import com.project.cy.model.dto.JukeboxStoreDTO;
 import com.project.cy.model.dto.MyjukeDTO;
 
 @Repository
-public class JukeboxStoreRepository {
+public class JukeboxRepository implements JukeboxRepositoryImp{
 	//
 	@Autowired
     private SqlSession session;
     private static String namespace = "com.project.cy.JukeboxStoreMapper.";
     
+    @Override
     public String getMemberId(String id) {
     	return session.selectOne(namespace+"getMemberId",id);
     }
-	
+    @Override
     public List<JukeboxStoreDTO> All() {
 		return session.selectList(namespace+"All");
     }
-    
+    @Override
     public List<JukeboxStoreDTO> AllSearch(String search_select,String search_word) {
     	Map<String,Object> parameters = new HashMap<>();
     	parameters.put("search_select", search_select);
@@ -35,20 +36,22 @@ public class JukeboxStoreRepository {
     	System.out.println(session.selectList(namespace+"AllSearch",parameters));
 		return session.selectList(namespace+"AllSearch",parameters);
     }
-    
+    @Override
     public int insert(JukeboxDTO dto){
     	return session.insert(namespace+"insert",dto);
     }
-    
+    @Override
     public List<MyjukeDTO> getMyjuke(String m_id){
 		return session.selectList(namespace+"Myjuke",m_id);
     }
+    @Override
     public int addPlay(String m_id,String mu_code) {
     	Map<String, Object> parameters = new HashMap<>();
         parameters.put("m_id", m_id);
         parameters.put("mu_code", mu_code);
         return session.update(namespace + "addPlay", parameters);
     }
+    @Override
     public int subPlay(String m_id,String mu_code) {
     	Map<String, Object> parameters = new HashMap<>();
         parameters.put("m_id", m_id);

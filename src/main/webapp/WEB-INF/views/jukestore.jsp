@@ -33,6 +33,7 @@
                 cancelButtonText: '취소',
                 reverseButtons: true, // 버튼 순서 거꾸로
             }).then((result) => {
+            	if(result.isConfirmed){
     			//중복유효성 검사
 	    		$.ajax({
 	    			type: "POST",
@@ -70,6 +71,7 @@
 	                }
 	    		})
     			//
+            	}
             })
     	})
 
