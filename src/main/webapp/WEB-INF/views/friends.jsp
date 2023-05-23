@@ -19,6 +19,15 @@
 <script type="text/javascript">
     
 $(document).ready(function(){
+	//host, session 아이디 확인
+	const host = $("#hostId").val();
+	const session = $("#sessionId").val();
+	
+	//손님일 경우 기능 제한
+	if(host!==session){
+		$(".fa-x").hide();
+	}
+	
     $(".hidden").hide();
     $(".fa-x").on("click", function(){
         let f_num = $(this).parent().find(".f_num").text();
@@ -102,6 +111,8 @@ $(document).ready(function(){
         </nav>
 
         <section>
+        <input type="text" id="hostId" class="hidden" value="${hostId}">
+        <input type="text" id="hostId" class="hidden" value="${sessionId}">
             <div class="section_title">
                 <span>일촌관리</span>
             </div>

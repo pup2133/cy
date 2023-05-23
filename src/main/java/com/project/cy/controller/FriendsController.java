@@ -2,6 +2,8 @@ package com.project.cy.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,16 +23,25 @@ public class FriendsController {
 	FriendsRepository dao;
 	
 	@RequestMapping("/friends")
-	public String getFriend(Model model){
-		//아이디 세션 가져오기
-		//String m_id = session.getId();
-		String m_id = "dd";  //임시
+	public String getFriend(Model model,String id, HttpSession session){
+		// 임시 세션 아이디
+		session.setAttribute("sessionId", "dd");
+		String sessionId = (String) session.getAttribute("sessionId");
 		
-		List<FriendsDTO> list1 = dao.getRecieve(m_id);
-		List<FriendsDTO> list2 = dao.getSend(m_id);
-		list1.addAll(list2);
-		model.addAttribute("friendsList",list1);
-		System.out.println(list1);
+		//호스트 아이디 검사
+		String hostId = dao.getMemberId(id);
+		
+		if(hostId!=null) {
+			List<FriendsDTO> list1 = dao.getRecieve(hostId);
+			List<FriendsDTO> list2 = dao.getSend(hostId);
+			list1.addAll(list2);
+			model.addAttribute("hostId",hostId);
+			model.addAttribute("sessionId",sessionId);
+			model.addAttribute("friendsList",list1);
+			System.out.println(list1);
+		}else {
+			return "error";
+		}
 		return "friends";
 	}
 	@ResponseBody

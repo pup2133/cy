@@ -21,10 +21,11 @@
     
     
     $(document).ready(function(){
-    	
+    	//host, session 아이디 확인
     	const host = $("#hostId").val();
     	const session = $("#sessionId").val();
-		
+    	
+		//손님일 경우 기능 제한
 		if(host!==session){
 			$(".cover").hide();
 			$(".line").hide();
@@ -33,7 +34,7 @@
 			$('.music_wrap').css('width', '1200px');
 			$('.music_list').css('width', '25%');
 		}
-	
+		
     	//날짜 형식 변경
     	$(".music_info p:nth-child(3)").each(function() {
             let date = $(this).text();

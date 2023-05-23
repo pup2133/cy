@@ -15,7 +15,10 @@ public class FriendsRepository {
 	@Autowired
     private SqlSession session;
     private static String namespace = "com.project.cy.FriendsMapper.";
-	
+    
+    public String getMemberId(String id) {
+    	return session.selectOne(namespace+"getMemberId",id);
+    }
     //친구목록 받아오기
     public List<FriendsDTO> getRecieve(String m_id) {
 		return session.selectList(namespace+"getRecieve",m_id);
@@ -26,5 +29,6 @@ public class FriendsRepository {
     public int delete(int f_num) {
     	return session.delete(namespace+"delete",f_num);
     }
+    
 	
 }
