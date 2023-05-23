@@ -80,8 +80,13 @@ public class JukeboxController{
 		
 		//호스트 아이디 검사
 		String hostId = dao.getMemberId(id);
+		
+		System.out.println(sessionId);
+		System.out.println(id);
 		if(hostId!=null) {
 			model.addAttribute("mylist",dao.getMyjuke(sessionId));
+			model.addAttribute("hostId",hostId);
+			model.addAttribute("sessionId",sessionId);
 		}else {
 			return "error";
 		}

@@ -19,7 +19,25 @@
     </head>
     <script type="text/javascript">
     
+    
     $(document).ready(function(){
+    	
+    	const host = $("#hostId").val();
+    	const session = $("#sessionId").val();
+		
+		
+		alert(host);
+		alert(session);
+		
+		if(host!==session){
+			$(".cover").hide();
+			$(".line").hide();
+			$(".playlists").hide();
+			
+			$('.music_wrap').css('width', '1200px');
+			$('.music_list').css('width', '25%');
+		}
+	
     	//날짜 형식 변경
     	$(".music_info p:nth-child(3)").each(function() {
             let date = $(this).text();
@@ -28,6 +46,7 @@
         });
     	//숨기기
     	$(".hidden").hide();
+    	
     	//플레이리스트 필터
     	$(".play_music").each(function(){
             let mm_in = $(this).find(".play_music_info p:nth-child(4)").text();
@@ -171,7 +190,8 @@
             <div class="music_section">
                 <div class="music_wrap style-2">
                     <div class="music_list_wrap">
-
+						<input type="text" id="hostId" class="hidden" value="${hostId}">
+						<input type="text" id="sessionId" class="hidden" value="${sessionId}">
                         <c:forEach var="item" items="${mylist}">
                         <div class="music_list"> 
                             <div class="cover" href="">
@@ -194,7 +214,7 @@
                 </div>
                 <div class="line">
                 </div>
-                <div>
+                <div class="playlists">
                 	<div class="playlist_title">PLAYLIST</div>
                     <div class="play_list style-2">
                     
