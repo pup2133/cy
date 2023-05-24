@@ -12,7 +12,10 @@ public class gallery {
 	private String g_time;
 	private String m_id;
 	private int g_secret;
-
+	private int good_count;
+	private String gc_text;
+	private String m_nick;
+	
 	public int getG_num() {
 		return g_num;
 	}
@@ -78,6 +81,31 @@ public class gallery {
 	public void setG_secret(int g_secret) {
 		this.g_secret = g_secret;
 	}
+	
+	public int getGood_count() {
+		return good_count;
+	}
+
+	public void setGood_count(int good_count) {
+		this.good_count = good_count;
+	}
+	
+
+	public String getGc_text() {
+		return gc_text;
+	}
+
+	public void setGc_text(String gc_text) {
+		this.gc_text = gc_text;
+	}
+	
+	public String getM_nick() {
+		return m_nick;
+	}
+
+	public void setM_nick(String m_nick) {
+		this.m_nick = m_nick;
+	}
 
 	public gallery() {
 	}
@@ -90,6 +118,29 @@ public class gallery {
 		this.m_id = m_id;
 		this.g_secret = g_secret;
 	}
+
+	public gallery(int g_num, String m_id) {
+		super();
+		this.g_num = g_num;
+		this.m_id = m_id;
+	}
+
+	public gallery(String gc_text, int g_num, String m_id) {
+		super();
+		this.gc_text = gc_text;
+		this.g_num = g_num;
+		this.m_id = m_id;
+
+	}
+
+	public gallery(String g_pic, String m_nick, String g_time, String gc_text) {
+		super();
+		this.g_pic = g_pic;
+		this.m_nick = m_nick;
+		this.g_time = g_time;
+		this.gc_text = gc_text;
+	}
+	
 	
 	
 

@@ -159,7 +159,17 @@ section{
     width: 100%;
 }
 
-.gallery_comment h3{
+.gallery_comment2{
+    height: 8%;
+    color: white;
+    background-color: black;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display:none;
+}
+
+.gallery_comment h3, .gallery_comment2 h3{
     text-align: left;
     line-height: 50px;
     margin-left: 10px;
@@ -210,3 +220,14 @@ section{
     border-right: 0.5px solid black;
 }
 /* 댓글 작성 부분 끝 */
+
+.good{
+	border:0;
+	background-color:white;
+	width: 200px;
+	font-size: 24px;
+	text-align: right;
+	position: absolute;
+    bottom: 29px;
+    right: 48px;
+}

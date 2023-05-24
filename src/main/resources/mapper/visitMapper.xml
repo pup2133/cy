@@ -12,7 +12,7 @@
 	</select>
 
 	<select id="selectVisit" resultType="visit">
-		SELECT m.m_nick, h.h_pic, v.v_num, v.v_text, to_char(v.v_time,'yyyy-mm-dd hh24:mi:ss') as v_time,
+		SELECT m.m_nick, h.h_pic, v.v_num, v.v_text, to_char(v.v_time,'yyyy-mm-dd hh24:mi') as v_time,
 		v.host_id as v_hostId, v.guest_id as v_guestId
 		FROM cy_visit v
 		JOIN cy_member m ON v.guest_id = m.m_id

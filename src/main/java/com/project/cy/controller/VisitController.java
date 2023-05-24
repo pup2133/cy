@@ -44,6 +44,8 @@ public class VisitController {
 			int endPage = Math.min(startPage + maxPaginationLinks - 1, totalPages); // 끝 페이지
 
 			String hostId = service.getMemberId(id); // 호스트 아이디가 존재하는지 확인
+			
+			System.out.println(hostId);
 
 			if (hostId != null) {
 
