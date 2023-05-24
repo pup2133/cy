@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.diaryMapper">
+
+	<select id="selectDiary" resultType="DiaryDTO">
+		select d.d_num, d.M_ID, m.M_NICK, TO_CHAR(d.D_DATE, 'YYYYmmdd') as d_date,
+		d.D_TEXT
+		from CY_DIARY d
+		join
+		CY_MEMBER m
+		on d.M_ID = m.M_ID
+		where d.m_id = #{m_id}
+	</select>
+
+	<select id="selectDiaryComment" resultType="DiaryCommentDTO">
+		select dc.dc_num, d.D_NUM, m.M_id, m.M_NICK, TO_CHAR(dc.DC_TIME, 'YYYY-mm-dd hh24:mm') dc_time,
+		dc.DC_TEXT,
+		h.H_PIC
+		from CY_DIARY_COMMENT dc
+		join CY_DIARY d
+		on dc.D_NUM = d.D_NUM
+		join CY_MEMBER m
+		on dc.M_ID = m.M_ID
+		join CY_HOME h
+		on dc.M_ID = h.M_ID
+		order by
+		dc.DC_NUM
+	</select>
+	
+	<insert id="insertDiaryComment" parameterType="DiaryCommentDTO">
+		insert into CY_DIARY_COMMENT(dc_text, d_num, m_id, dc_time) values(#{dc_text}, #{d_num}, #{m_id}, sysdate)
+	</insert>
+
+	<update id="updateDiaryComment" parameterType="DiaryCommentDTO">
+		update CY_DIARY_COMMENT set dc_text = #{dc_text} where dc_num = #{dc_num}
+	</update>
+
+	<delete id="deleteDiaryComment" parameterType="String">
+		delete from CY_DIARY_COMMENT where dc_num = #{dc_num}
+	</delete>
+	
+
+	<insert id="insertDiary" parameterType="DiaryDTO">
+		insert into cy_diary(m_id, d_text, d_date) values(#{m_id}, #{d_text}, TO_CHAR(SYSDATE, 'YYYYMMDD'))
+	</insert>
+
+	<update id="updateDiaryText" parameterType="hashmap">
+		update CY_DIARY set d_text = #{d_text} where d_num = #{d_num}
+	</update>
+	
+	<delete id="deleteDiaryText" parameterType="String">
+		delete from CY_DIARY where d_num = #{d_num}
+	</delete>
+
+</mapper>

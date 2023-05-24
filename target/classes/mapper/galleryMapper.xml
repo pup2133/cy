@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.galleryMapper">
+
+	<select id="getGalleryList" resultType="gallery">
+		SELECT ga.g_num, ga.g_title, ga.g_pic, ga.g_text, to_char(ga.g_time,'yyyy-mm-dd hh24:mi') g_time, ga.m_id, ga.g_secret,
+  		(
+    		SELECT COUNT(go.gg_good)
+    		FROM cy_gallery_good go
+    		WHERE go.g_num = ga.g_num
+      		AND go.gg_good = 1
+  		) AS good_count
+		FROM cy_gallery ga
+		ORDER BY ga.g_num desc
+	</select>
+	
+	<select id="getMemberId" resultType="String">
+		select m_id from cy_gallery_good where g_num = #{g_num} and m_id = #{m_id}
+	</select>
+	
+	<select id="getGood" resultType="int">
+		select gg_good
+		from cy_gallery_good
+		where g_num = #{g_num} and m_id = #{m_id}
+	</select>
+
+	<select id="commentList" resultType="gallery">
+		SELECT co.g_num, h.h_pic as g_pic, m.m_nick, TO_CHAR(co.gc_time, 'yyyy-mm-dd hh24:mi') AS g_time, co.gc_text,
+		    (
+		        SELECT COUNT(go.gcg_good)
+		        FROM cy_gallery_comment_good go
+		        WHERE go.gc_num = co.gc_num
+		        AND go.gcg_good = 1
+		    ) AS good_count
+		FROM cy_gallery_comment co
+		JOIN cy_member m ON m.m_id = co.m_id
+		JOIN cy_home h ON m.m_id = h.m_id
+		WHERE co.g_num = #{g_num}
+	</select>
+	
+	<select id="getNickname" resultType="gallery">
+		select m_nick, h_pic as g_pic
+		from cy_member m
+		join cy_home h
+		on m.m_id = h.m_id
+		WHERE m.m_id = #{m_id}
+	</select>
+
+	<insert id="insertGallery" parameterType="gallery">
+		INSERT INTO cy_gallery 
+		VALUES (SEQ_cy_gallery_g_num.nextval, #{g_title}, #{g_pic}, #{g_text},systimestamp at time zone 'Asia/Seoul', #{m_id}, #{g_secret})
+	</insert>
+	
+	<insert id="insertGood" parameterType="gallery">
+		insert into cy_gallery_good values(#{g_num}, #{m_id}, 1)
+	</insert>
+	
+	<insert id="regComment" parameterType="gallery">
+		insert into cy_gallery_comment values(SEQ_cy_gallery_comment_gc_num.nextval, #{gc_text} ,#{g_num} ,#{m_id} ,SYSTIMESTAMP AT TIME ZONE 'Asia/Seoul')
+	</insert>
+	
+	<update id="plusGood" parameterType="gallery">
+		UPDATE cy_gallery_good
+		SET gg_good = 1
+		WHERE g_num = #{g_num} and m_id = #{m_id}
+	</update>
+	
+	<update id="minusGood" parameterType="gallery">
+		UPDATE cy_gallery_good
+		SET gg_good = 0
+		WHERE g_num = #{g_num} and m_id = #{m_id}
+	</update>
+	
+	
+	
+</mapper>
