@@ -2,6 +2,7 @@ package com.project.cy.controller;
 
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.project.cy.model.dao.ProfileRepository;
 import com.project.cy.model.dto.ProfileDTO;
 import com.project.cy.model.service.ProfileService;
+import com.project.cy.util.fileUpload;
 
 @Controller
 public class ProfileController {
@@ -21,15 +25,20 @@ public class ProfileController {
 	ProfileService service;
 	
 	@Autowired
+    private ServletContext servletContext;
+	
+	@Autowired
 	public void setService(ProfileService service) {
 		this.service = service;
 	}
+	
+	ProfileDTO profile;
 
 	@GetMapping("profile")
 	public String getProfile(Model model, String m_id, HttpSession session) throws Exception {
 		session.setAttribute("sessionId", "rhkddlf");
 		
-		ProfileDTO profile = (ProfileDTO) service.selectProfile(m_id);
+		profile = (ProfileDTO) service.selectProfile(m_id);
 		
 		model.addAttribute("profile", profile);
 		
@@ -38,14 +47,24 @@ public class ProfileController {
 	
 	@PostMapping("profile/profileUpdate")
 	public void updateProfile(@RequestParam Map<String, String> map) {
-		System.out.println(map.get("m_id"));
-		System.out.println(map.get("m_name"));
-		System.out.println(map.get("m_birth"));
-		System.out.println(map.get("m_email"));
-		System.out.println(map.get("m_tel"));
-		System.out.println(map.get("p_text"));
 		
 		service.updateProfile1(map);
 		service.updateProfile2(map);
+	}
+	
+	@PostMapping("fileSet")
+	@ResponseBody
+	public String fileSet(@RequestParam MultipartFile file) {
+		String p_pic = profile.getP_pic();
+		
+		if(!file.isEmpty()) {
+			String realPath = servletContext.getRealPath("/resources/file/profile");
+			System.out.println("realPath: " + realPath);
+			fileUpload upload = new fileUpload();	
+			p_pic = upload.upload(file,realPath);
+		}
+			
+		
+		return p_pic;
 	}
 }

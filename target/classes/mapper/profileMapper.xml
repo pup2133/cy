@@ -14,6 +14,7 @@
 	
 	<update id="updateProfile1" parameterType="map">
 		update CY_PROFILE set 
+		p_pic = #{p_pic},
 		p_text = #{p_text} 
 		where m_id = #{m_id}
 	</update>
