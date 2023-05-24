@@ -13,18 +13,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.cy.model.dao.ProfileRepository;
 import com.project.cy.model.dto.ProfileDTO;
+import com.project.cy.model.service.ProfileService;
 
 @Controller
 public class ProfileController {
 	
-	@Autowired
-	ProfileRepository dao;
+	ProfileService service;
 	
+	@Autowired
+	public void setService(ProfileService service) {
+		this.service = service;
+	}
+
 	@GetMapping("profile")
 	public String getProfile(Model model, String m_id, HttpSession session) throws Exception {
 		session.setAttribute("sessionId", "rhkddlf");
 		
-		ProfileDTO profile = (ProfileDTO) dao.selectProfile(m_id);
+		ProfileDTO profile = (ProfileDTO) service.selectProfile(m_id);
 		
 		model.addAttribute("profile", profile);
 		
@@ -40,7 +45,7 @@ public class ProfileController {
 		System.out.println(map.get("m_tel"));
 		System.out.println(map.get("p_text"));
 		
-		dao.updateProfile1(map);
-		dao.updateProfile2(map);
+		service.updateProfile1(map);
+		service.updateProfile2(map);
 	}
 }

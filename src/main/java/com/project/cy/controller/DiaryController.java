@@ -21,12 +21,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.cy.model.dao.DiaryRepository;
 import com.project.cy.model.dto.DiaryCommentDTO;
 import com.project.cy.model.dto.DiaryDTO;
+import com.project.cy.model.service.DiaryService;
 
 @Controller
 public class DiaryController {
 
+	DiaryService service;
+	
 	@Autowired
-	DiaryRepository dao;
+	public void setService(DiaryService service) {
+		this.service = service;
+	}
 
 	ArrayList<DiaryDTO> list;
 	ArrayList<DiaryCommentDTO> listC;
@@ -38,12 +43,12 @@ public class DiaryController {
 	@GetMapping("diary")
 	public String diary(Model model, String m_id, HttpSession session) {
 		try {
-			session.setAttribute("sessionId", "dbfl");
+			session.setAttribute("sessionId", "rhkddlf");
 			session.setAttribute("today", strToday);
 
-			list = (ArrayList<DiaryDTO>) dao.selectDiary(m_id);
+			list = (ArrayList<DiaryDTO>) service.selectDiary(m_id);
 
-			listC = (ArrayList<DiaryCommentDTO>) dao.selectDiaryComment();
+			listC = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment();
 
 			model.addAttribute("list", list);
 			model.addAttribute("listC", listC);
@@ -61,7 +66,7 @@ public class DiaryController {
 			String m_id = (String) session.getAttribute("sessionId");
 			DiaryCommentDTO dc = new DiaryCommentDTO(d_num, m_id, dc_text);
 
-			dao.insertDiaryComment(dc);
+			service.insertDiaryComment(dc);
 
 			return "redirect:/diary?m_id=rhkddlf&days=" + d_date;
 		}
@@ -72,10 +77,10 @@ public class DiaryController {
 
 		DiaryCommentDTO dc = new DiaryCommentDTO(dc_num, dc_text);
 
-		dao.updateComment(dc);
+		service.updateComment(dc);
 
 		try {
-			listC = (ArrayList<DiaryCommentDTO>) dao.selectDiaryComment();
+			listC = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,7 +92,7 @@ public class DiaryController {
 	@PostMapping("diary/commentDelete")
 	public void commentDelete(Model model, @RequestParam("dc_num") String dc_num, String m_id) {
 
-		dao.deleteComment(dc_num);
+		service.deleteComment(dc_num);
 	}
 
 	// 다이어리 등록 페이지 이동
@@ -113,7 +118,7 @@ public class DiaryController {
 		}
 
 		try {
-			dao.insertDiary(d);
+			service.insertDiary(d);
 		} catch (Exception e) {
 			out.write("<script>alert('이미 등록되어 있습니다.'); location.href='diary?m_id=rhkddlf&days=" + strToday + "';</script>");
 			out.flush();
@@ -134,13 +139,13 @@ System.out.println(strToday);
 		map.put("d_num", d_num);
 		map.put("d_text", d_text);
 
-		dao.updateText(map);
+		service.updateText(map);
 
 	}
 	
 	@PostMapping("diary/textDelete")
 	public void textUpdate(@RequestParam("d_num") String d_num) {
 
-		dao.deleteText(d_num);
+		service.deleteText(d_num);
 	}
 }
