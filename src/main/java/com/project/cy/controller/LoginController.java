@@ -69,24 +69,17 @@ public class LoginController {
 	}
 	
 	@PostMapping("dup")
-	public void duplication(String m_id, HttpServletResponse response) {
+	@ResponseBody
+	public Boolean duplication(String m_id) {
 		System.out.println(m_id);
 		String result = dao.duplication(m_id);
 		
-		if(result.equals(m_id)) {
-			try {
-				response.getWriter().print(1);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if(result == null) {
+			return true;
+		} else {
+			return false;
 		}
-		try {
-			response.getWriter().print(2);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 	}
 	
 	@PostMapping("/FindId")
