@@ -13,12 +13,12 @@
       <hr />
       <p>회원가입시 입력했던 아이디와 이메일을 입력해주세요</p>
 
-      <form action="FindPw" method="post">
+      <form name="frm" action="FindPw" method="post">
         <h3>아이디</h3>
         <input type="text" placeholder="아이디를 입력해주세요" required />
         <h3>이메일</h3>
-        <input type="text" placeholder="예) mouson@gmail.com" required />
-        <button type="submit">비밀번호 찾기</button>
+        <input type="text" placeholder="예) racon@gmail.com" required />
+        <button type="button">비밀번호 찾기</button>
       </form>
     </div>
   </body>

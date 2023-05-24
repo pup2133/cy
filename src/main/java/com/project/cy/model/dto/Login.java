@@ -92,6 +92,8 @@ public class Login {
 		this.m_email = m_email;
 		this.m_tel = m_tel;
 	}
+	
+	
 
 	@Override
 	public String toString() {

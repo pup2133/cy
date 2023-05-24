@@ -1,5 +1,8 @@
 package com.project.cy.model.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,25 +16,30 @@ public class LoginRepository {
 	private SqlSession session;
 	private static String namespace = "com.project.cy.LoginMapper.";
 	
+	// 로그인
 	public Login findMember(String id) {
 		System.out.println(id);
 		return session.selectOne(namespace + "login",id);
 	}
 	
+	// 회원가입
 	public int register(Login member){
-		System.out.println("실행");
 		return session.insert(namespace+"register",member);
 	}
 	
+	// 아이디 중복확인 
 	public String duplication(String m_id) {
-		System.out.println("실행");
 		return session.selectOne(namespace+"duplication",m_id);
 	}
-	
-	public Login FindId() {
-		return session.selectOne(namespace+"findId");
+	// 아이디 찾기
+	public String FindId(String m_name, String m_email) {
+	    Map<String, Object> parameterMap = new HashMap<>();
+	    parameterMap.put("m_name", m_name);
+	    parameterMap.put("m_email", m_email);
+	    
+	    return session.selectOne(namespace + "findId", parameterMap);
 	}
-	
+	// 비밀번호 찾기
 	public Login FindPw() {
 		return session.selectOne(namespace+"findPw");
 	}
