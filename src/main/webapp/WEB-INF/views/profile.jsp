@@ -88,6 +88,7 @@
 			$(area).css("cursor", "default");
 			$("#file").css("display", "none");
 			$("#up_btn").css("color", "black");
+			$(area).attr("readonly", true);
 			updateText = 0;
 		}
 	}
@@ -154,7 +155,9 @@
 				<div class="section_title">
 					<p style="width: 150px">프로필</p>
 					<div>
-						<a href="javascript:void(0);" onclick="update_profile()" id="up_btn">수정</a>
+						<c:if test="${sessionId == param.m_id}">
+							<a href="javascript:void(0);" onclick="update_profile()" id="up_btn">수정</a>
+						</c:if>
 					</div>
 				</div>
 			</div>
