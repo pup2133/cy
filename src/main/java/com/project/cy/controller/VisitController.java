@@ -69,7 +69,7 @@ public class VisitController {
 
 		return "visit";
 	}
-
+	
 	@PostMapping("visit/reg")
 	public String visitReg(visit dto) {
 

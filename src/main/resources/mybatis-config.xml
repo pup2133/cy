@@ -2,6 +2,8 @@
 <!DOCTYPE configuration
 		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
 <configuration>
 	<typeAliases>
 		<typeAlias alias="visit" type="com.project.cy.model.dto.visit"/>
@@ -15,5 +17,8 @@
 		<typeAlias alias="DiaryDTO" type="com.project.cy.model.dto.DiaryDTO" />
 		<typeAlias alias="DiaryCommentDTO" type="com.project.cy.model.dto.DiaryCommentDTO" />
 		<typeAlias alias="ProfileDTO" type="com.project.cy.model.dto.ProfileDTO" />
+
+		<typeAlias alias="Login" type="com.project.cy.model.dto.Login"/>
+		
 	</typeAliases>
 </configuration>
