@@ -23,6 +23,7 @@
         if (updateText == 0) {
           $(area).removeAttr("readonly", false);
           $(area).css("cursor", "text");
+          $("#m_name").focus();
           updateText = 1;
         } else if (updateText == 1) {
           $(area).attr("readonly", true);
@@ -30,7 +31,7 @@
             url: "profile/profileUpdate",
             method: "POST",
             data: {
-              m_id: ${profile.m_id},
+              m_id: "${profile.m_id}",
               m_name: m_name,
               m_birth: m_birth,
               m_email: m_email,

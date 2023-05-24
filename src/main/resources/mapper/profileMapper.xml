@@ -12,23 +12,19 @@
 		where  m.m_id = #{m_id}
 	</select>
 	
-	<update id="updateProfile" parameterType="map">
+	<update id="updateProfile1" parameterType="map">
 		update CY_PROFILE set 
-		m_name = #{m_name},
-		m_birth = #{m_birth},
-		m_email = #{m_email},
-		m_tel = #{m_tel},
 		p_text = #{p_text} 
-		where d_num = #{d_num}
+		where m_id = #{m_id}
 	</update>
 	
 	<update id="updateProfile2" parameterType="map">
-		update CY_PROFILE set 
+		update CY_MEMBER set 
 		m_name = #{m_name},
 		m_birth = #{m_birth},
 		m_email = #{m_email},
 		m_tel = #{m_tel}
-		where d_num = #{d_num}
+		where m_id = #{m_id}
 	</update>
 
 </mapper>

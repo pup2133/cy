@@ -1,6 +1,5 @@
 package com.project.cy.controller;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.cy.model.dao.ProfileRepository;
@@ -35,6 +33,14 @@ public class ProfileController {
 	
 	@PostMapping("profile/profileUpdate")
 	public void updateProfile(@RequestParam Map<String, String> map) {
+		System.out.println(map.get("m_id"));
 		System.out.println(map.get("m_name"));
+		System.out.println(map.get("m_birth"));
+		System.out.println(map.get("m_email"));
+		System.out.println(map.get("m_tel"));
+		System.out.println(map.get("p_text"));
+		
+		dao.updateProfile1(map);
+		dao.updateProfile2(map);
 	}
 }
