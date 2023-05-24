@@ -1,6 +1,8 @@
 package com.project.cy.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +65,23 @@ public class galleryRepository implements galleryRepositoryImp {
 	@Override
 	public gallery getNickname(String m_id) {
 		return session.selectOne(namespace+"getNickname",m_id);
+	}
+	
+	@Override
+	public int editComment(String gc_text, int g_num) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("gc_text", gc_text);
+		params.put("g_num", g_num);
+		return session.update(namespace+"editComment",params);
+	}
+	
+	@Override
+	public gallery getComment(int g_num) {
+		return session.selectOne(namespace+"getComment",g_num);
+	}
+	
+	@Override
+	public int deleteComment(int g_num) {
+		return session.delete(namespace+"deleteComment",g_num);
 	}
 }

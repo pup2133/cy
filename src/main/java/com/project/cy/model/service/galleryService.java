@@ -68,4 +68,18 @@ public class galleryService implements galleryServiceImp {
 		return dao.getNickname(m_id);
 	}
 
+	@Override
+	public int editComment(String gc_text, int g_num) {
+		return dao.editComment(gc_text, g_num);
+	}
+	
+	@Override
+	public gallery getComment(int g_num) {
+		return dao.getComment(g_num);
+	}
+	
+	@Override
+	public int deleteComment(int g_num) {
+		return dao.deleteComment(g_num);
+	}
 }

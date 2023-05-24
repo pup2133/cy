@@ -65,6 +65,7 @@ function validateForm(){
 		return;
 	}else {
 		Swal.fire('회원가입', '회원 가입이 완료되었습니다.', 'success');
+		document.frm.submit();
 		return;
 	}
 	
@@ -76,7 +77,7 @@ function validateForm(){
     <div class="container">
       <h1>회원가입</h1>
       <hr />
-      <form action="register" method="post">
+      <form name="frm" action="register" method="post">
         <h5>아이디</h5>  
         <div class="input-container">
           <input type="text" name="m_id" placeholder="아이디 입력" required />
@@ -94,7 +95,7 @@ function validateForm(){
         <input type="text" name="m_email" placeholder="예) racon@gmail.com" />
         <h5>전화번호</h5>
         <input type="text" name="m_tel" placeholder="기호없이 번호만 입력" />
-        <button type="submit" onclick="validateForm()">회원가입</button>
+        <button type="button" onclick="validateForm()">회원가입</button>
       </form>
     </div>
   </body>

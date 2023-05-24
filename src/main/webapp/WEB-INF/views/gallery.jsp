@@ -6,168 +6,210 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://kit.fontawesome.com/4ec79785b5.js"
-	crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="resources/css/header_nav.css">
 <link rel="stylesheet" href="resources/css/gallery.css">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 	$(document).ready(function() {
-				$('.gallery_comment').click(function() {
-					let $galleryText = $(this).siblings('.gallery_text');
-					let $comment = $(this).siblings('.comment_wrap');
-					let $reg = $(this).siblings('.comment_reg');
-					$comment.empty();
+		
+		function comment(data, commentWrap){
+			for(let i=0; i<data.length; i++){
+				// 새로운 comment 요소 생성
+				let newComment = $('<div>').addClass('comment');
+				let commentProfile = $('<div>').addClass('comment_profile');
+				let commentInfo = $('<div>').addClass('comment_info');
+				let innerDiv1 = $('<div>');
+				let innerDiv2 = $('<div>').addClass('comment_text');
+				let innerDiv3 = $('<div>');
+				let innerDiv4 = $('<div>');
+				let span1 = $('<b>').text(data[i].m_nick);
+				let span2 = $('<span>').text(data[i].g_time);
+				let span3 = $('<span>').addClass('gc_text').text(data[i].gc_text);
+				let span4 = $('<span>').text(data[i].good_count);
+				let span5 = $('<span>').addClass('comment_good').text('♥');
+				let textarea = $('<textarea>').addClass('edit').text(data[i].gc_text).css('display','none');
+				let edit_comment = $('<button>').addClass('edit_comment').attr('type','button').text('수정');
+				let edit_comment2 = $('<button>').addClass('edit_comment2').attr('type','button').text('수정2').css('display', 'none');
+				let delete_comment = $('<button>').addClass('delete_comment').text('삭제');
+				let gc_num = $('<input>').attr({'type' : 'hidden', 'name' : 'gc_num'}).val(data[i].g_num);
+				
+				
+				// 요소들을 조립하여 새로운 요소에 추가
+				innerDiv1.append(span1);
+				innerDiv1.append(span2);
+				innerDiv1.append(gc_num);
+				innerDiv2.append(span3);
+				innerDiv2.append(textarea);
+				innerDiv3.append(edit_comment);
+				innerDiv3.append(edit_comment2);
+				innerDiv3.append(delete_comment);
+				innerDiv4.append(span4);
+				innerDiv4.append(span5);
+				innerDiv2.append(innerDiv4);
+				commentProfile.append($('<img>').attr('src', data[i].g_pic));
+				commentInfo.append(innerDiv1);
+				commentInfo.append(innerDiv2);
+				commentInfo.append(innerDiv3);
+				newComment.append(commentProfile);
+				newComment.append(commentInfo);
+				
+				// 새로운 comment 요소를 원하는 위치에 추가
+				commentWrap.append(newComment);
 
-					$galleryText.hide();
-					$comment.slideDown(700);
-					$reg.show();
-					$(this).hide();
-					$(this).siblings('.gallery_comment2').show();
+			}
+		}
+		
+		$('.gallery_comment').click(function() {
+			let $galleryText = $(this).siblings('.gallery_text');
+			let $comment = $(this).siblings('.comment_wrap');
+			let $reg = $(this).siblings('.comment_reg');
+			let g_num = $galleryText.find('input[name="g_num"]').val();
+
+			$comment.empty();
+			$galleryText.hide();
+			$comment.slideDown(700);
+			$reg.show();
+			$(this).hide();
+			$(this).siblings('.gallery_comment2').show();
 					
-					let g_num = $galleryText.find('input[name="g_num"]').val();
+ 			$.ajax({
+				url : "commentList", // 요청을 보낼 URL
+				method : "POST",
+				dataType : "json",
+				data : {
+					"g_num" : g_num,
+				},
+				success : function(data) {
+					console.log(data);
+					comment(data,$comment);
+				},
+				error : function(error) {
+				
+				}
+			}); 
+		});
+				
+		$('.gallery_comment2').click(function() {
+			let $galleryText = $(this).siblings('.gallery_text');
+			let $comment = $(this).siblings('.comment_wrap');
+			let $reg = $(this).siblings('.comment_reg');
+			$comment.empty();
 
-					console.log(g_num);
-					
- 					$.ajax({
-						url : "commentList", // 요청을 보낼 URL
-						method : "POST",
-						dataType : "json",
-						data : {
-							"g_num" : g_num,
-						},
-						success : function(data) {
-							for(let i=0; i<data.length; i++){
-								// 새로운 comment 요소 생성
-								let newComment = $('<div>').addClass('comment');
-								let commentProfile = $('<div>').addClass('comment_profile');
-								let commentInfo = $('<div>').addClass('comment_info');
-								let innerDiv1 = $('<div>');
-								let innerDiv2 = $('<div>');
-								let span1 = $('<span>').html('<b>' + data[i].m_nick + '</b>');
-								let span2 = $('<span>').text('수정 | 삭제');
-								let span3 = $('<span>').text(data[i].gc_text);
-								let span4 = $('<span>').text(data[i].good_count);
-								let span5 = $('<span>').text(data[i].g_time);
-								let span6 = $('<span>').text('♥');
-
-								// 요소들을 조립하여 새로운 요소에 추가
-								innerDiv1.append(span1);
-								innerDiv1.append(span2);
-								innerDiv2.append(span3);
-								innerDiv2.append(span4);
-								innerDiv2.append(span5);
-								innerDiv2.append(span6);
-								commentProfile.append($('<img>').attr('src', data[i].g_pic));
-								commentInfo.append(innerDiv1);
-								commentInfo.append(innerDiv2);
-								newComment.append(commentProfile);
-								newComment.append(commentInfo);
-
-								// 새로운 comment 요소를 원하는 위치에 추가
-								$comment.append(newComment);
-							}
-						},
-						error : function(error) {
-
-						}
-					}); 
-					
-					
-				});
-				$('.gallery_comment2').click(function() {
-					let $galleryText = $(this).siblings('.gallery_text');
-					let $comment = $(this).siblings('.comment_wrap');
-					let $reg = $(this).siblings('.comment_reg');
-					$comment.empty();
-
-						$galleryText.show();
-						$comment.hide();
-						$reg.hide();
-						$(this).hide();
-						$(this).siblings('.gallery_comment').show();
+			$galleryText.show();
+			$comment.hide();
+			$reg.hide();
+			$(this).hide();
+			$(this).siblings('.gallery_comment').show();
 						
-				});
-				$('.gallery_good').click(
-						function() {
-							let g_num = $(this).closest('.gallery_text').find('input[name="g_num"]').val();
-							let m_id = $(this).closest('.gallery_text').find('input[name="m_id"]').val();
-							let good = $(this).closest('.gallery_text').find('.good').val();
-							let good2 = $(this).closest('.gallery_text').find('.good');
+		});
+				
+		$('.gallery_good').click(function() {
+			let g_num = $(this).closest('.gallery_text').find('input[name="g_num"]').val();
+			let m_id = $(this).closest('.gallery_text').find('input[name="m_id"]').val();
+			let good = $(this).closest('.gallery_text').find('.good').val();
+			let good2 = $(this).closest('.gallery_text').find('.good');
 
-							$.ajax({
-								url : "good", // 요청을 보낼 URL
-								method : "POST",
-								dataType : "text",
-								data : {
-									"g_num" : g_num,
-									"m_id" : m_id
-								},
-								success : function(data) {
-									console.log(data);
-									data === "minus" ? good2.val(--good) : good2.val(++good);
-								},
-								error : function(error) {
-
-								}
-							});
-						});
-				$('.d_reg').click(function() {
-					let g_num = $(this).siblings('input[name="g_num2"]').val();
-					let gc_text = $(this).siblings('textarea[name="gc_text"]').val();
-					let text = $(this).siblings('textarea[name="gc_text"]');
-
-					
-				    let $commentWrap = $(this).closest('.comment_reg').siblings('.comment_wrap');
-
-					$.ajax({
-						url : "gallery_comment", // 요청을 보낼 URL
-						method : "POST",
-						dataType : "json",
-						data : {
-							"g_num" : g_num,
-							"gc_text" : gc_text
-						},
-						success : function(data) {
-							// 새로운 comment 요소 생성
-							let newComment = $('<div>').addClass('comment');
-							let commentProfile = $('<div>').addClass('comment_profile');
-							let commentInfo = $('<div>').addClass('comment_info');
-							let innerDiv1 = $('<div>');
-							let innerDiv2 = $('<div>');
-							let span1 = $('<span>').html('<b>' + data.m_nick + '</b>');
-							let span2 = $('<span>').text('수정 | 삭제');
-							let span3 = $('<span>').text(data.gc_text);
-							let span4 = $('<span>').text('0');
-							let span5 = $('<span>').text(data.g_time);
-							let span6 = $('<span>').text('♥');
-
-							// 요소들을 조립하여 새로운 요소에 추가
-							innerDiv1.append(span1);
-							innerDiv1.append(span2);
-							innerDiv2.append(span3);
-							innerDiv2.append(span4);
-							innerDiv2.append(span5);
-							innerDiv2.append(span6);
-							commentProfile.append($('<img>').attr('src', data.g_pic));
-							commentInfo.append(innerDiv1);
-							commentInfo.append(innerDiv2);
-							newComment.append(commentProfile);
-							newComment.append(commentInfo);
-
-							// 새로운 comment 요소를 원하는 위치에 추가
-							$commentWrap.append(newComment);
+			$.ajax({
+				url : "good", // 요청을 보낼 URL
+				method : "POST",
+				dataType : "text",
+				data : {
+					"g_num" : g_num,
+					"m_id" : m_id
+				},
+				success : function(data) {
+					data === "minus" ? good2.val(--good) : good2.val(++good);
+				},
+				error : function(error) {
 							
-							text.val('');
-							$commentWrap.animate({ scrollTop: $commentWrap[0].scrollHeight }, 'slow');
-
-						},
-						error : function(error) {
-
-						}
-					});
-				});
+				}
 			});
+		});
+				
+		$('.d_reg').click(function() {
+			let g_num = $(this).siblings('input[name="g_num2"]').val();
+			let gc_text = $(this).siblings('textarea[name="gc_text"]').val();
+			let text = $(this).siblings('textarea[name="gc_text"]');
+			let $commentWrap = $(this).closest('.comment_reg').siblings('.comment_wrap');
+
+			$.ajax({
+				url : "gallery_comment", // 요청을 보낼 URL
+				method : "POST",
+				dataType : "json",
+				data : {
+					"g_num" : g_num,
+					"gc_text" : gc_text
+				},
+				success : function(data) {				
+					comment(data,$commentWrap);
+					text.val('');
+					$commentWrap.animate({ scrollTop: $commentWrap[0].scrollHeight }, 'slow');
+				},
+				error : function(error) {
+
+				}
+			});
+		});
+	
+		$(document).on('click', '.edit_comment', function() {
+			  $(this).hide();
+			  $(this).siblings('.edit_comment2').show();
+			  $(this).parent().siblings('.comment_text').children('span').hide();
+			  $(this).parent().siblings('.comment_text').find('.edit').show();
+			  			  
+		});
+		
+		$(document).on('click', '.edit_comment2', function() {
+			  $(this).hide();
+			  $(this).siblings('.edit_comment').show();
+			  let textarea = $(this).parent().siblings('.comment_text').find('.edit');
+			  let textSpan = $(this).parent().siblings('.comment_text').find('.gc_text');
+			  textSpan.text('');
+
+			  let gc_num = $(this).closest('.comment_info').find('input[name="gc_num"]').val();
+			  let gc_text = textarea.val();
+
+				$.ajax({
+					url : "editComment", // 요청을 보낼 URL
+					method : "POST",
+					dataType : "json",
+					data : {
+						"g_num" : gc_num,
+						"gc_text" : gc_text
+					},
+					success : function(data) {				
+						textarea.hide();
+						textSpan.show();
+						textSpan.text(data.gc_text);
+					},
+					error : function(error) {
+
+					}
+			});
+		});
+		
+		$(document).on('click', '.delete_comment', function() {
+			  let gc_num = $(this).closest('.comment_info').find('input[name="gc_num"]').val();
+			  let comment = $(this).parent().parent().parent();
+				$.ajax({
+					url : "deleteComment", // 요청을 보낼 URL
+					method : "POST",
+					dataType:"text",
+					data : {
+						"g_num" : gc_num,
+					},
+					success : function(data) {
+						console.log(data);
+						comment.remove();
+					},
+					error : function(error) {
+
+					}
+			});
+		});
+		
+	});
 </script>
 </head>
 <body>
@@ -237,31 +279,15 @@
 								<h3>${list.g_time}</h3>
 								<div class="gallery_box">
 									<div class="comment_wrap">
-<%-- 									<div class="comment">
-											<div class="comment_profile">
-												<img src="${comment.g_pic}" />
-											</div>
-											<div class="comment_info">
-												<div>
-													<span><b>${comment.m_nick}</b></span>
-													<span>수정 | 삭제</span>
-												</div>s
-												<div>
-													<span>${comment.gc_text}</span>
-													<span>${comment.good_count }</span> 
-													<span>${comment.g_time }</span>
-													<span>♥</span>
-												</div>
-											</div>
-										</div> --%>
+									
 									</div>
 									<div class="gallery_text">
 										<input type="hidden" name="g_num" value="${list.g_num}">
 										<input type="hidden" name="m_id" value="${sessionId}">
 										<p>${list.g_text}</p>
 										<div>
-											<input type="text" class="good" value="${list.good_count }"
-												disabled> <span class="gallery_good">♥</span>
+											<input type="text" class="good" value="${list.good_count }" disabled>
+											<span class="gallery_good">♥</span>
 										</div>
 									</div>
 									<div class="comment_reg">

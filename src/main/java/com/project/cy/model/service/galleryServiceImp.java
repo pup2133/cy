@@ -26,5 +26,10 @@ public interface galleryServiceImp {
 	
 	public gallery getNickname(String m_id);
 
+	public int editComment(String gc_text, int g_num);
+	
+	public gallery getComment(int g_num);
 
+	public int deleteComment(int g_num);
+	
 }

@@ -30,7 +30,6 @@ public class VisitController {
 	public String visit(@RequestParam(defaultValue = "1") int page, Model model, String id, HttpSession session) {
 
 		// 임시 세션 아이디
-		session.setAttribute("sessionId", "yun2");
 		String sessionId = (String) session.getAttribute("sessionId");
 
 		try {

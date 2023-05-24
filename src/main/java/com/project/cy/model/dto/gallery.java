@@ -140,8 +140,7 @@ public class gallery {
 		this.g_time = g_time;
 		this.gc_text = gc_text;
 	}
-	
-	
+
 	
 
 }
