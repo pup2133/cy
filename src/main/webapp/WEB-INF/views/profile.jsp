@@ -30,6 +30,7 @@
             url: "profile/profileUpdate",
             method: "POST",
             data: {
+              m_id: ${profile.m_id},
               m_name: m_name,
               m_birth: m_birth,
               m_email: m_email,
