@@ -27,11 +27,9 @@
 </style>
 </head>
 <body>
-
 	<div class="wrap">
 		<img src="resources/images/error.png">
 		<h1>ERROR</h1>
 	</div>
-	
 </body>
 </html>
