@@ -9,13 +9,13 @@ public class MyjukeDTO {
 	String mu_img;
 	String mu_url;
 	String m_id;
-	int mm_in;
+	int pl_code;
 	//
 	public MyjukeDTO() {
 		// TODO Auto-generated constructor stub
 	}
 	public MyjukeDTO(String mu_code, String mu_title, String mu_artist, String mu_genre, String mu_date, String mu_img,
-			String mu_url, String m_id, int mm_in) {
+			String mu_url, String m_id, int pl_code) {
 		super();
 		this.mu_code = mu_code;
 		this.mu_title = mu_title;
@@ -25,7 +25,7 @@ public class MyjukeDTO {
 		this.mu_img = mu_img;
 		this.mu_url = mu_url;
 		this.m_id = m_id;
-		this.mm_in = mm_in;
+		this.pl_code = pl_code;
 	}
 	public String getMu_code() {
 		return mu_code;
@@ -75,17 +75,18 @@ public class MyjukeDTO {
 	public void setM_id(String m_id) {
 		this.m_id = m_id;
 	}
-	public int getMm_in() {
-		return mm_in;
+	public int getPl_code() {
+		return pl_code;
 	}
-	public void setMm_in(int mm_in) {
-		this.mm_in = mm_in;
+	public void setPl_code(int pl_code) {
+		this.pl_code = pl_code;
 	}
 	@Override
 	public String toString() {
-		return "myjukeDTO [mu_code=" + mu_code + ", mu_title=" + mu_title + ", mu_artist=" + mu_artist + ", mu_genre="
+		return "MyjukeDTO [mu_code=" + mu_code + ", mu_title=" + mu_title + ", mu_artist=" + mu_artist + ", mu_genre="
 				+ mu_genre + ", mu_date=" + mu_date + ", mu_img=" + mu_img + ", mu_url=" + mu_url + ", m_id=" + m_id
-				+ ", mm_in=" + mm_in + "]";
+				+ ", pl_code=" + pl_code + "]";
 	}
+	
 	
 }

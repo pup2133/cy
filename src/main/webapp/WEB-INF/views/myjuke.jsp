@@ -44,12 +44,14 @@
     	$(".hidden").hide();
     	
     	//플레이리스트 필터
+    	/*
     	$(".play_music").each(function(){
             let mm_in = $(this).find(".play_music_info p:nth-child(4)").text();
             if(mm_in === "0"){
                 $(this).hide();
             }
         });
+    	*/
     	
     	//플레이리스트 추가기능
     	$(document).on("click",".cover",function(){
@@ -68,11 +70,11 @@
     	
     	//플레이리스트 제거기능
     	$(document).on("click",".fa-x",function(){
-    		let mu_code = $(this).siblings(".play_music_info_wrap").find(".code").text();
+    		let pl_code = $(this).siblings(".play_music_info_wrap").find(".code").text();
     	   	$.ajax({
     	   		type:"POST",
     	   		url:"subPlaylist",
-    	   		data:{mu_code:mu_code},
+    	   		data:{pl_code:pl_code},
     	   		success:function(data){
     	   			playlistItem(data);
     	   		},
@@ -91,10 +93,10 @@
 	   	    html+= '<div class="play_music_info_wrap">' ;
 	   	    html+= '<img src="./resources/images/' + item.mu_img + '.jpg">' ;
 		   	html+= '<div class="play_music_info">' ;
-		   	html+= '<p class="hidden code">' + item.mu_code + '</p>' ;
+		   	html+= '<p class="hidden code">' + item.pl_code + '</p>' ;
 		   	html+= '<p>' + item.mu_title + '</p>' ;
 		   	html+= '<p>' + item.mu_artist + '</p>' ;
-		   	html+= '<p class="hidden">' + item.mm_in + '</p>' ;
+		   	html+= '<p class="hidden">' + item.pl_code + '</p>' ;
 		   	html+= '</div>' ;
 		   	html+= '</div>' ;
 		   	html+= '<i class="fa-regular fa-x"></i>' ;
@@ -107,12 +109,14 @@
    		//숨기기
     	$(".hidden").hide();
     	//플레이리스트 필터
+    	/*
     	$(".play_music").each(function(){
             let mm_in = $(this).find(".play_music_info p:nth-child(4)").text();
             if(mm_in === "0"){
                 $(this).hide();
             }
         });
+    	*/
 	   	  
     }
     
@@ -214,15 +218,14 @@
                 	<div class="playlist_title">PLAYLIST</div>
                     <div class="play_list style-2">
                     
-                    	<c:forEach var="item" items="${mylist}">
+                    	<c:forEach var="item" items="${myplay}">
                         <div class="play_music">
                             <div class="play_music_info_wrap">
                                 <img src="./resources/images/${item.mu_img }.jpg">
                                 <div class="play_music_info"> 
-                                	<p class="hidden code">${item.mu_code}</p>
+                                	<p class="hidden code">${item.pl_code}</p>
                                     <p>${item.mu_title }</p>
                                     <p>${item.mu_artist }</p>
-                                    <p class="hidden">${item.mm_in}</p>
                                 </div>
                             </div>
                                 <i class="fa-regular fa-x"></i>

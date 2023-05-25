@@ -38,12 +38,16 @@ public class JukeboxService implements JukeboxServiceImp{
 		return dao.getMyjuke(m_id);
 	}
 	@Override
+	public List<MyjukeDTO> getMyplay(String m_id){
+		return dao.getMyplay(m_id);
+    }
+	@Override
 	public int addPlay(String m_id,String mu_code) {
 		return dao.addPlay(m_id, mu_code);
 	}
 	@Override
-	public int subPlay(String m_id,String mu_code) {
-		return dao.subPlay(m_id, mu_code);
+	public int subPlay(String m_id,int pl_code) {
+		return dao.subPlay(m_id, pl_code);
 	}
 	
 }
