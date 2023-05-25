@@ -13,9 +13,21 @@
 <script>
 	$(document).ready(function() {
 		
+		const host = $("#host").val();
+		const sessionId = $("#sessionId").val();
+
+		if (host != sessionId) {
+			$('.editGallery').hide();
+			$('.deleteGallery').hide();
+		}
+		
 		function comment(data, commentWrap){
 			for(let i=0; i<data.length; i++){
 				// 새로운 comment 요소 생성
+				let edit_comment;
+				let edit_comment2;
+				let delete_comment;
+				
 				let newComment = $('<div>').addClass('comment');
 				let commentProfile = $('<div>').addClass('comment_profile');
 				let commentInfo = $('<div>').addClass('comment_info');
@@ -26,14 +38,17 @@
 				let span1 = $('<b>').text(data[i].m_nick);
 				let span2 = $('<span>').text(data[i].g_time);
 				let span3 = $('<span>').addClass('gc_text').text(data[i].gc_text);
-				let span4 = $('<span>').text(data[i].good_count);
+				let span4 = $('<span>').addClass('gc_good').text(data[i].good_count);
 				let span5 = $('<span>').addClass('comment_good').text('♥');
 				let textarea = $('<textarea>').addClass('edit').text(data[i].gc_text).css('display','none');
-				let edit_comment = $('<button>').addClass('edit_comment').attr('type','button').text('수정');
-				let edit_comment2 = $('<button>').addClass('edit_comment2').attr('type','button').text('수정2').css('display', 'none');
-				let delete_comment = $('<button>').addClass('delete_comment').text('삭제');
-				let gc_num = $('<input>').attr({'type' : 'hidden', 'name' : 'gc_num'}).val(data[i].g_num);
-				
+				if(host == sessionId && sessionId != data[i].m_id){
+					delete_comment = $('<button>').addClass('delete_comment').text('삭제');
+				}else if(data[i].m_id == sessionId){
+					edit_comment = $('<button>').addClass('edit_comment').attr('type','button').text('수정');
+					edit_comment2 = $('<button>').addClass('edit_comment2').attr('type','button').text('수정2').css('display', 'none');
+					delete_comment = $('<button>').addClass('delete_comment').text('삭제');
+				}
+				let gc_num = $('<input>').attr({'type' : 'hidden', 'name' : 'gc_num'}).val(data[i].gc_num);
 				
 				// 요소들을 조립하여 새로운 요소에 추가
 				innerDiv1.append(span1);
@@ -65,6 +80,8 @@
 			let $comment = $(this).siblings('.comment_wrap');
 			let $reg = $(this).siblings('.comment_reg');
 			let g_num = $galleryText.find('input[name="g_num"]').val();
+			
+			console.log(g_num);
 
 			$comment.empty();
 			$galleryText.hide();
@@ -111,7 +128,7 @@
 			let good2 = $(this).closest('.gallery_text').find('.good');
 
 			$.ajax({
-				url : "good", // 요청을 보낼 URL
+				url : "galleryGood", // 요청을 보낼 URL
 				method : "POST",
 				dataType : "text",
 				data : {
@@ -119,7 +136,7 @@
 					"m_id" : m_id
 				},
 				success : function(data) {
-					data === "minus" ? good2.val(--good) : good2.val(++good);
+					data == 6 ? good2.val(--good) : good2.val(++good);
 				},
 				error : function(error) {
 							
@@ -134,7 +151,7 @@
 			let $commentWrap = $(this).closest('.comment_reg').siblings('.comment_wrap');
 
 			$.ajax({
-				url : "gallery_comment", // 요청을 보낼 URL
+				url : "comment", // 요청을 보낼 URL
 				method : "POST",
 				dataType : "json",
 				data : {
@@ -150,6 +167,29 @@
 
 				}
 			});
+		});
+		
+		$('.deleteGallery').click(function() {
+			let g_num = $(this).closest('.gallery').find('input[name="g_num"]').val();
+			let gallery = $(this).closest('.gallery');
+			let fileName = $(this).siblings('input[name="g_pic"]').val();
+			
+			$.ajax({
+				url : "deleteGallery",
+				method : "POST",
+				dataType : "text",
+				data : {
+					"g_num" : g_num,
+					"fileName" : fileName
+				},
+				success : function(data) {
+					gallery.remove();
+				},
+				error : function(error) {
+
+				}
+			});
+			
 		});
 	
 		$(document).on('click', '.edit_comment', function() {
@@ -173,15 +213,16 @@
 				$.ajax({
 					url : "editComment", // 요청을 보낼 URL
 					method : "POST",
-					dataType : "json",
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					dataType : "text",
 					data : {
-						"g_num" : gc_num,
+						"gc_num" : gc_num,
 						"gc_text" : gc_text
 					},
-					success : function(data) {				
+					success : function(data) {
 						textarea.hide();
 						textSpan.show();
-						textSpan.text(data.gc_text);
+						textSpan.text(gc_text);
 					},
 					error : function(error) {
 
@@ -190,30 +231,51 @@
 		});
 		
 		$(document).on('click', '.delete_comment', function() {
-			  let gc_num = $(this).closest('.comment_info').find('input[name="gc_num"]').val();
-			  let comment = $(this).parent().parent().parent();
-				$.ajax({
-					url : "deleteComment", // 요청을 보낼 URL
-					method : "POST",
-					dataType:"text",
-					data : {
-						"g_num" : gc_num,
-					},
-					success : function(data) {
-						console.log(data);
-						comment.remove();
-					},
-					error : function(error) {
-
-					}
+			let gc_num = $(this).closest('.comment_info').find('input[name="gc_num"]').val();
+			let comment = $(this).parent().parent().parent();
+			$.ajax({
+				url : "deleteComment", // 요청을 보낼 URL
+			 	method : "POST",
+				dataType:"text",
+				data : { "gc_num" : gc_num },
+				success : function(data) {
+					comment.remove();
+				},
+				error : function(error) {
+					  
+				}
 			});
 		});
 		
+		$(document).on('click', '.comment_good', function() {
+			let gc_num = $(this).closest('.comment_info').find('input[name="gc_num"]').val();
+			let m_id = $(this).closest('.comment_wrap').siblings('.gallery_text').find('input[name="m_id"]').val();
+			let good = $(this).siblings('.gc_good');
+			let good2 = $(this).siblings('.gc_good').text();
+			
+			$.ajax({
+				url : "commentGood", // 요청을 보낼 URL
+				method : "POST",
+				dataType:"text",
+				data : {
+					"gc_num" : gc_num,
+					"m_id" : m_id
+				},
+				success : function(data) {
+					data == 6 ? good.text(--good2) : good.text(++good2);
+				},
+				error : function(error) {
+					
+				}
+			});
+		});
 	});
 </script>
 </head>
 <body>
 	<header>
+		<input type="hidden" id="host" value="${hostId}">
+		<input type="hidden" id="sessionId" value="${sessionId}">
 		<div class="icon">
 			<img src="resources/images/racon.png" alt="">
 		</div>
@@ -267,10 +329,17 @@
 					<c:forEach var="list" items="${list }">
 						<div class="gallery">
 							<div class="gallery_left">
-								<div class="title">
-									<h1>${list.g_title }</h1>
-									<h4>수정 | 삭제</h4>
-								</div>
+								<form action="editGallery" method="get">
+									<div class="title">
+										<input type="hidden" name="g_title" value="${list.g_title}">
+										<input type="hidden" name="g_pic" value="${list.g_pic}">
+										<input type="hidden" name="g_text" value="${list.g_text}">
+										<input type="hidden" name="g_num" value="${list.g_num}">
+										<h1>${list.g_title }</h1>
+										<button class="editGallery">수정</button>
+										<button type="button" class="deleteGallery">삭제</button>
+									</div>
+								</form>
 								<div class="gallery_img">
 									<img src="./resources/file/${list.g_pic}">
 								</div>
@@ -279,7 +348,6 @@
 								<h3>${list.g_time}</h3>
 								<div class="gallery_box">
 									<div class="comment_wrap">
-									
 									</div>
 									<div class="gallery_text">
 										<input type="hidden" name="g_num" value="${list.g_num}">

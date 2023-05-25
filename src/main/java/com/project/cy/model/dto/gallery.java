@@ -15,6 +15,7 @@ public class gallery {
 	private int good_count;
 	private String gc_text;
 	private String m_nick;
+	private int gc_num;
 	
 	public int getG_num() {
 		return g_num;
@@ -107,6 +108,14 @@ public class gallery {
 		this.m_nick = m_nick;
 	}
 
+	public int getGc_num() {
+		return gc_num;
+	}
+
+	public void setGc_num(int gc_num) {
+		this.gc_num = gc_num;
+	}
+
 	public gallery() {
 	}
 	
@@ -124,7 +133,7 @@ public class gallery {
 		this.g_num = g_num;
 		this.m_id = m_id;
 	}
-
+	
 	public gallery(String gc_text, int g_num, String m_id) {
 		super();
 		this.gc_text = gc_text;
@@ -133,14 +142,35 @@ public class gallery {
 
 	}
 
-	public gallery(String g_pic, String m_nick, String g_time, String gc_text) {
+	public gallery(String m_id, int gc_num, String g_pic, String m_nick, String g_time, String gc_text) {
 		super();
+		this.m_id = m_id;
+		this.gc_num = gc_num;
 		this.g_pic = g_pic;
 		this.m_nick = m_nick;
 		this.g_time = g_time;
 		this.gc_text = gc_text;
 	}
+	
+	
 
+	public gallery(String g_title, String g_pic, String g_text, int g_secret, int g_num) {
+		super();
+		this.g_title = g_title;
+		this.g_pic = g_pic;
+		this.g_text = g_text;
+		this.g_secret = g_secret;
+		this.g_num = g_num;
+	}
+
+	@Override
+	public String toString() {
+		return "gallery [g_num=" + g_num + ", g_title=" + g_title + ", file=" + file + ", g_pic=" + g_pic + ", g_text="
+				+ g_text + ", g_time=" + g_time + ", m_id=" + m_id + ", g_secret=" + g_secret + ", good_count="
+				+ good_count + ", gc_text=" + gc_text + ", m_nick=" + m_nick + ", gc_num=" + gc_num + "]";
+	}
+
+	
 	
 
 }

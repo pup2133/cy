@@ -29,11 +29,9 @@ public class VisitController {
 	@GetMapping("visit")
 	public String visit(@RequestParam(defaultValue = "1") int page, Model model, String id, HttpSession session) {
 
-		// 임시 세션 아이디
 		String sessionId = (String) session.getAttribute("sessionId");
 
 		try {
-			
 			int totalCount = service.getTotalCount(); // 방명록이 총 몇개 있는지
 			int itemsPerPage = 4; // 방명록 페이지당 보여줄 개수
 			int totalPages = (int) Math.ceil((double) totalCount / itemsPerPage); // 방명록 총 페이지 수
@@ -44,8 +42,6 @@ public class VisitController {
 
 			String hostId = service.getMemberId(id); // 호스트 아이디가 존재하는지 확인
 			
-			System.out.println(hostId);
-
 			if (hostId != null) {
 
 				List<visit> visitList = service.getVisit(startItem, itemsPerPage);

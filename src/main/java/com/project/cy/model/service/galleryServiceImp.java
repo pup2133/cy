@@ -7,29 +7,17 @@ import com.project.cy.model.dto.gallery;
 public interface galleryServiceImp {
 
 	public int add(gallery g);
-	
-	public List<gallery> getGalleryList();
-
+	public List<gallery> getGalleryList(String hostId, String sessionId);
 	public String getMemberId(gallery g);
-
-	public int plusGood(gallery g);
-	
-	public int minusGood(gallery g);
-	
-	public int insertGood(gallery g);
-	
-	public int getGood(gallery g);
-
-	public List<gallery> getCommentList(String g_num);
-	
+	public int galleryGood(gallery g, String m_id);
+	public List<gallery> getCommentList(int g_num);
 	public int regComment(gallery g);
-	
 	public gallery getNickname(String m_id);
+	public int editComment(String gc_text, int gc_num);
+	public int deleteComment(int gc_num);
+	public int CommentGood(int gc_num, String m_id, String id);
+	public String getMemberId2(int gc_num, String m_id);
+	public int deleteGallery(int g_num);
+	public int editGallery(gallery g);
 
-	public int editComment(String gc_text, int g_num);
-	
-	public gallery getComment(int g_num);
-
-	public int deleteComment(int g_num);
-	
 }

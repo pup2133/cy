@@ -23,8 +23,13 @@ public class galleryRepository implements galleryRepositoryImp {
 	}
 	
 	@Override
-	public List<gallery> getGalleryList() {
-		return session.selectList(namespace+"getGalleryList");
+	public List<gallery> getGalleryList(String m_id) {
+		return session.selectList(namespace+"getGalleryList", m_id);
+	}
+	
+	@Override
+	public List<gallery> getGallerySecretList(String m_id) {
+		return session.selectList(namespace+"getGallerySecretList",m_id);
 	}
 	
 	@Override
@@ -53,7 +58,7 @@ public class galleryRepository implements galleryRepositoryImp {
 	}
 	
 	@Override
-	public List<gallery> getCommentList(String g_num) {
+	public List<gallery> getCommentList(int g_num) {
 		return session.selectList(namespace+"commentList",g_num);
 	}
 	
@@ -68,20 +73,66 @@ public class galleryRepository implements galleryRepositoryImp {
 	}
 	
 	@Override
-	public int editComment(String gc_text, int g_num) {
+	public int editComment(String gc_text, int gc_num) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("gc_text", gc_text);
-		params.put("g_num", g_num);
+		params.put("gc_num", gc_num);
 		return session.update(namespace+"editComment",params);
 	}
 	
 	@Override
-	public gallery getComment(int g_num) {
-		return session.selectOne(namespace+"getComment",g_num);
+	public int deleteComment(int gc_num) {
+		return session.delete(namespace+"deleteComment",gc_num);
 	}
 	
 	@Override
-	public int deleteComment(int g_num) {
-		return session.delete(namespace+"deleteComment",g_num);
+	public int getCommentGood(int gc_num, String m_id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("gc_num", gc_num);
+		params.put("m_id", m_id);
+		return session.selectOne(namespace+"getCommentGood",params);
 	}
+	
+	@Override
+	public int insertCommentGood(int gc_num, String m_id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("gc_num", gc_num);
+		params.put("m_id", m_id);
+		return session.insert(namespace+"insertCommentGood",params);
+	}
+	
+	@Override
+	public int minusCommentGood(int gc_num, String m_id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("gc_num", gc_num);
+		params.put("m_id", m_id);
+		return session.update(namespace+"minusCommentGood",params);
+	}
+	
+	@Override
+	public int plusCommentGood(int gc_num, String m_id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("gc_num", gc_num);
+		params.put("m_id", m_id);
+		return session.update(namespace+"plusCommentGood",params);
+	}
+	
+	@Override
+	public String getMemberId2(int gc_num, String m_id) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("gc_num", gc_num);
+		params.put("m_id", m_id);
+		return session.selectOne(namespace+"getMemberId2", params);
+	}
+	
+	@Override
+	public int deleteGallery(int g_num) {
+		return session.delete(namespace+"deleteGallery",g_num);
+	}
+	
+	@Override
+	public int editGallery(gallery g) {
+		return session.update(namespace+"editGallery",g);
+	}
+	
 }
