@@ -43,6 +43,7 @@ public class DiaryController {
 	public String diary(Model model, String m_id, String days, HttpSession session) {
 		try {
 			session.setAttribute("sessionId", "rhkddlf");
+			session.setAttribute("hostId", "rhkddlf");
 			session.setAttribute("today", strToday);
 			
 			HashMap<String, String> map = new HashMap<String, String>();

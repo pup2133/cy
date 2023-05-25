@@ -173,7 +173,7 @@ function c_day() {
 					<a href="">
 						<div class="menu_box">주크박스</div>
 					</a>
-					<a href="">
+					<a href="diary?m_id=${hostId}&days=${today}">
 						<div class="menu_box">다이어리</div>
 					</a>
 					<a href="">
