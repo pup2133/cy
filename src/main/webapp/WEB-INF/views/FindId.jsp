@@ -14,7 +14,7 @@ function findId(){
   let email = $('input[name=m_email]').val();
   
   if(name===""){
-		swal.fire('아이디 확인','아이디를 입력해주세요','error');
+		swal.fire('이름 확인','이름을 입력해주세요','error');
 		return;
   }else if(email===""){
 		swal.fire('이메일 확인','이메일을 입력해주세요','error');
@@ -30,18 +30,15 @@ function findId(){
 	  		"m_email" : email
 	  	},
 	  	success : function(data, status){
-	  		if(data === "1"){
-	  			swal.fire('아이디 찾기', '입력한 정보와 일치하는 아이디가 없습니다', 'error');
-	  		} else{
-	  	      // 1이 반환된 경우 아이디가 없음을 사용자에게 알립니다.
-	  			swal.fire('아이디 찾기','아이디는' + data + '입니다','success');
+	  		if (data === "1") {
+	  	      swal.fire('아이디 찾기', '입력한 정보와 일치하는 아이디가 없습니다', 'error');
+	  	    } else {
+	  	      swal.fire('아이디 찾기', '아이디는 ' + data + '입니다', 'success');
 	  	    }
 	  	  },
 	  	error : function(err){
-	  	
 	  		console.log(err);
 	  	}
-	  
   });
  }
   

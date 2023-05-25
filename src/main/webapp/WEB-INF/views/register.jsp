@@ -8,17 +8,22 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+let cnt = 0;
+//중복확인
 function dup(){
-	
 	
 	let id = $('input[name=m_id]').val();
 	
 	if(id==""){
 		Swal.fire('아이디 중복 체크', '아이디를 입력해주세요', 'error');
+		cnt=1;
 		return;
+		
 	}else if(id.length>15 || id.length<4){
 		Swal.fire('아이디 체크', '아이디는 4자 이상 15자 이하로 입력해주세요', 'error');
 		return;
+		
+		
 	}
 	
 	$.ajax({
@@ -42,6 +47,7 @@ function dup(){
 		});
 		
 }
+//회원가입
 function validateForm() {
 	  let m_id = $('input[name=m_id]').val();
 	  let m_pw = $('input[name=m_pw]').val();
@@ -63,7 +69,7 @@ function validateForm() {
 	  } else if (!/^\d{3}-\d{4}-\d{4}$/.test(m_tel)) {
 	    Swal.fire('회원가입', '전화번호 형식을 확인해주세요', 'error');
 	    return;
-	  } else {
+	  } else if(cnt==="1"){
 	    Swal.fire({
 	      title: '회원가입',
 	      text: '회원 가입이 완료되었습니다.',
@@ -87,7 +93,7 @@ function validateForm() {
       <form name="frm" action="register" method="post">
         <h5>아이디</h5>  
         <div class="input-container">
-          <input type="text" name="m_id" placeholder="아이디 입력" required />
+          <input type="text" name="m_id" placeholder="아이디 입력" />
           <input type="button" value="중복확인" class="doublecheck" onclick="dup()">
         </div>
         <h5>비밀번호</h5>

@@ -55,8 +55,9 @@ public class LoginController {
 			return "login";
 		} else if (member.getM_id().equals(id) && member.getM_pw().equals(pw)) {
 			System.out.println("로그인 성공");
-			session.setAttribute("m_id", id);
-			System.out.println(id);
+			session.setAttribute("sessionId", id);
+			String asd = (String)session.getAttribute("sessionId");
+			System.out.println(asd);
 			return "redirect:/login";
 		} else {
 			System.out.println("로그인실패");
@@ -97,18 +98,25 @@ public class LoginController {
 		
 		 String foundId = dao.FindId(name, email);
 		    
-		    if (foundId != null) {
+		    if(foundId != null) {
 		        return foundId;
-		    } else {
+		    }else {
 		        return "1";
 		    }
 
 	}
 	
 	//패스워드 찾기
-	@PostMapping("/FindPw")
-	public String FindPw() {
-		System.out.println("findpw 테스트");
-		return "redirect:/FindPw";
+	@PostMapping("FindPw")
+	@ResponseBody
+	public String FindPw(String m_id,String m_name,String m_email) {
+		
+		String foundPw = dao.FindPw(m_id, m_name, m_email);
+		
+		if(foundPw != null) {
+			return foundPw;
+		}else {
+			return "1";
+		}
 	}
 }

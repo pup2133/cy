@@ -40,8 +40,12 @@ public class LoginRepository {
 	    return session.selectOne(namespace + "findId", parameterMap);
 	}
 	// 비밀번호 찾기
-	public Login FindPw() {
-		return session.selectOne(namespace+"findPw");
+	public String FindPw(String m_id,String m_name,String m_email) {
+		Map<String, Object> parameterMap = new HashMap<>();
+		parameterMap.put("m_id", m_id);
+		parameterMap.put("m_name", m_name);
+		parameterMap.put("m_email", m_email);
+		return session.selectOne(namespace + "findPw", parameterMap);
 	}
 	
 	
