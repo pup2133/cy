@@ -23,6 +23,10 @@
 .hidden{
     display: none;
 }
+a{
+	text-decoration: none;
+	color:black;
+}
 
 /* --메인-- */
 section{
@@ -160,12 +164,15 @@ section{
     height: 100%;
 }
 .home_profile_text{
+	box-sizing: border-box;
     position: absolute;
     bottom: 0;
     padding: 10px;
-    margin-top: 15px;
+    margin-top: 10px;
     height: 120px;
+    width: 250px;
     background-color: #d9d9d9;
+    border-radius: 3px;
 }
 .wave_wrap{
     margin-top:15px;

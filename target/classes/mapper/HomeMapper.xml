@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.cy.HomeMapper">
+
+	<select id="getMemberId" resultType="String">
+		select m_id from cy_member where m_id = #{id}
+	</select>
+
+    <select id="getHomeProfile" resultType="HomeProfile">
+    	select h.h_pic,m.m_nick,m.m_today,m.m_totaltoday,h.h_msg from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		where m.m_id=#{m_id}
+    </select>
+   	
+   	<select id="getHomeVisit" resultType="visit">
+		SELECT m.m_id, m.m_nick, h.h_pic, v.v_num, v.v_text, to_char(v.v_time,'yyyy-mm-dd hh24:mi') as v_time,
+		v.host_id as v_hostId, v.guest_id as v_guestId
+		FROM cy_visit v
+		JOIN cy_member m ON v.guest_id = m.m_id
+		JOIN cy_home h ON h.m_id = m.m_id
+    	where host_Id=#{m_id}
+		ORDER BY v.v_num DESC
+   	</select>
+   	
+   	<select id="getHomeGallery" resultType="gallery">
+   		SELECT ga.g_num, ga.g_title, ga.g_pic, ga.g_text, to_char(ga.g_time,'yyyy-mm-dd hh24:mi') g_time, ga.m_id, ga.g_secret,
+  		(
+    		SELECT COUNT(go.gg_good)
+    		FROM cy_gallery_good go
+    		WHERE go.g_num = ga.g_num
+      		AND go.gg_good = 1
+  		) AS good_count
+		FROM cy_gallery ga where ga.m_id=#{m_id}
+		ORDER BY ga.g_num desc
+   	</select>
+   	
+   	<select id="getPreview" resultType="int">
+   		SELECT COUNT(*) AS 행개수 FROM cy_diary where cy_diary.m_id=#{m_id}
+		UNION ALL
+		SELECT COUNT(*) AS 행개수 FROM cy_gallery where cy_gallery.m_id=#{m_id}
+		UNION ALL
+		SELECT COUNT(*) AS 행개수 FROM cy_friends where (RECIEVE_ID=#{m_id} and ACCEPT=1) or (SEND_ID=#{m_id} and accept=1)
+		UNION ALL
+		SELECT COUNT(*) AS 행개수 FROM cy_visit where cy_visit.host_id=#{m_id}
+   	</select>
+
+	
+    
+</mapper>

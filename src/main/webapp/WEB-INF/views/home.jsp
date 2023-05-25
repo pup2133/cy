@@ -25,8 +25,13 @@
 	    $('.header_info').click(function() {
 	        $('.dropdown').slideToggle(200);
 	    });
-	    
+
 	});
+	
+	$(document).ready(function(){
+		const host = $('#hostId').val();
+		const session = $('#sessionId').val();
+	})
 
     //말줄임표 기능
     $(document).ready(function() {
@@ -43,14 +48,16 @@
 </script>
 <body>
 	<header>
+		<input id="hostId" type="text" value="${hostId}" class="hidden">
+    	<input id="sessionId" type="text" value="${sessionId}" class="hidden">
         <div class="icon">
             <img src="./resources/images/racon.png" alt="">
         </div>
         <div class="header_info">
             <i class="fa-regular fa-bell"></i>
-            <img class="header_profile" src="./resources/images/ng.png" alt="">
+            <img class="header_profile" src="./resources/images/${homeProfile.h_pic}" alt="">
             <div class="profile_drop">
-                <span>너굴</span>
+                <span>${homeProfile.m_nick}</span>
                 <i class="fa-sharp fa-solid fa-chevron-down"></i>
             </div>
             <div class="dropdown">
@@ -102,26 +109,19 @@
                         <div class="box_title">다이어리</div>
                         <div>
                             <ul class="preview_list">
-                                <li><span class="list_content">이것은 내용</span></li>
-                                <li><span class="list_content">내요요요요용</span></li>
-                                <li><span class="list_content">내용내 용내용 내용내용내용내 용내용내용용내용내용내용내용내용내용내용내용내용내용내용</span></li>
-                                <li><span class="list_content">내용내 용내용 내용 내용내용내용내용내 용용내용내용내용내용내용내용내용내용내용내용내용</span></li>
-                                <li><span class="list_content">길어지면 말줄임표</span></li>
-                                <li><span class="list_content">6개가 최대</span></li>
-
-                            </ul>
+							    <c:forEach var="item" items="${diaryList}" varStatus="status" end="5">
+							        <li><span class="hidden">${item.d_num}</span><span class="list_content">${item.d_text}</span></li>
+							    </c:forEach>
+							</ul>
                         </div>
                     </div>
                     <div class="visit_box preview_list_wrap">
                         <div class="box_title">방명록</div>
                         <div>
                             <ul class="preview_list">
-                                <li><span class="list_content">방명록 남김</span><span class="list_nick">닉네임입니다</span></li>
-                                <li><span class="list_content">호이호이</span><span class="list_nick">닉네임입니다</span></li>
-                                <li><span class="list_content">내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용</span><span class="list_nick">닉네임은 열자까지가능?</span></li>
-                                <li><span class="list_content">내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용</span><span class="list_nick">닉네임입니다</span></li>
-                                <li><span class="list_content">내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용</span><span class="list_nick">닉네임입니다</span></li>
-                                <li><span class="list_content">내용내용내용내용내용내용내용내용내용용내용내용내용내용내용내용내용내용내용내용내용</span><span class="list_nick">닉네임입니다</span></li>
+                            	<c:forEach var="item" items="${visitList}" varStatus="status" end="5">
+                                <li><span class="list_content">${item.v_text }</span><span class="list_nick">${item.m_nick }</span></li>
+                                </c:forEach>
                             </ul>
                         </div>
                     </div>
@@ -143,38 +143,32 @@
                         <div class="gallery_img_box">
                             <!-- 이미지 10개만 불러오기 -->
                             <!-- 이미지 10개 이하인 경우 background보임 -->
-                            <img src="./resources/images/a03.jpg" alt="">
-                            <img src="./resources/images/ive.jpg" alt="">
-                            <img src="./resources/images/new.jpg" alt="">
-                            <img src="./resources/images/m06.jpg" alt="">
-                            <img src="./resources/images/m05.jpg" alt="">
-                            <img src="./resources/images/m02.jpg" alt="">
-                            <img src="./resources/images/m01.jpg" alt="">
-
+                            <c:forEach var="item" items="${galleryList}" varStatus="status" end="9">
+                            	<img src="./resources/images/${item.g_pic}" alt="">
+							</c:forEach>
                         </div>
                     </div>
                 </div>
             </div>
-
+				${diary }
             <div class="home_profile_side">
                 <div class="home_profile_side_wrap">
                     <div class="today_wrap">
                         <div class="today">
-                            <div class="today_num num">230</div>
+                            <div class="today_num num">${homeProfile.m_today}</div>
                             <div>TODAY</div>
                         </div>
                         <!-- 방문자수 가져오기 -->
                         <div class="total">
-                            <div class="total_num num">400</div>
+                            <div class="total_num num">${homeProfile.m_totaltoday}</div>
                             <div>TOTAL</div>
                         </div>
                     </div>
                     <!-- 프로필 정보 가져오기 -->
                     <div class="home_profile_info_wrap">
-                        <div class="home_profile_img"><img src="./resources/images/ng.png" alt=""></div>
+                        <div class="home_profile_img"><img src="./resources/images/${homeProfile.h_pic}" alt=""></div>
                         <div class="home_profile_text">
-                            안녕하세요 너구리입니다.아하하하하하하하하하
-                            솜사탕사탕사탕아아아앙아ㅏ아아아아아ㅏ아ㅏ앙
+                            ${homeProfile.h_msg}
                         </div>
                     </div>
                     <!-- 친구목록, 파도타기 기능 -->
@@ -183,34 +177,34 @@
                     </div>
                     <!-- 프리뷰 가져오기 -->
                     <div class="preview_wrap">
-                        <div class="preview_diary preview">
+                        <a href="/cy/diary?id=${hostId}" class="preview_diary preview">
                             <i class="fa-solid fa-book preview_icon"></i>
                             <div class="preview_content">
-                                <div>11</div>
+                                <div>${previewNum.get(0)}</div>
                                 <div>다이어리</div>
                             </div>
-                        </div>
-                        <div class="preview_gallery preview">
+                        </a>
+                        <a href="/cy/gallery?id=${hostId}" class="preview_gallery preview">
                             <i class="fa-solid fa-image preview_icon"></i>
                             <div class="preview_content">
-                                <div>112</div>
+                                <div>${previewNum.get(1)}</div>
                                 <div>갤러리&nbsp;</div>
                             </div>
-                        </div>
-                        <div class="preview_friends preview">
+                        </a>
+                        <a href="/cy/friends?id=${hostId}" class="preview_friends preview">
                             <i class="fa-solid fa-user-group preview_icon"></i>
                             <div class="preview_content">
-                                <div>55<span>&nbsp;&nbsp;</span></div>
+                                <div>${previewNum.get(2)}<span>&nbsp;&nbsp;</span></div>
                                 <div>일촌<sapn>&nbsp;&nbsp;&nbsp;</sapn></div>
                             </div>
-                        </div>
-                        <div class="preview_visit preview">
+                        </a>
+                        <a href="/cy/visit?id=${hostId}" class="preview_visit preview">
                             <i class="fa-solid fa-pen-nib preview_icon"></i>
                             <div class="preview_content">
-                                <div>121</div>
+                                <div>${previewNum.get(3)}</div>
                                 <div>방명록&nbsp;</div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
 
