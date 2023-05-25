@@ -22,6 +22,7 @@ import com.project.cy.model.dao.DiaryRepository;
 import com.project.cy.model.dto.DiaryCommentDTO;
 import com.project.cy.model.dto.DiaryDTO;
 import com.project.cy.model.service.DiaryService;
+import com.project.cy.util.ArticlePage;
 
 @Controller
 public class DiaryController {
@@ -41,14 +42,19 @@ public class DiaryController {
 	String strToday = sdf.format(c1.getTime());
 
 	@GetMapping("diary")
-	public String diary(Model model, String m_id, HttpSession session) {
+	public String diary(Model model, String m_id, String days, HttpSession session) {
 		try {
 			session.setAttribute("sessionId", "rhkddlf");
 			session.setAttribute("today", strToday);
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("m_id", m_id);
+			map.put("d_date", days);
 
-			list = (ArrayList<DiaryDTO>) service.selectDiary(m_id);
-
-			listC = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment();
+			list = (ArrayList<DiaryDTO>) service.selectDiary(map);
+			listC = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment(map);
+			
+			//페이징?
 
 			model.addAttribute("list", list);
 			model.addAttribute("listC", listC);
@@ -79,13 +85,6 @@ public class DiaryController {
 
 		service.updateComment(dc);
 
-		try {
-			listC = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		model.addAttribute("listC", listC);
 	}
 
 	// 댓글 삭제

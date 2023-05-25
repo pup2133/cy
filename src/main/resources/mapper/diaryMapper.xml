@@ -4,20 +4,18 @@
 
 <mapper namespace="com.project.diaryMapper">
 
-	<select id="selectDiary" resultType="DiaryDTO">
+	<select id="selectDiary" parameterType="hashmap" resultType="DiaryDTO">
 		select d.d_num, d.M_ID, m.M_NICK, TO_CHAR(d.D_DATE, 'YYYYmmdd') as d_date,
 		d.D_TEXT
 		from CY_DIARY d
-		join
-		CY_MEMBER m
+		join CY_MEMBER m
 		on d.M_ID = m.M_ID
-		where d.m_id = #{m_id}
+		where d.m_id = #{m_id} and d.D_DATE = #{d_date}
 	</select>
 
-	<select id="selectDiaryComment" resultType="DiaryCommentDTO">
+	<select id="selectDiaryComment" parameterType="hashmap" resultType="DiaryCommentDTO">
 		select dc.dc_num, d.D_NUM, m.M_id, m.M_NICK, TO_CHAR(dc.DC_TIME, 'YYYY-mm-dd hh24:mm') dc_time,
-		dc.DC_TEXT,
-		h.H_PIC
+		dc.DC_TEXT,	h.H_PIC
 		from CY_DIARY_COMMENT dc
 		join CY_DIARY d
 		on dc.D_NUM = d.D_NUM
@@ -25,6 +23,7 @@
 		on dc.M_ID = m.M_ID
 		join CY_HOME h
 		on dc.M_ID = h.M_ID
+		where d.m_id = #{m_id} and d.D_DATE = #{d_date}
 		order by
 		dc.DC_NUM
 	</select>

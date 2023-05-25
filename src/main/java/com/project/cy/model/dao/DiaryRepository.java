@@ -19,13 +19,13 @@ public class DiaryRepository implements DiaryRepositoryImp{
 	private static String namespace = "com.project.diaryMapper.";
 	
 	@Override
-	public List<DiaryDTO> selectDiary(String m_id) throws Exception {
-		return session.selectList(namespace + "selectDiary", m_id);
+	public List<DiaryDTO> selectDiary(HashMap<String, String> map) throws Exception {
+		return session.selectList(namespace + "selectDiary", map);
 	}
 
 	@Override
-	public List<DiaryCommentDTO> selectDiaryComment() throws Exception {
-		return session.selectList(namespace + "selectDiaryComment");
+	public List<DiaryCommentDTO> selectDiaryComment(HashMap<String, String> map) throws Exception {
+		return session.selectList(namespace + "selectDiaryComment", map);
 	}
 
 	@Override

@@ -21,13 +21,13 @@ public class DiaryService implements DiaryServiceImp{
 	}
 
 	@Override
-	public List<DiaryDTO> selectDiary(String m_id) throws Exception {
-		return dao.selectDiary(m_id);
+	public List<DiaryDTO> selectDiary(HashMap<String, String> map) throws Exception {
+		return dao.selectDiary(map);
 	}
 
 	@Override
-	public List<DiaryCommentDTO> selectDiaryComment() throws Exception {
-		return dao.selectDiaryComment();
+	public List<DiaryCommentDTO> selectDiaryComment(HashMap<String, String> map) throws Exception {
+		return dao.selectDiaryComment(map);
 	}
 
 	@Override

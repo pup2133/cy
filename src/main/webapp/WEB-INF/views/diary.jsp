@@ -14,15 +14,12 @@
 <link rel="stylesheet" href="resources/css/header_nav.css" />
 <link rel="stylesheet" href="resources/css/diary.css" />
 <script type="text/javascript">
-<%ArrayList<DiaryDTO> list;
-	ArrayList<DiaryCommentDTO> listC;%>
+<%ArrayList<DiaryDTO> list = (ArrayList<DiaryDTO>) request.getAttribute("list");
+	ArrayList<DiaryCommentDTO> listC = (ArrayList<DiaryCommentDTO>) request.getAttribute("listC");%>
 
 let hide_d_num;
 	
 function d_text_sel() {
-	<%list = (ArrayList<DiaryDTO>) request.getAttribute("list");
-	listC = (ArrayList<DiaryCommentDTO>) request.getAttribute("listC");
-	%>
 	let wrap = document.getElementById('comment_all');
 	
 	//초기화
