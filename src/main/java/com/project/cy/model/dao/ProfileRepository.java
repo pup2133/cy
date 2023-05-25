@@ -31,4 +31,9 @@ public class ProfileRepository implements ProfileRepositoryImp{
 	public int updateProfile2(Map<String, String> map) {
 		return session.update(namespace + "updateProfile2", map);
 	}
+	
+	@Override
+	public int updateProfile3(Map<String, String> map) {
+		return session.update(namespace + "updateProfile3", map);
+	}
 }

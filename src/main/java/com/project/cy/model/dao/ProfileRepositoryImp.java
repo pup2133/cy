@@ -10,4 +10,6 @@ public interface ProfileRepositoryImp {
 	public int updateProfile1(Map<String, String> map);
 	
 	public int updateProfile2(Map<String, String> map);
+	
+	public int updateProfile3(Map<String, String> map);
 }

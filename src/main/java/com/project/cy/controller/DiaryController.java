@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.project.cy.model.dao.DiaryRepository;
 import com.project.cy.model.dto.DiaryCommentDTO;
 import com.project.cy.model.dto.DiaryDTO;
 import com.project.cy.model.service.DiaryService;
-import com.project.cy.util.ArticlePage;
 
 @Controller
 public class DiaryController {

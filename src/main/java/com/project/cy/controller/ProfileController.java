@@ -50,6 +50,7 @@ public class ProfileController {
 		
 		service.updateProfile1(map);
 		service.updateProfile2(map);
+		service.updateProfile3(map);
 	}
 	
 	@PostMapping("fileSet")

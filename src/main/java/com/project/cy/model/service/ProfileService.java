@@ -32,4 +32,9 @@ public class ProfileService implements ProfileServiceImp{
 	public int updateProfile2(Map<String, String> map) {
 		return dao.updateProfile2(map);
 	}
+	
+	@Override
+	public int updateProfile3(Map<String, String> map) {
+		return dao.updateProfile3(map);
+	}
 }
