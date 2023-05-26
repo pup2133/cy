@@ -76,6 +76,10 @@ section {
   top: 30%;
 }
 
+#up_btn{
+	font-size: 30px;
+}
+
 .pic{
   margin-right: 80px;
   width: 25%;

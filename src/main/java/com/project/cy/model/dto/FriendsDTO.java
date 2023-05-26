@@ -42,6 +42,11 @@ public class FriendsDTO {
 		this.m_nick = m_nick;
 	}
 	
+	public FriendsDTO(String m_id, String m_nick) {
+		super();
+		this.m_id = m_id;
+		this.m_nick = m_nick;
+	}
 	@Override
 	public String toString() {
 		return "friendDTO [f_num=" + f_num + ", h_pic=" + h_pic + ", m_id=" + m_id + ", m_nick=" + m_nick + "]";

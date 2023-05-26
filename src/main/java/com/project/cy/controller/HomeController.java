@@ -7,11 +7,16 @@ import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.service.FriendsService;
@@ -27,9 +32,8 @@ public class HomeController {
 	}
 
 
-	@GetMapping("/home")
+	@GetMapping("home")
 	public String home(Model model, HttpSession session, String id) {
-		session.setAttribute("sessionId", "rhkddlf");
 		session.setAttribute("hostId", id);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -51,5 +55,24 @@ public class HomeController {
 		model.addAttribute("r_id", r_id);
 		
 		return "home";
+	}
+	
+	@RequestMapping(value="searchList", method=RequestMethod.GET, produces="application/text; charset=UTF-8")
+	@ResponseBody
+	public String getSearchList(HttpSession session) {
+		String id = (String) session.getAttribute("hostId");
+		ArrayList<FriendsDTO> list = (ArrayList<FriendsDTO>) friendsService.getSearchList(id);
+		
+		JSONArray jslist = new JSONArray();
+		for(FriendsDTO f : list) {
+			JSONObject data = new JSONObject();
+			
+			data.put("m_id", f.getM_id());
+			data.put("m_nick", f.getM_nick());
+			
+			jslist.put(data);
+		}
+		
+		return jslist.toString();
 	}
 }

@@ -144,7 +144,7 @@
 					<p style="width: 150px">프로필</p>
 					<div>
 						<c:if test="${sessionId == hostId}">
-							<a href="javascript:void(0);" onclick="update_profile()" id="up_btn">수정</a>
+							<a href="javascript:void(0);" onclick="update_profile()" id="up_btn"><i class="fa-solid fa-gear"></i></a>
 						</c:if>
 					</div>
 				</div>

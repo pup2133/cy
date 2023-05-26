@@ -21,7 +21,7 @@ public class DiaryService implements DiaryServiceImp{
 	}
 
 	@Override
-	public List<DiaryDTO> selectDiary(HashMap<String, String> map) throws Exception {
+	public DiaryDTO selectDiary(HashMap<String, String> map) throws Exception {
 		return dao.selectDiary(map);
 	}
 

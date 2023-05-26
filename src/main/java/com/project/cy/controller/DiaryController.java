@@ -32,30 +32,23 @@ public class DiaryController {
 		this.service = service;
 	}
 
-	ArrayList<DiaryDTO> list;
-	ArrayList<DiaryCommentDTO> listC;
-
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-	Calendar c1 = Calendar.getInstance();
-	String strToday = sdf.format(c1.getTime());
-	
-
 	@GetMapping("diary")
 	public String diary(Model model, String id, String days, HttpSession session) {
 		try {
-			session.setAttribute("today", strToday);
 			
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("m_id", id);
 			map.put("d_date", days);
 
-			list = (ArrayList<DiaryDTO>) service.selectDiary(map);
-			listC = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment(map);
+			DiaryDTO diary = (DiaryDTO) service.selectDiary(map);
+			ArrayList<DiaryCommentDTO> listC = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment(map);
+			int cmCnt = listC.size();
 			
 			//페이징?
 
-			model.addAttribute("list", list);
+			model.addAttribute("diary", diary);
 			model.addAttribute("listC", listC);
+			model.addAttribute("cmCnt", cmCnt);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,7 +95,8 @@ public class DiaryController {
 	@PostMapping("diary_reg")
 	public void post_diary_reg(HttpSession session, @RequestParam("d_text") String d_text, HttpServletResponse response) {
 		String m_id = (String) session.getAttribute("sessionId");
-
+		String strToday = (String) session.getAttribute("today");
+		
 		DiaryDTO d = new DiaryDTO(m_id, d_text);
 
 		response.setContentType("text/html; charset=UTF-8");
@@ -122,7 +116,7 @@ public class DiaryController {
 			out.close();
 		}
 System.out.println(strToday);
-		out.write("<script>alert('등록완료!'); location.href='diary?id=rhkddlf&days=" + strToday + "';</script>");
+		out.write("<script>location.href='diary?id=rhkddlf&days=" + strToday + "';</script>");
 		out.flush();
 		out.close();
 	}

@@ -7,7 +7,7 @@ import com.project.cy.model.dto.DiaryCommentDTO;
 import com.project.cy.model.dto.DiaryDTO;
 
 public interface DiaryServiceImp {
-	public List<DiaryDTO> selectDiary(HashMap<String, String> map) throws Exception;
+	public DiaryDTO selectDiary(HashMap<String, String> map) throws Exception;
 
 	public List<DiaryCommentDTO> selectDiaryComment(HashMap<String, String> map) throws Exception;
 	

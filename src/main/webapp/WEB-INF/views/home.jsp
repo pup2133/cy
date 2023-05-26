@@ -5,17 +5,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>홈</title>
     <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./resources/css/header_nav2.css"> 
+    <link rel="stylesheet" href="./resources/css/header_nav.css"> 
     <link rel="stylesheet" href="./resources/css/home.css"> 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
-<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  -->
     
 </head> 
 <script>	
@@ -51,7 +48,29 @@
     	$("#wave_random").click(function name() {
     		location.href = "home?id=${r_id}";
 		});
+    	
+    	//검색 리스트
+    	$.ajax({
+    	      url: "searchList",
+    	      method: "get",
+    	      success: function(list){
+    	    	  $.each(JSON.parse(list), function(key, m){ 
+    	    		    let tmp = "<option value='"+m.m_id+"'>"+m.m_nick+"</option>";
+    	    		    $("#ids").append(tmp);
+    	    		});
+    	      },
+    	      error:function(err){
+    	        console.log(err);
+    	      }    
+    	    });
+    	
+    	//아이디 검색
+    	$("#searchbtn").click(function name() {
+    		let s_id = $("#search_text").val();
+    		location.href = "home?id=" + s_id;
+		})
 	});
+    
 </script>
 <body>
 	<header>
@@ -91,8 +110,10 @@
                 <div class="search">
                     <span><b>아이디검색</b></span>
                     <div class="search_bar">
-                        <input type="text" name="" id="">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="search_text" list="ids" autocomplete="off">
+                        <datalist id="ids">
+                        </datalist>
+                        <i class="fa-solid fa-magnifying-glass" id="searchbtn"></i>
                     </div>
                 </div>
                 <div class="menu">

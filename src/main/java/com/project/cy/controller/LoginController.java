@@ -3,6 +3,7 @@ package com.project.cy.controller;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,58 +37,59 @@ public class LoginController {
 	public String FindIdForm() {
 		return "FindId";
 	}
-	
+
 	@GetMapping("/register")
 	public String registerForm() {
 		return "register";
 	}
-	
+
 	@PostMapping("/login")
-	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw) {
+	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session) {
 
 		Login member = dao.findMember(id);
+		session.setAttribute("sessionId", id);
 
 		if (member == null) {
 			return "login";
 		} else if (member.getM_id().equals(id) && member.getM_pw().equals(pw)) {
 			System.out.println("로그인 성공");
-			return "redirect:/login";
+			return "redirect:/home?id=" + id;
 		} else {
 			System.out.println("로그인실패");
-			return "home";
+			return "login";
 
 		}
 	}
-	
+
 	@PostMapping("register")
 	public String register(Login dto) {
-		Login member = new Login(dto.getM_id(),dto.getM_pw(),dto.getM_name(),dto.getM_nick(),dto.getM_birth(),dto.getM_email(),dto.getM_tel());
+		Login member = new Login(dto.getM_id(), dto.getM_pw(), dto.getM_name(), dto.getM_nick(), dto.getM_birth(), dto.getM_email(), dto.getM_tel());
 		dao.register(member);
 		System.out.println(member);
 		return "redirect:/login";
-		
+
 	}
-	
+
 	@PostMapping("dup")
 	@ResponseBody
 	public Boolean duplication(String m_id) {
 		System.out.println(m_id);
 		String result = dao.duplication(m_id);
-		
-		if(result == null) {
+
+		if (result == null) {
 			return true;
 		} else {
 			return false;
 		}
-	
+
 	}
-	
+
 	@PostMapping("/FindId")
 	public String FindId() {
 		System.out.println("findid 테스트");
 		return "redirect:/FindId";
 	}
-	
+
 	@PostMapping("/FindPw")
 	public String FindPw() {
 		System.out.println("findpw 테스트");

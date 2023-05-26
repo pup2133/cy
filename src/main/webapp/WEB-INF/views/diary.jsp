@@ -1,7 +1,4 @@
 <%@page import="javax.swing.text.Document"%>
-<%@page import="com.project.cy.model.dto.DiaryCommentDTO"%>
-<%@page import="com.project.cy.model.dto.DiaryDTO"%>
-<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -14,125 +11,11 @@
 <link rel="stylesheet" href="resources/css/header_nav.css" />
 <link rel="stylesheet" href="resources/css/diary.css" />
 <script type="text/javascript">
-<%ArrayList<DiaryDTO> list = (ArrayList<DiaryDTO>) request.getAttribute("list");
-	ArrayList<DiaryCommentDTO> listC = (ArrayList<DiaryCommentDTO>) request.getAttribute("listC");%>
+let days = "${param.days}";;
 
-let hide_d_num;
-	
-function d_text_sel() {
-	let wrap = document.getElementById('comment_all');
-	
-	//초기화
-	$("textarea[name=d_text]").text("");
-	wrap.innerHTML="";
-	$("h4").text("댓글(0)");
-	
-	<%
-
-for (DiaryDTO d : list) {%>
-		if(days_str == <%=d.getD_date()%>){
-			$("textarea[name=d_text]").text("<%=d.getD_text()%>");
-			
-			document.getElementById("d_num").value = <%=d.getD_num()%>;
-			document.getElementById("d_num2").value = <%=d.getD_num()%>;
-			hide_d_num = <%=d.getD_num()%>;
-			document.getElementById("d_date").value = <%=d.getD_date()%>;
-			
-			<%int cnt=0;
-			for (DiaryCommentDTO dc : listC) {%>
-	<%if (d.getD_num().equals(dc.getD_num())) {
-	System.out.println(dc.getDc_text());
-	String dc_id = dc.getM_id();
-	request.setAttribute("dc_id", dc_id);
-	%>	
-	temp='<div class="comment_list">';
-	temp+='<div class="com_profile" style="background-image: url(<%=dc.getH_pic()%>)"></div>';
-	temp+='<div class="com_text">';
-	temp+='<div class="com_nick_up_del">';
-	temp+='<div class="com_nick">';
-	temp+='<b><%=dc.getM_nick()%></b>';
-	temp+='<span><%=dc.getDc_time()%></span>';
-	temp+='</div>';
-	temp+='<div class="com_up_del" id="com_up_del<%=dc.getDc_num()%>">';
-	temp+='<c:if test="${dc_id == sessionScope.sessionId}">';
-	temp+='<a href="javascript:void(0);" class="com_under" onclick="update_comment(this, <%=dc.getDc_num()%>)">수정</a> | ';
-	temp+='<a href="javascript:void(0);" class="com_under" onclick="delete_comment(this, <%=dc.getDc_num()%>)">삭제</a>';
-	temp+='</c:if>';
-	temp+='</div>';
-	temp+='</div>';
-	temp+='<textarea name="" id="" class="comment_" maxlength="100" onkeydown="resize(this)" onkeyup="resize(this)" readonly><%=dc.getDc_text()%></textarea>';
-	temp+='</div>';
-	wrap.innerHTML+=temp;
-<%cnt++;
-}
-}%>
-$("h4").text("댓글(<%=cnt%>)");
-		}
-<%}%>
-	}
-	
-	
-	
-//댓글 삭제
-function delete_comment(obj, dc_num) {
-  let tf = confirm("댓글을 삭제하시겠습니까??");
-  let com = obj.parentElement.parentElement.parentElement.parentElement;
-  
-  if (tf) {
-    $.ajax({
-      url: "diary/commentDelete",
-      method: "POST",
-      data: {
-        dc_num: dc_num,
-      },
-      success: function(data){
-      },
-      error:function(err){
-        console.log(err);
-      }    
-    });
-  }
-  
-  com.remove();
-}
-
-// 다이어리 삭제
-function delete_text() {
-  let tf = confirm("다이어리를 삭제하시겠습니까??");
-  let d_num = document.getElementById("d_num").value;
-  
-  if (tf) {
-    $.ajax({
-      url: "diary/textDelete",
-      method: "POST",
-      data: {
-        d_num: d_num,
-      },
-      success: function(){
-      },
-      error:function(err){
-        console.log(err);
-      }    
-    });
-    comwrap = document.getElementById("hide_com").style.display = 'none';
-	  $("textarea[name=d_text]").text("");
-	  document.getElementById('comment_all').innerHTML="";
-	  $("h4").text("댓글(0)");
-  }
-}
-
-let days;
-let days_str;
-function c_day() {
-	days = document.getElementById("<%=request.getParameter("days")%>");
-	days_str = "<%=request.getParameter("days")%>";
-	}
-	
-c_day();
-
-let choiceYear2 = days_str.substr(0, 4);
-  let choiceMonth2 = days_str.substring(4, 6);
-  let choiceDay2 = days_str.substring(6, 8);
+  let choiceYear2 = days.substr(0, 4);
+  let choiceMonth2 = days.substring(4, 6);
+  let choiceDay2 = days.substring(6, 8);
   
 window.onload = function () {
   buildCalendar();
@@ -145,18 +28,15 @@ window.onload = function () {
     resize(coms[i]);
   }
   
-  let d_id = document.getElementById(days_str);
+  let d_id = document.getElementById(days);
   //오늘 날짜 출력
-  d_text_sel();
   choiceDate(d_id);
   
   change_diarydate(choiceYear2, choiceMonth2, choiceDay2);
   
-  let comwrap = document.getElementById("hide_com");
-  	
-  if(hide_d_num == undefined){
-  	comwrap.style.display = 'none';
-  }
+  if($("#d_num").val() == "")
+	  $("#hide_com").css("display", "none");
+	  
 };
 
 
@@ -393,6 +273,29 @@ function change_diarydate(y, m, d) {
 }
 
 
+//댓글 삭제
+function delete_comment(obj, dc_num) {
+  let tf = confirm("댓글을 삭제하시겠습니까??");
+  let com = obj.parentElement.parentElement.parentElement.parentElement;
+  
+  if (tf) {
+    $.ajax({
+      url: "diary/commentDelete",
+      method: "POST",
+      data: {
+        dc_num: dc_num,
+      },
+      success: function(data){
+      },
+      error:function(err){
+        console.log(err);
+      }    
+    });
+  }
+  
+  com.remove();
+}
+
 //다이어리 수정 readonly 풀기
 let updateText = 0;
 function update_Text() {
@@ -422,6 +325,31 @@ function update_Text() {
     
     updateText = 0;
     }
+}
+
+// 다이어리 삭제
+function delete_text() {
+  let tf = confirm("다이어리를 삭제하시겠습니까??");
+  let d_num = document.getElementById("d_num").value;
+  
+  if (tf) {
+    $.ajax({
+      url: "diary/textDelete",
+      method: "POST",
+      data: {
+        d_num: d_num,
+      },
+      success: function(){
+      },
+      error:function(err){
+        console.log(err);
+      }    
+    });
+      $("#hide_com").css("display", "none");
+	  $("textarea[name=d_text]").text("");
+	  document.getElementById('comment_all').innerHTML="";
+	  $("h4").text("댓글(0)");
+  }
 }
 </script>
 </head>
@@ -459,12 +387,24 @@ function update_Text() {
 					</div>
 				</div>
 				<div class="menu">
-					<a href="home?id=${hostId}"><div class="menu_box">홈</div></a>
-                    <a href="profile?id=${hostId}"><div class="menu_box">프로필</div></a>
-                    <a href=""><div class="menu_box">주크박스</div></a>
-                    <a href="diary?id=${hostId}&days=${today}"><div class="menu_box">다이어리</div></a>
-                    <a href=""><div>갤러리</div></a>
-                    <a href=""><div>방명록</div></a>
+					<a href="home?id=${hostId}">
+						<div class="menu_box">홈</div>
+					</a>
+					<a href="profile?id=${hostId}">
+						<div class="menu_box">프로필</div>
+					</a>
+					<a href="">
+						<div class="menu_box">주크박스</div>
+					</a>
+					<a href="diary?id=${hostId}&days=${today}">
+						<div class="menu_box">다이어리</div>
+					</a>
+					<a href="">
+						<div>갤러리</div>
+					</a>
+					<a href="">
+						<div>방명록</div>
+					</a>
 				</div>
 			</div>
 		</nav>
@@ -475,8 +415,8 @@ function update_Text() {
 			<div class="diary_cal">
 				<div class="diary">
 					<h1 id="diary_date"></h1>
-					<textarea name="d_text" id="d_text" class="diary_text" readonly></textarea>
-					<input type="hidden" name="d_num" id="d_num">
+					<textarea name="d_text" id="d_text" class="diary_text" readonly>${diary.d_text}</textarea>
+					<input type="hidden" name="d_num" id="d_num" value="${diary.d_num}">
 					<div class="text_up_del">
 						<c:if test="${sessionId == hostId}">
 							<a href="javascript:void(0);" onclick="update_Text()">수정</a> | 
@@ -485,13 +425,34 @@ function update_Text() {
 					</div>
 
 					<div class="comment_wrap" id="comment_wrap">
-						<h4 id="com_cnt">댓글(count)</h4>
+						<h4 id="com_cnt">댓글(${cmCnt})</h4>
 						<form class="comment" method="post" name="frm" action="diary/commentReg" id="hide_com">
-							<input type="hidden" name="d_num" id="d_num2"> <input type="hidden" name="d_date" id="d_date">
-							<textarea name="dc_text" id="dc_text" class="coment_text"></textarea>
+							<input type="hidden" name="d_num" id="d_num2" value="${diary.d_num}"> 
+							<input type="hidden" name="d_date" id="d_date" value="${diary.d_date}">
+							<textarea name="dc_text" id="dc_text" class="coment_text" maxlength="100"></textarea>
 							<input type="submit" value="등록" id="com_sub" />
 						</form>
-						<div id="comment_all"></div>
+						<div id="comment_all">
+							<c:forEach var="cm" items="${listC}">
+								<div class="comment_list">
+									<div class="com_profile" style="background-image: url(resources/file/profile/${cm.h_pic})"></div>
+									<div class="com_text">
+										<div class="com_nick_up_del">
+											<div class="com_nick">
+												<b>${cm.m_nick}</b> <span>${cm.dc_time}</span>
+											</div>
+											<div class="com_up_del" id="com_up_del${cm.dc_num}">
+												<c:if test="${sessionId == cm.m_id}">
+													<a href="javascript:void(0);" class="com_under" onclick="update_comment(this, ${cm.dc_num})">수정</a> | 
+													<a href="javascript:void(0);" class="com_under" onclick="delete_comment(this, ${cm.dc_num})">삭제</a>
+												</c:if>
+											</div>
+										</div>
+										<textarea class="comment_" maxlength="100" onkeydown="resize(this)" onkeyup="resize(this)" readonly>${cm.dc_text}</textarea>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
 					</div>
 				</div>
 

@@ -19,8 +19,8 @@ public class DiaryRepository implements DiaryRepositoryImp{
 	private static String namespace = "com.project.diaryMapper.";
 	
 	@Override
-	public List<DiaryDTO> selectDiary(HashMap<String, String> map) throws Exception {
-		return session.selectList(namespace + "selectDiary", map);
+	public DiaryDTO selectDiary(HashMap<String, String> map) throws Exception {
+		return session.selectOne(namespace + "selectDiary", map);
 	}
 
 	@Override
