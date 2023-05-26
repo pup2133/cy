@@ -38,16 +38,15 @@ public class DiaryController {
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 	Calendar c1 = Calendar.getInstance();
 	String strToday = sdf.format(c1.getTime());
+	
 
 	@GetMapping("diary")
-	public String diary(Model model, String m_id, String days, HttpSession session) {
+	public String diary(Model model, String id, String days, HttpSession session) {
 		try {
-			session.setAttribute("sessionId", "rhkddlf");
-			session.setAttribute("hostId", "rhkddlf");
 			session.setAttribute("today", strToday);
 			
 			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("m_id", m_id);
+			map.put("m_id", id);
 			map.put("d_date", days);
 
 			list = (ArrayList<DiaryDTO>) service.selectDiary(map);
@@ -73,12 +72,12 @@ public class DiaryController {
 
 			service.insertDiaryComment(dc);
 
-			return "redirect:/diary?m_id=rhkddlf&days=" + d_date;
+			return "redirect:/diary?id=rhkddlf&days=" + d_date;
 		}
 
 	// 댓글 수정
 	@PostMapping("diary/commentUpdate")
-	public void commentUpdate(@RequestParam("dc_num") String dc_num, @RequestParam("dc_text") String dc_text, Model model, String m_id) {
+	public void commentUpdate(@RequestParam("dc_num") String dc_num, @RequestParam("dc_text") String dc_text, Model model, String id) {
 
 		DiaryCommentDTO dc = new DiaryCommentDTO(dc_num, dc_text);
 
@@ -88,7 +87,7 @@ public class DiaryController {
 
 	// 댓글 삭제
 	@PostMapping("diary/commentDelete")
-	public void commentDelete(Model model, @RequestParam("dc_num") String dc_num, String m_id) {
+	public void commentDelete(Model model, @RequestParam("dc_num") String dc_num, String id) {
 
 		service.deleteComment(dc_num);
 	}
@@ -118,12 +117,12 @@ public class DiaryController {
 		try {
 			service.insertDiary(d);
 		} catch (Exception e) {
-			out.write("<script>alert('이미 등록되어 있습니다.'); location.href='diary?m_id=rhkddlf&days=" + strToday + "';</script>");
+			out.write("<script>alert('이미 등록되어 있습니다.'); location.href='diary?id=rhkddlf&days=" + strToday + "';</script>");
 			out.flush();
 			out.close();
 		}
 System.out.println(strToday);
-		out.write("<script>alert('등록완료!'); location.href='diary?m_id=rhkddlf&days=" + strToday + "';</script>");
+		out.write("<script>alert('등록완료!'); location.href='diary?id=rhkddlf&days=" + strToday + "';</script>");
 		out.flush();
 		out.close();
 	}
@@ -131,7 +130,7 @@ System.out.println(strToday);
 
 	// 다이어리 수정
 	@PostMapping("diary/textUpdate")
-	public void textUpdate(@RequestParam("d_num") String d_num, @RequestParam("d_text") String d_text, String m_id) {
+	public void textUpdate(@RequestParam("d_num") String d_num, @RequestParam("d_text") String d_text, String id) {
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("d_num", d_num);

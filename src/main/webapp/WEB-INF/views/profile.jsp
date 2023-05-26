@@ -128,24 +128,12 @@
 					</div>
 				</div>
 				<div class="menu">
-					<a href="">
-						<div class="menu_box">홈</div>
-					</a>
-					<a href="">
-						<div class="menu_box">프로필</div>
-					</a>
-					<a href="">
-						<div class="menu_box">주크박스</div>
-					</a>
-					<a href="">
-						<div class="menu_box">다이어리</div>
-					</a>
-					<a href="">
-						<div>갤러리</div>
-					</a>
-					<a href="">
-						<div>방명록</div>
-					</a>
+					<a href="home?id=${hostId}"><div class="menu_box">홈</div></a>
+                    <a href="profile?id=${hostId}"><div class="menu_box">프로필</div></a>
+                    <a href=""><div class="menu_box">주크박스</div></a>
+                    <a href="diary?id=${hostId}&days=${today}"><div class="menu_box">다이어리</div></a>
+                    <a href=""><div>갤러리</div></a>
+                    <a href=""><div>방명록</div></a>
 				</div>
 			</div>
 		</nav>
@@ -155,7 +143,7 @@
 				<div class="section_title">
 					<p style="width: 150px">프로필</p>
 					<div>
-						<c:if test="${sessionId == param.m_id}">
+						<c:if test="${sessionId == hostId}">
 							<a href="javascript:void(0);" onclick="update_profile()" id="up_btn">수정</a>
 						</c:if>
 					</div>

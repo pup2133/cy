@@ -35,10 +35,9 @@ public class ProfileController {
 	ProfileDTO profile;
 
 	@GetMapping("profile")
-	public String getProfile(Model model, String m_id, HttpSession session) throws Exception {
-		session.setAttribute("sessionId", "gnsdl");
+	public String getProfile(Model model, String id, HttpSession session) throws Exception {
 		
-		profile = (ProfileDTO) service.selectProfile(m_id);
+		profile = (ProfileDTO) service.selectProfile(id);
 		
 		model.addAttribute("profile", profile);
 		
