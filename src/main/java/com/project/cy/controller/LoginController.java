@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.project.cy.model.dao.LoginRepository;
-import com.project.cy.model.dto.Login;
+import com.project.cy.model.dto.LoginDTO;
 
 @Controller
 public class LoginController {
@@ -49,13 +49,15 @@ public class LoginController {
 	@PostMapping("/login")
 	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw,HttpSession session) {
 
-		Login member = dao.findMember(id);
+		LoginDTO member = dao.findMember(id);
 
 		if (member == null) {
 			return "login";
 		} else if (member.getM_id().equals(id) && member.getM_pw().equals(pw)) {
 			System.out.println("로그인 성공");
 			session.setAttribute("sessionId", id);
+			
+			//세션 아이디 확인용
 			String asd = (String)session.getAttribute("sessionId");
 			System.out.println(asd);
 			return "redirect:/login";
@@ -68,8 +70,8 @@ public class LoginController {
 	
 	//회원가입
 	@PostMapping("register")
-	public String register(Login dto) {
-		Login member = new Login(dto.getM_id(),dto.getM_pw(),dto.getM_name(),dto.getM_nick(),dto.getM_birth(),dto.getM_email(),dto.getM_tel());
+	public String register(LoginDTO dto) {
+		LoginDTO member = new LoginDTO(dto.getM_id(),dto.getM_pw(),dto.getM_name(),dto.getM_nick(),dto.getM_birth(),dto.getM_email(),dto.getM_tel());
 		dao.register(member);
 		System.out.println(member);
 		return "redirect:/login";

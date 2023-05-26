@@ -1,6 +1,6 @@
 package com.project.cy.model.dto;
 
-public class Login {
+public class LoginDTO {
 	
 	private String m_id;
 	private String m_pw;
@@ -10,14 +10,14 @@ public class Login {
 	private String m_email;
 	private String m_tel;
 	
-	public Login() {
+	public LoginDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 	
 
-	public Login(String m_id) {
+	public LoginDTO(String m_id) {
 		super();
 		this.m_id = m_id;
 	}
@@ -82,7 +82,7 @@ public class Login {
 	
 	
 
-	public Login(String m_id, String m_pw, String m_name, String m_nick, String m_birth, String m_email, String m_tel) {
+	public LoginDTO(String m_id, String m_pw, String m_name, String m_nick, String m_birth, String m_email, String m_tel) {
 		super();
 		this.m_id = m_id;
 		this.m_pw = m_pw;

@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.project.cy.model.dto.Login;
+import com.project.cy.model.dto.LoginDTO;
 
 @Repository
 public class LoginRepository {
@@ -17,13 +17,13 @@ public class LoginRepository {
 	private static String namespace = "com.project.cy.LoginMapper.";
 	
 	// 로그인
-	public Login findMember(String id) {
+	public LoginDTO findMember(String id) {
 		System.out.println(id);
 		return session.selectOne(namespace + "login",id);
 	}
 	
 	// 회원가입
-	public int register(Login member){
+	public int register(LoginDTO member){
 		return session.insert(namespace+"register",member);
 	}
 	

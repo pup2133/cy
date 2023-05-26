@@ -18,7 +18,8 @@
 		<typeAlias alias="DiaryCommentDTO" type="com.project.cy.model.dto.DiaryCommentDTO" />
 		<typeAlias alias="ProfileDTO" type="com.project.cy.model.dto.ProfileDTO" />
 
-		<typeAlias alias="Login" type="com.project.cy.model.dto.Login"/>
+		<typeAlias alias="Login" type="com.project.cy.model.dto.LoginDTO"/>
+		<typeAlias alias="HomeSetting" type="com.project.cy.model.dto.HomeSettingDTO"/>
 		
 	</typeAliases>
 </configuration>
