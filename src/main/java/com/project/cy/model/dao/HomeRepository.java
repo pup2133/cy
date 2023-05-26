@@ -37,4 +37,7 @@ public class HomeRepository {
     public List<Object> getPreview (String m_id) {
     	return session.selectList(namespace+"getPreview",m_id);
     }
+    public HashMap getBanner (String m_id) {
+    	return session.selectOne(namespace+"getBanner",m_id);
+    }
 }

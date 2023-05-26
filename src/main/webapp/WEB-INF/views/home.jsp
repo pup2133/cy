@@ -2,6 +2,8 @@
 <%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ page import=" java.util.HashMap" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,18 +23,46 @@
 </head> 
 <script>	
 	//헤더기능
+	//드롭다운
 	$(document).ready(function() {
 	    $('.header_info').click(function() {
 	        $('.dropdown').slideToggle(200);
 	    });
 
 	});
-	
+	//유효성 (필요하면 사용)
 	$(document).ready(function(){
 		const host = $('#hostId').val();
 		const session = $('#sessionId').val();
 	})
+	
+	//네비게이션 기능
+	//배너공개비공개
+	$(document).ready(function() {
+	  $(".menu_box").click(function(event) {
+	    event.preventDefault(); // 기본 이벤트(페이지 이동) 막기
+	    let value = $(this).prev("input").val(); // menu_box 앞에 있는 input 요소의 값을 가져옴
+	    if($('#hostId').val()===$('#sessionId').val()){
+	    	let href = $(this).parent("a").attr("href"); // a 태그의 href 속성 값 가져옴
+		    window.location.href = href; // 페이지 이동
+	    }else if(value === "1") {
+	      // 이동할 필요 없는 경우에 수행할 동작
+	      // 예: 경고창 띄우기 또는 다른 작업 수행
+	    	Swal.fire({
+                icon: 'warning',
+                title: '비공개',
+                text: '비공개 페이지입니다',
+            });
+	    } else {
+	      // 이동해야 할 경우에 수행할 동작
+	      // 예: 페이지 이동
+	      let href = $(this).parent("a").attr("href"); // a 태그의 href 속성 값 가져옴
+	      window.location.href = href; // 페이지 이동
+	    }
+	  });
+	});
 
+	//홈 메인 기능
     //말줄임표 기능
     $(document).ready(function() {
         let  maxLength = 20; // 최대 글자 수
@@ -90,13 +120,14 @@
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
                 </div>
-                <div class="menu">
-                    <a href=""><div class="menu_box">홈</div></a>
-                    <a href=""><div class="menu_box">프로필</div></a>
-                    <a href=""><div class="menu_box">주크박스</div></a>
-                    <a href=""><div class="menu_box">다이어리</div></a>
-                    <a href=""><div>갤러리</div></a>
-                    <a href=""><div>방명록</div></a>
+
+                <div class="menu"> 
+                    <a href="/cy/myhome?id=${hostId }"><input type="text" value="0" class="hidden"><div class="menu_box">홈</div></a>
+                    <a href="/cy/profile?id=${hostId }"><input type="text" value="${banner.B_HIDE_PROFILE}" class="hidden"><div class="menu_box">프로필</div></a>
+                    <a href="/cy/myjuke?id=${hostId }"><input type="text" value="${banner.B_HIDE_MUSIC }" class="hidden"><div class="menu_box">주크박스</div></a>
+                    <a href="/cy/diary?id=${hostId }"><input type="text" value="${banner.B_HIDE_DIARY }" class="hidden"><div class="menu_box">다이어리</div></a>
+                    <a href="/cy/gallery?id=${hostId }"><input type="text" value="${banner.B_HIDE_GALLERY }" class="hidden"><div class="menu_box">갤러리</div></a>
+                    <a href="/cy/visit?id=${hostId }"><input type="text" value="0" class="hidden"><div class="menu_box">방명록</div></a>
                 </div>
             </div>
         </nav>

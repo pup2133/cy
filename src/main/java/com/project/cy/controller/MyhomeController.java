@@ -31,14 +31,18 @@ public class MyhomeController {
 		
 		//호스트 아이디 검사
 		String hostId = homedao.getMemberId(id);
+		
 		if(hostId!=null) {
 			try {
 				//아이디정보
+				
 				model.addAttribute("hostId",hostId);
 				model.addAttribute("sessionId",sessionId);
 				//헤더, 프로필
 				model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
 				model.addAttribute("previewNum", homedao.getPreview(hostId));
+				model.addAttribute("banner",homedao.getBanner(hostId));
+				System.out.println(homedao.getBanner(hostId));
 				//메인
 				model.addAttribute("diaryList",diarydao.selectDiary(hostId));
 				model.addAttribute("visitList",homedao.getHomeVisit(hostId));
@@ -48,6 +52,8 @@ public class MyhomeController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}else {
+			return "error";
 		}
 		
 		return "home";
