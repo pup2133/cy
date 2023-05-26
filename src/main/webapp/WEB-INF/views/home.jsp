@@ -25,11 +25,14 @@
 	//헤더기능
 	//드롭다운
 	$(document).ready(function() {
-	    $('.header_info').click(function() {
-	        $('.dropdown').slideToggle(200);
-	    });
+        $('.profile_drop').click(function() {
+            $('.dropdown_profile').slideToggle(200);
+        });
 
-	});
+        $('.fa-bell').click(function() {
+            $('.dropdown_friends').slideToggle(200);
+        });
+    });;
 	//유효성 (필요하면 사용)
 	$(document).ready(function(){
 		const host = $('#hostId').val();
@@ -85,16 +88,22 @@
         </div>
         <div class="header_info">
             <i class="fa-regular fa-bell"></i>
+            <div class="dropdown_friends dropdown">
+                <!-- 이동경로 입력 -->
+                <c:forEach var="item" items="${recieveFriends}">
+	                <a href="#"><div class="dropdown-item"></i>${item.m_name}님 으로부터의 일촌신청</div></a>
+                </c:forEach>
+            </div>
             <img class="header_profile" src="./resources/images/${homeProfile.h_pic}" alt="">
             <div class="profile_drop">
                 <span>${homeProfile.m_nick}</span>
                 <i class="fa-sharp fa-solid fa-chevron-down"></i>
             </div>
-            <div class="dropdown">
+            <div class="dropdown_profile dropdown">
                 <!-- 이동경로 입력 -->
-                <a href="#"><div class="dropdown-item"><i class="fa-solid fa-gear"></i>&nbsp&nbsp회원설정</div></a>
-                <a href="#"><div class="dropdown-item"><i class="fa-solid fa-house-lock"></i>공개설정</div></a>
-                <a href="#"><div class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i>&nbsp&nbsp로그아웃</div></a>
+                <a href="#"><div class="dropdown-item"><i class="fa-solid fa-gear"></i>&nbsp회원설정</div></a>
+                <a href="#"><div class="dropdown-item"><i class="fa-solid fa-house-lock"></i>&nbsp공개설정</div></a>
+                <a href="#"><div class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i>&nbsp로그아웃</div></a>
             </div>
         </div>
     </header>
@@ -205,6 +214,9 @@
                     <!-- 친구목록, 파도타기 기능 -->
                     <div class="wave_wrap">
                         <div>파도타기 드롭박스 들어감</div>
+                    </div>
+                    <div>
+                        <button class="send_friend">일촌신청하기</button>
                     </div>
                     <!-- 프리뷰 가져오기 -->
                     <div class="preview_wrap">

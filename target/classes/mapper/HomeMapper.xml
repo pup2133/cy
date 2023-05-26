@@ -51,5 +51,17 @@
 		select b_hide_profile, b_hide_music, b_hide_diary, b_hide_gallery from cy_banner where m_id=#{m_id}
 	</select>
 	
+	<select id="getRecieveFriends" resultType="Friends">
+		select f.f_num, h.h_pic, m.m_id, m.m_nick ,m.m_name, f.recieve_id, f.send_id
+		from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		join cy_friends f
+		on f.send_id = m.m_id
+		where f.recieve_id=#{m_id} and f.accept=0
+	</select>
+	
+
+	
     
 </mapper>

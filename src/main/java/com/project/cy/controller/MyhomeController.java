@@ -42,7 +42,7 @@ public class MyhomeController {
 				model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
 				model.addAttribute("previewNum", homedao.getPreview(hostId));
 				model.addAttribute("banner",homedao.getBanner(hostId));
-				System.out.println(homedao.getBanner(hostId));
+				model.addAttribute("recieveFriends",homedao.getRecieveFriends(hostId));
 				//메인
 				model.addAttribute("diaryList",diarydao.selectDiary(hostId));
 				model.addAttribute("visitList",homedao.getHomeVisit(hostId));

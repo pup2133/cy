@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.model.dto.HomeProfileDTO;
 import com.project.cy.model.dto.gallery;
 import com.project.cy.model.dto.visit;
@@ -17,6 +18,7 @@ public class HomeRepository {
 	@Autowired
     private SqlSession session;
     private static String namespace = "com.project.cy.HomeMapper.";
+   
 
     public String getMemberId(String id) {
     	return session.selectOne(namespace+"getMemberId",id);
@@ -39,5 +41,8 @@ public class HomeRepository {
     }
     public HashMap getBanner (String m_id) {
     	return session.selectOne(namespace+"getBanner",m_id);
+    }
+    public List<FriendsDTO> getRecieveFriends (String m_id){
+    	return session.selectList(namespace+"getRecieveFriends",m_id);
     }
 }
