@@ -1,10 +1,10 @@
 package com.project.cy.controller;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -14,12 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.cy.model.dto.gallery;
 import com.project.cy.model.service.galleryService;
 import com.project.cy.util.fileUpload;
+import com.project.cy.util.pagination;
 
 @Controller
 public class GalleryController {
@@ -35,12 +37,22 @@ public class GalleryController {
 	}
 	
 	@GetMapping("gallery")
-	public String gallery(Model model, HttpSession session, String hostId) {
+	public String gallery(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session, String hostId) {
 		String sessionId = (String)session.getAttribute("sessionId");
-		List<gallery> list = service.getGalleryList(hostId, sessionId);		
+		
+		int totalCount = service.getTotalCount(hostId, sessionId);
+		pagination p = new pagination();
+		Map<String, Integer> pagination = p.galleryPagination(totalCount, page);
+		
+		List<gallery> list = service.getGalleryList(hostId, sessionId, pagination.get("startItem"), pagination.get("itemsPerPage"));		
 		model.addAttribute("list", list);
 		model.addAttribute("sessionId", sessionId);
 		model.addAttribute("hostId", hostId);
+		model.addAttribute("totalPages", pagination.get("totalPages"));
+		model.addAttribute("currentPage", page);
+		model.addAttribute("startPage", pagination.get("startPage"));
+		model.addAttribute("endPage", pagination.get("endPage"));
+		
 		return "gallery";
 	}
 	
@@ -65,6 +77,7 @@ public class GalleryController {
 
 	@PostMapping("gallery/edit")
 	public String galleryEdit(MultipartFile file, gallery gallery, HttpSession session) {
+		
 		String sessionId = (String) session.getAttribute("sessionId");
 		String realPath = servletContext.getRealPath("/resources/file");
 		fileUpload upload = new fileUpload();
@@ -149,4 +162,5 @@ public class GalleryController {
 		file.delete(realPath, fileName);
 		return service.deleteGallery(g_num);
 	}
+
 }

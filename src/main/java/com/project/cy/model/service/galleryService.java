@@ -25,13 +25,13 @@ public class galleryService implements galleryServiceImp {
 	}
 	
 	@Override
-	public List<gallery> getGalleryList(String hostId, String sessionId) {
+	public List<gallery> getGalleryList(String hostId, String sessionId, int startItem, int itemsPerPage) {
 		isHostOrGuest ihog = new isHostOrGuest();
 		String m_id = ihog.determineRole(hostId, sessionId);
 		if(m_id.equals(sessionId)) {
-			return dao.getGalleryList(m_id);
+			return dao.getGalleryList(m_id, startItem, itemsPerPage);
 		}else {
-			return dao.getGallerySecretList(m_id);
+			return dao.getGallerySecretList(m_id, startItem, itemsPerPage);
 		}
 	}
 	
@@ -107,5 +107,13 @@ public class galleryService implements galleryServiceImp {
 	public int editGallery(gallery g) {
 		return dao.editGallery(g);
 	}
-	
+
+	@Override
+	public int getTotalCount(String m_id, String sessionId) {
+		if(m_id.equals(sessionId)) {
+			return dao.getTotalCount(m_id);
+		}else {
+			return dao.getSecretTotalCount(m_id);
+		}
+	}
 }

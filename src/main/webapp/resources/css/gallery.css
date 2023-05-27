@@ -240,10 +240,108 @@ section{
     right: 48px;
 }
 
-.comment_text :nth-child(1){
-	width: 75%;
-}
-
 .comment_good{
 	margin-left:5px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin-bottom:40px;
+  margin-top:10px;
+}
+
+.pagination li {
+  margin: 0px;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.pagination a:hover {
+  background-color: #eee;
+}
+
+.pagination .active a {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.editGallery{
+	border:0;
+	background-color:white;
+	font-size:16px;
+}
+
+.deleteGallery{
+	border:0;
+	background-color:white;
+	font-size:16px;
+
+}
+
+.edit_comment{
+	border:0;
+	background-color:white;
+	font-size:16px;
+}
+
+.edit_comment2{
+	border:0;
+	background-color:white;
+	font-size:16px;
+}
+
+.delete_comment{
+	margin-top:-2px;
+	border:0;
+	background-color:white;
+	font-size:16px;
+}
+
+
+button:hover{
+	cursor: pointer;
+}
+
+.edit{
+  outline: none;
+  resize: none;
+  width: 100%;
+  border:0;
+  height:50px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.gc_text{
+	font-size:16px;
+}
+
+.spanDiv{
+	word-break: break-all;
+	width:75%;
+}
+
+.cgc{
+	display:flex;
+	align-items: flex-end;
+}
+
+.fa-lock{
+	margin-left:4px;
+	font-size:24px;
+}
+
+a{
+	text-decoration: none;
+	color:black;	
 }

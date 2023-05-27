@@ -23,13 +23,21 @@ public class galleryRepository implements galleryRepositoryImp {
 	}
 	
 	@Override
-	public List<gallery> getGalleryList(String m_id) {
-		return session.selectList(namespace+"getGalleryList", m_id);
+	public List<gallery> getGalleryList(String m_id, int startItem, int itemsPerPage) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("m_id", m_id);
+		params.put("startItem", startItem);
+		params.put("itemsPerPage", itemsPerPage);
+		return session.selectList(namespace+"getGalleryList", params);
 	}
 	
 	@Override
-	public List<gallery> getGallerySecretList(String m_id) {
-		return session.selectList(namespace+"getGallerySecretList",m_id);
+	public List<gallery> getGallerySecretList(String m_id, int startItem, int itemsPerPage) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("m_id", m_id);
+		params.put("startItem", startItem);
+		params.put("itemsPerPage", itemsPerPage);
+		return session.selectList(namespace+"getGallerySecretList", params);
 	}
 	
 	@Override
@@ -133,6 +141,16 @@ public class galleryRepository implements galleryRepositoryImp {
 	@Override
 	public int editGallery(gallery g) {
 		return session.update(namespace+"editGallery",g);
+	}
+	
+	@Override
+	public int getTotalCount(String m_id) {
+		return session.selectOne(namespace+"getTotalCount",m_id);
+	}
+	
+	@Override
+	public int getSecretTotalCount(String m_id) {
+		return session.selectOne(namespace+"getSecretTotalCount",m_id);
 	}
 	
 }

@@ -21,12 +21,15 @@
 			$('.deleteGallery').hide();
 		}
 		
+		
+		
 		function comment(data, commentWrap){
 			for(let i=0; i<data.length; i++){
 				// 새로운 comment 요소 생성
 				let edit_comment;
 				let edit_comment2;
 				let delete_comment;
+				let line;
 				
 				let newComment = $('<div>').addClass('comment');
 				let commentProfile = $('<div>').addClass('comment_profile');
@@ -34,19 +37,26 @@
 				let innerDiv1 = $('<div>');
 				let innerDiv2 = $('<div>').addClass('comment_text');
 				let innerDiv3 = $('<div>');
-				let innerDiv4 = $('<div>');
+				let innerDiv4 = $('<div>').addClass('cgc');
+				let spanDiv = $('<div>').addClass('spanDiv');
 				let span1 = $('<b>').text(data[i].m_nick);
 				let span2 = $('<span>').text(data[i].g_time);
 				let span3 = $('<span>').addClass('gc_text').text(data[i].gc_text);
 				let span4 = $('<span>').addClass('gc_good').text(data[i].good_count);
 				let span5 = $('<span>').addClass('comment_good').text('♥');
-				let textarea = $('<textarea>').addClass('edit').text(data[i].gc_text).css('display','none');
+				let textarea = $('<textarea>').addClass('edit').text(data[i].gc_text).css('display','none').attr('autofocus', true);
 				if(host == sessionId && sessionId != data[i].m_id){
 					delete_comment = $('<button>').addClass('delete_comment').text('삭제');
+					innerDiv3.append(delete_comment);
 				}else if(data[i].m_id == sessionId){
 					edit_comment = $('<button>').addClass('edit_comment').attr('type','button').text('수정');
-					edit_comment2 = $('<button>').addClass('edit_comment2').attr('type','button').text('수정2').css('display', 'none');
+					edit_comment2 = $('<button>').addClass('edit_comment2').attr('type','button').text('수정').css('display', 'none');
+					line =$('<span>').text('|');
 					delete_comment = $('<button>').addClass('delete_comment').text('삭제');
+					innerDiv3.append(edit_comment);
+					innerDiv3.append(edit_comment2);
+					innerDiv3.append(line);
+					innerDiv3.append(delete_comment);
 				}
 				let gc_num = $('<input>').attr({'type' : 'hidden', 'name' : 'gc_num'}).val(data[i].gc_num);
 				
@@ -54,11 +64,9 @@
 				innerDiv1.append(span1);
 				innerDiv1.append(span2);
 				innerDiv1.append(gc_num);
-				innerDiv2.append(span3);
-				innerDiv2.append(textarea);
-				innerDiv3.append(edit_comment);
-				innerDiv3.append(edit_comment2);
-				innerDiv3.append(delete_comment);
+				spanDiv.append(span3);
+				spanDiv.append(textarea);
+				innerDiv2.append(spanDiv);
 				innerDiv4.append(span4);
 				innerDiv4.append(span5);
 				innerDiv2.append(innerDiv4);
@@ -195,7 +203,7 @@
 		$(document).on('click', '.edit_comment', function() {
 			  $(this).hide();
 			  $(this).siblings('.edit_comment2').show();
-			  $(this).parent().siblings('.comment_text').children('span').hide();
+			  $(this).parent().siblings('.comment_text').children('.spanDiv').find('span').hide();
 			  $(this).parent().siblings('.comment_text').find('.edit').show();
 			  			  
 		});
@@ -204,7 +212,10 @@
 			  $(this).hide();
 			  $(this).siblings('.edit_comment').show();
 			  let textarea = $(this).parent().siblings('.comment_text').find('.edit');
-			  let textSpan = $(this).parent().siblings('.comment_text').find('.gc_text');
+			  let textSpan = $(this).parent().siblings('.comment_text').children('.spanDiv').find('span');
+			  textarea.height(textSpan.height());
+			  
+			  console.log(textSpan.height());
 			  textSpan.text('');
 
 			  let gc_num = $(this).closest('.comment_info').find('input[name="gc_num"]').val();
@@ -290,19 +301,21 @@
 			<div class="nav_wrap">
 				<div class="music_player">
 					<div class="music_name">
-						<span>I AM - IVE</span> <i class="fa-solid fa-music"></i>
+						<span>I AM - IVE</span>
+						<i class="fa-solid fa-music"></i>
 					</div>
 					<div class="music_icon">
-						<i class="fa-solid fa-backward-step"></i> <i
-							class="fa-solid fa-play"></i> <i class="fa-solid fa-forward-step"></i>
+						<i class="fa-solid fa-backward-step"></i>
+						<i class="fa-solid fa-play"></i>
+						<i class="fa-solid fa-forward-step"></i>
 					</div>
 				</div>
 
 				<div class="search">
 					<span><b>아이디검색</b></span>
 					<div class="search_bar">
-						<input type="text" name="" id=""> <i
-							class="fa-solid fa-magnifying-glass"></i>
+						<input type="text" name="" id="">
+						<i class="fa-solid fa-magnifying-glass"></i>
 					</div>
 				</div>
 				<div class="menu">
@@ -320,8 +333,10 @@
 				<div class="gallery_title">
 					<h1>갤러리</h1>
 					<div>
-						<a><i class="fa-solid fa-pen"></i></a> <a><i
-							class="fa-solid fa-list"></i></a>
+						<c:if test="${hostId == sessionId}">
+							<a href="galleryReg"><i class="fa-solid fa-pen"></i></a>
+						</c:if>
+						<a href="gallery?hostId=${hostId }"><i class="fa-solid fa-list"></i></a>
 					</div>
 				</div>
 				<!-- 갤러리 wrap 오버플로우 시 스크롤 -->
@@ -335,9 +350,16 @@
 										<input type="hidden" name="g_pic" value="${list.g_pic}">
 										<input type="hidden" name="g_text" value="${list.g_text}">
 										<input type="hidden" name="g_num" value="${list.g_num}">
-										<h1>${list.g_title }</h1>
-										<button class="editGallery">수정</button>
-										<button type="button" class="deleteGallery">삭제</button>
+										<input type="hidden" name="secret" value="${list.g_secret}">
+										<h1>${list.g_title }
+										<c:if test="${list.g_secret == 1}">
+											<i class="fa-solid fa-lock"></i>
+										</c:if>
+										</h1>
+										<div>
+											<button class="editGallery">수정 | </button>
+											<button type="button" class="deleteGallery">삭제</button>
+										</div>
 									</div>
 								</form>
 								<div class="gallery_img">
@@ -377,6 +399,15 @@
 							</div>
 						</div>
 					</c:forEach>
+					<div class ="page">
+						<ul class="pagination">
+					    	<li class="page-item"><a class="page-link" href="./gallery?hostId=${hostId}&page=1"><</a></li>
+					    	<c:forEach var="pageNumber" begin="${startPage}" end="${endPage}">
+					    		<li class="page-item"><a class="page-link" href="./gallery?hostId=${hostId}&page=${pageNumber}">${pageNumber}</a></li>
+					 		</c:forEach>
+					    	<li class="page-item"><a class="page-link" href="./gallery?hostId=${hostId}&page=${totalPages}">></a></li>
+					  	</ul>
+					</div>
 				</div>
 			</div>
 		</section>

@@ -15,6 +15,7 @@
 		FROM cy_gallery ga
 		WHERE ga.m_id = #{m_id}
 		ORDER BY ga.g_num desc
+		OFFSET #{startItem} ROWS FETCH NEXT #{itemsPerPage} ROWS ONLY
 	</select>
 	
 	<select id="getGallerySecretList" resultType="gallery">
@@ -27,7 +28,8 @@
 		) AS good_count
 		FROM cy_gallery ga
 		WHERE ga.g_secret = 0 and ga.m_id = #{m_id}
-		ORDER BY ga.g_num desc	
+		ORDER BY ga.g_num desc
+		OFFSET #{startItem} ROWS FETCH NEXT #{itemsPerPage} ROWS ONLY
 	</select>
 	
 	<select id="getMemberId" resultType="String">
@@ -49,11 +51,19 @@
 		from cy_gallery_comment_good
 		where gc_num = #{gc_num} and m_id = #{m_id}
 	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from cy_gallery where m_id = #{m_id}
+	</select>
+	
+	<select id="getSecretTotalCount" resultType="int">
+		select count(*) from cy_gallery where m_id = #{m_id} and g_secret = 0
+	</select>
 
 	<select id="commentList" resultType="gallery">
 		SELECT m.m_id, co.gc_num, h.h_pic as g_pic, m.m_nick, TO_CHAR(co.gc_time, 'yyyy-mm-dd hh24:mi') AS g_time, co.gc_text,
-		    (
-		        SELECT COUNT(go.gcg_good)
+			(
+				SELECT COUNT(go.gcg_good)
 		        FROM cy_gallery_comment_good go
 		        WHERE go.gc_num = co.gc_num
 		        AND go.gcg_good = 1

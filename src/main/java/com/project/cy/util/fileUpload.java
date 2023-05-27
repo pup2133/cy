@@ -3,10 +3,14 @@ package com.project.cy.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 public class fileUpload {
-
+	
 	public String upload(MultipartFile file, String realPath) {
 
 		if (!file.isEmpty()) {

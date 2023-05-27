@@ -1,6 +1,7 @@
 package com.project.cy.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,10 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.project.cy.model.dao.visitRepository;
 import com.project.cy.model.dto.visit;
 import com.project.cy.model.service.visitService;
+import com.project.cy.util.pagination;
 
 @Controller
 public class VisitController {
@@ -32,31 +32,29 @@ public class VisitController {
 		String sessionId = (String) session.getAttribute("sessionId");
 
 		try {
-			int totalCount = service.getTotalCount(); // 방명록이 총 몇개 있는지
-			int itemsPerPage = 4; // 방명록 페이지당 보여줄 개수
-			int totalPages = (int) Math.ceil((double) totalCount / itemsPerPage); // 방명록 총 페이지 수
-			int startItem = (page - 1) * itemsPerPage; // 조회 시작 위치
-			int maxPaginationLinks = 5; // 보여줄 페이지 제한 최대 5개까지만
-			int startPage = Math.max(1, page - maxPaginationLinks / 2); // 시작 페이지
-			int endPage = Math.min(startPage + maxPaginationLinks - 1, totalPages); // 끝 페이지
-
+			
 			String hostId = service.getMemberId(id); // 호스트 아이디가 존재하는지 확인
 			
 			if (hostId != null) {
+				
+				int totalCount = service.getTotalCount(); // 방명록이 총 몇개 있는지
 
-				List<visit> visitList = service.getVisit(startItem, itemsPerPage);
+				pagination p = new pagination();
+				Map<String, Integer> pagination = p.visitPagination(totalCount, page);
+
+				List<visit> visitList = service.getVisit(pagination.get("startItem"), pagination.get("itemsPerPage"));
 
 				model.addAttribute("host", hostId);
 				model.addAttribute("sessionId", sessionId);
 				model.addAttribute("member", service.getMember(sessionId));
 				model.addAttribute("list", visitList);
-				model.addAttribute("totalPages", totalPages);
+				model.addAttribute("totalPages", pagination.get("totalPages"));
 				model.addAttribute("currentPage", page);
-				model.addAttribute("startPage", startPage);
-				model.addAttribute("endPage", endPage);
+				model.addAttribute("startPage", pagination.get("startPage"));
+				model.addAttribute("endPage", pagination.get("endPage"));
 
 			} else {
-				return "error"; // 없는 페이지일 경우 에러페이지로 이동
+				return "error";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,9 +82,8 @@ public class VisitController {
 	@ResponseBody
 	public Boolean commentUpdate(visit dto) {
 
-		visit editVisit = new visit(dto.getV_num(), dto.getV_text(), dto.getV_time(), dto.getV_hostId(), dto.getV_guestId());
-
 		try {
+			visit editVisit = new visit(dto.getV_num(), dto.getV_text(), dto.getV_time(), dto.getV_hostId(), dto.getV_guestId());
 			service.editVisit(editVisit);
 		} catch (Exception e) {
 			e.printStackTrace();
