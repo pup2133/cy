@@ -41,11 +41,12 @@ public class MyhomeController {
 				model.addAttribute("hostId",hostId);
 				model.addAttribute("sessionId",sessionId);
 				//헤더, 프로필
+				model.addAttribute("headerProfile",homedao.getHomeProfile(sessionId));
 				model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
 				model.addAttribute("previewNum", homedao.getPreview(hostId));
 				model.addAttribute("banner",homedao.getBanner(hostId));
-				model.addAttribute("recieveFriends",homedao.getRecieveFriends(hostId));
-				model.addAttribute("alertCount",homedao.getRecieveFriends(hostId).size());
+				model.addAttribute("recieveFriends",homedao.getRecieveFriends(sessionId));
+				model.addAttribute("alertCount",homedao.getRecieveFriends(sessionId).size());
 				//메인
 				model.addAttribute("diaryList",diarydao.selectDiary(hostId));
 				model.addAttribute("visitList",homedao.getHomeVisit(hostId));

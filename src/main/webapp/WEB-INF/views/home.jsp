@@ -48,9 +48,15 @@
 	}
 	//친구알림,수락
 	$(document).ready(function(){
+		const host = $('#hostId').val();
+		const session = $('#sessionId').val();
 		checkAlert();
 		let alert_count = parseInt($('#alert_count').val());
 		$(".friends_alert").click(function(){
+			let recieve_id = $(this).prevAll(".recieve_id").val();
+			let send_id = $(this).prevAll(".send_id").val();
+			alert(recieve_id);
+			alert(send_id);
 			let f_num = $(this).prev("input").val();
 			let f_name=$(this).find(".friends_name").text();
 			let $this = $(this);
@@ -77,8 +83,10 @@
 	                            title: '일촌맺기 완료',
 	                            text: f_name+'님과 일촌이 되었습니다',
 	                        });
-							let friends_count = parseInt($(".friends_count").text())+1;  //일촌증가(임시)
-							$(".friends_count").text(friends_count);
+							if(host===recieve_id || host===send_id){
+								let friends_count = parseInt($(".friends_count").text())+1;  //일촌증가(임시)
+								$(".friends_count").text(friends_count);
+							}
 						},
 						error:function(err){
 							console.log(err);
@@ -107,7 +115,6 @@
 			})
 		})
 	})
-	
 	//---네비게이션 기능
 	//배너공개비공개
 	$(document).ready(function() {
@@ -162,12 +169,14 @@
             <div class="dropdown_friends dropdown">
                 <!-- 이동경로 입력 -->
                 <c:forEach var="item" items="${recieveFriends}">
+                	<input type="text" class="recieve_id hidden" value="${item.recieve_id}">
+            		<input type="text" class="send_id hidden" value="${item.send_id}">
 	                <input type="text" value="${item.f_num}" class="f_num hidden"><div class="friends_alert dropdown-item"><span class="friends_name">${item.m_name}</span>님 으로부터의 일촌신청</div>
                 </c:forEach>
             </div>
-            <img class="header_profile" src="./resources/images/${homeProfile.h_pic}" alt="">
+            <img class="header_profile" src="./resources/images/${headerProfile.h_pic}" alt="">
             <div class="profile_drop">
-                <span>${homeProfile.m_nick}</span>
+                <span>${headerProfile.m_nick}</span>
                 <i class="fa-sharp fa-solid fa-chevron-down"></i>
             </div>
             <div class="dropdown_profile dropdown">
