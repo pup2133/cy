@@ -40,7 +40,7 @@ public class VisitController {
 				int totalCount = service.getTotalCount(); // 방명록이 총 몇개 있는지
 
 				pagination p = new pagination();
-				Map<String, Integer> pagination = p.visitPagination(totalCount, page);
+				Map<String, Integer> pagination = p.pagination(totalCount, page, 4);
 
 				List<visit> visitList = service.getVisit(pagination.get("startItem"), pagination.get("itemsPerPage"));
 

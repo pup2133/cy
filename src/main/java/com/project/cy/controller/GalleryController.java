@@ -42,7 +42,7 @@ public class GalleryController {
 		
 		int totalCount = service.getTotalCount(hostId, sessionId);
 		pagination p = new pagination();
-		Map<String, Integer> pagination = p.galleryPagination(totalCount, page);
+		Map<String, Integer> pagination = p.pagination(totalCount, page, 3);
 		
 		List<gallery> list = service.getGalleryList(hostId, sessionId, pagination.get("startItem"), pagination.get("itemsPerPage"));		
 		model.addAttribute("list", list);
