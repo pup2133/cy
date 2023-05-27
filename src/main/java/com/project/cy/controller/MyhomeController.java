@@ -1,6 +1,7 @@
 package com.project.cy.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.cy.model.dao.DiaryRepository;
 import com.project.cy.model.dao.HomeRepository;
+import com.project.cy.model.dto.FriendsDTO;
 
 @Controller
 public class MyhomeController {
@@ -28,7 +30,7 @@ public class MyhomeController {
 	@GetMapping("/myhome")
 	public String getHomeProfile(Model model,String id,HttpSession session) {
 		// 임시 세션 아이디
-		session.setAttribute("sessionId", "dd");
+		//session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		//호스트 아이디 검사
@@ -74,5 +76,44 @@ public class MyhomeController {
 	public void rejectFriends(int f_num) {
 		homedao.rejectFriends(f_num);
 		System.out.println(f_num+"거절됨");
+	}
+	//일촌확인
+	@PostMapping("/isFriend")
+	@ResponseBody
+	public int isFriend(String id,HttpSession session) {
+		String sessionId = (String) session.getAttribute("sessionId");
+		
+		//호스트 아이디 검사
+		String hostId = homedao.getMemberId(id);
+		List<FriendsDTO> list1 = homedao.getRecieve(hostId);
+		List<FriendsDTO> list2 = homedao.getSend(hostId);
+		list1.addAll(list2);
+		int result=0;
+		for(Object a:list1) {
+			System.out.println(((FriendsDTO)a).getM_id());
+			if((((FriendsDTO)a).getM_id()).equals(sessionId)) {
+				result=1;
+			}
+		}
+		return result;
+	}
+	//일촌신청
+	@PostMapping("/sendFriend")
+	@ResponseBody
+	public int sendFriend(String id,HttpSession session) {
+		String sessionId = (String) session.getAttribute("sessionId");
+		
+		//호스트 아이디 검사
+		String hostId = homedao.getMemberId(id);
+		int result = homedao.sendFriend(sessionId, hostId);
+		System.out.println(result);
+		return result;
+	}
+	
+	//로그아웃
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/login";
 	}
 }

@@ -55,8 +55,6 @@
 		$(".friends_alert").click(function(){
 			let recieve_id = $(this).prevAll(".recieve_id").val();
 			let send_id = $(this).prevAll(".send_id").val();
-			alert(recieve_id);
-			alert(send_id);
 			let f_num = $(this).prev("input").val();
 			let f_name=$(this).find(".friends_name").text();
 			let $this = $(this);
@@ -154,6 +152,70 @@
             }
         });
     });
+	
+	$(document).ready(function(){
+		const id= $('#hostId').val();
+		const session = $('#sessionId').val();
+		//일촌신청 버튼 숨기기
+		$.ajax({
+			type:"POST",
+			url:"isFriend",
+			data:{id:id},
+			success:function(data){
+				if(data===1 || id===session){
+					$(".send_friend").hide();
+				}
+			},
+			error:function(err){
+				console.log(err);
+			}
+		})
+		//일촌신청하기
+		$(".send_friend").click(function(){
+			Swal.fire({
+				title: '일촌신청 하시겠습니까?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '신청',
+                cancelButtonText: '취소',
+                reverseButtons: true, // 버튼 순서 거꾸로
+			}).then((result)=>{
+				if(result.isConfirmed){
+					$.ajax({
+						type:"POST",
+						url:"sendFriend",
+						data:{id:id},
+						success:function(data){
+							Swal.fire({
+	                            icon: 'success',
+	                            title: '신청완료',
+	                        });
+                            $(".send_friend").hide();
+						},
+						error:function(err){
+							console.log(err);
+						}
+					})
+					
+				}
+			})
+			/*
+			$.ajax({
+				type:"POST",
+				url:"sendFriend",
+				data:{id:id},
+				success:function(data){
+					alert(data);
+				},
+				error:function(err){
+					console.log(err);
+				}
+			})
+			*/
+		})
+	})
 </script>
 <body>
 	<header>
@@ -183,7 +245,7 @@
                 <!-- 이동경로 입력 -->
                 <a href="#"><div class="dropdown-item"><i class="fa-solid fa-gear"></i>&nbsp회원설정</div></a>
                 <a href="#"><div class="dropdown-item"><i class="fa-solid fa-house-lock"></i>&nbsp공개설정</div></a>
-                <a href="#"><div class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i>&nbsp로그아웃</div></a>
+                <a href="/cy/logout"><div class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i>&nbsp로그아웃</div></a>
             </div>
         </div>
     </header>

@@ -50,4 +50,16 @@ public class HomeRepository {
     public int rejectFriends(int f_num) {
     	return session.delete(namespace+"rejectFriends",f_num);
     }
+    public List<FriendsDTO> getRecieve(String m_id) {
+		return session.selectList(namespace+"getRecieve",m_id);
+    }
+    public List<FriendsDTO> getSend(String m_id) {
+		return session.selectList(namespace+"getSend",m_id);
+    }
+    public int sendFriend(String send_id,String recieve_id) {
+    	HashMap<String,Object> param = new HashMap<>();
+    	param.put("recieve_id", recieve_id);
+    	param.put("send_id", send_id);
+		return session.insert(namespace+"sendFriend",param);
+    }
 }

@@ -3,6 +3,7 @@ package com.project.cy.controller;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +44,7 @@ public class LoginController {
 	}
 	
 	@PostMapping("/login")
-	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw) {
+	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session) {
 
 		Login member = dao.findMember(id);
 
@@ -51,10 +52,11 @@ public class LoginController {
 			return "login";
 		} else if (member.getM_id().equals(id) && member.getM_pw().equals(pw)) {
 			System.out.println("로그인 성공");
-			return "redirect:/login";
+			session.setAttribute("sessionId",id);
+			return "redirect:/myhome?id="+id;
 		} else {
 			System.out.println("로그인실패");
-			return "home";
+			return "redirect:/login";
 
 		}
 	}

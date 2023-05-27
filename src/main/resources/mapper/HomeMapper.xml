@@ -69,5 +69,28 @@
 		delete from cy_friends where f_num=#{f_num}
 	</delete>
 	
+	<select id="getRecieve" resultType="Friends">
+        select f.f_num, h.h_pic, m.m_id, m.m_nick
+		from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		join cy_friends f
+		on f.recieve_id = m.m_id
+		where f.send_id=#{m_id}
+    </select>
+    
+    <select id="getSend" resultType="Friends">
+        select f.f_num, h.h_pic, m.m_id, m.m_nick
+		from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		join cy_friends f
+		on f.send_id = m.m_id
+		where f.recieve_id=#{m_id}
+    </select>
+	
+	<insert id="sendFriend" parameterType="Friends">
+		insert into cy_friends(send_id,recieve_id) values(#{send_id},#{recieve_id})
+	</insert>
     
 </mapper>
