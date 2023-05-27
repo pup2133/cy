@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @font-face {
   font-family: 'SUITE-Regular';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
@@ -11,7 +10,6 @@
   padding: 0;
   font-family: 'SUITE-Regular';
 }
-
 
 /* 헤더 시작 */
 header {
@@ -33,15 +31,15 @@ header {
 }
 
 .header_info {
-    width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: right;
+  position: relative;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  cursor:pointer;
 }
 
-.header_info :nth-child(1),
-.header_info :nth-child(2),
-.header_info :nth-child(4) {
+.fa-bell, .header_profile, .profile_drop, .profile_drop>span{
   margin-right: 20px;
 }
 
@@ -51,11 +49,13 @@ header {
 
 .header_profile {
   width: 60px;
-  border-radius: 50%;
+  height: 60px;
+  border-radius: 50%; 
 }
 
 .fa-bell {
   font-size: 30px;
+  cursor: pointer;
 }
 /* 헤더 드롭박스관련 */
 .dropdown {
@@ -90,12 +90,27 @@ header {
   cursor: pointer;
   height: 20px;
   text-align: left;
+  margin: 15px;
 }
 .dropdown_profile a:nth-child(3){
   color: red;
 }
 .dropdown-item:hover{
   background-color: #ccc;
+}
+.new_alert{
+  width: 10px;
+  height: 10px;
+  font-size:5px;
+  text-align: center;
+  background-color: red;
+  color: white; 
+  padding: 5px;
+  position: absolute;
+  left: 85px;
+  top: 23px;
+  font-weight: 600;
+  border-radius: 50%;
 }
 /* 헤더 끝 */
 

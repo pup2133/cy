@@ -61,7 +61,13 @@
 		where f.recieve_id=#{m_id} and f.accept=0
 	</select>
 	
-
+	<update id="acceptFriends" parameterType="Friends">
+		update cy_friends set accept=1 where f_num=#{f_num}
+	</update>
+	
+	<delete id="rejectFriends" parameterType="Friends">
+		delete from cy_friends where f_num=#{f_num}
+	</delete>
 	
     
 </mapper>

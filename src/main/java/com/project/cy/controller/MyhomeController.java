@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.cy.model.dao.DiaryRepository;
 import com.project.cy.model.dao.HomeRepository;
@@ -43,6 +45,7 @@ public class MyhomeController {
 				model.addAttribute("previewNum", homedao.getPreview(hostId));
 				model.addAttribute("banner",homedao.getBanner(hostId));
 				model.addAttribute("recieveFriends",homedao.getRecieveFriends(hostId));
+				model.addAttribute("alertCount",homedao.getRecieveFriends(hostId).size());
 				//메인
 				model.addAttribute("diaryList",diarydao.selectDiary(hostId));
 				model.addAttribute("visitList",homedao.getHomeVisit(hostId));
@@ -55,7 +58,20 @@ public class MyhomeController {
 		}else {
 			return "error";
 		}
-		
 		return "home";
+	}
+	//일촌수락
+	@PostMapping("/accept")
+	@ResponseBody
+	public void acceptFriends(int f_num) {
+		homedao.acceptFriends(f_num);
+		System.out.println(f_num+"수락됨");
+	}
+	//일촌거절
+	@PostMapping("/reject")
+	@ResponseBody
+	public void rejectFriends(int f_num) {
+		homedao.rejectFriends(f_num);
+		System.out.println(f_num+"거절됨");
 	}
 }

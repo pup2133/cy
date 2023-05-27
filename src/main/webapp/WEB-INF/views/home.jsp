@@ -22,7 +22,7 @@
     
 </head> 
 <script>	
-	//헤더기능
+	//---헤더기능
 	//드롭다운
 	$(document).ready(function() {
         $('.profile_drop').click(function() {
@@ -38,8 +38,77 @@
 		const host = $('#hostId').val();
 		const session = $('#sessionId').val();
 	})
+	//친구알림체크
+	function checkAlert(){
+		if(parseInt($('#alert_count').val())===0){
+			$('.dropdown_friends').text("새로운 일촌신청이 없습니다.");
+			$('.dropdown_friends').css("text-align","center");
+			$('.new_alert').hide();
+		}
+	}
+	//친구알림,수락
+	$(document).ready(function(){
+		checkAlert();
+		let alert_count = parseInt($('#alert_count').val());
+		$(".friends_alert").click(function(){
+			let f_num = $(this).prev("input").val();
+			let f_name=$(this).find(".friends_name").text();
+			let $this = $(this);
+			Swal.fire({
+				title: '일촌신청 수락 하시겠습니까?',
+                text: f_name+"님의 일촌신청",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '수락',
+                cancelButtonText: '거절',
+                reverseButtons: true, // 버튼 순서 거꾸로
+			}).then((result)=>{
+				if(result.isConfirmed){
+					$.ajax({
+						type:"POST",
+						url:"accept",
+						data:{f_num:f_num},
+						success:function(data){
+							console.log("수락됨");
+							Swal.fire({
+	                            icon: 'success',
+	                            title: '일촌맺기 완료',
+	                            text: f_name+'님과 일촌이 되었습니다',
+	                        });
+							let friends_count = parseInt($(".friends_count").text())+1;  //일촌증가(임시)
+							$(".friends_count").text(friends_count);
+						},
+						error:function(err){
+							console.log(err);
+						}
+					})
+				}else if(!result.isConfrmed){
+					$.ajax({
+						type:"POST",
+						url:"reject",
+						data:{f_num:f_num},
+						success:function(data){
+							Swal.fire({
+	                            title: '일촌신청 거절',
+	                            text: f_name+'님의 일촌신청을 거절했습니다',
+	                        });
+						},
+						error:function(err){
+							console.log(err);
+						}
+					})
+				}
+				$this.remove();  //알람삭제(임시)
+				alert_count=alert_count-1;
+				$('#alert_count').val(alert_count);
+				checkAlert();
+			})
+		})
+	})
 	
-	//네비게이션 기능
+	//---네비게이션 기능
 	//배너공개비공개
 	$(document).ready(function() {
 	  $(".menu_box").click(function(event) {
@@ -65,7 +134,7 @@
 	  });
 	});
 
-	//홈 메인 기능
+	//---홈 메인 기능
     //말줄임표 기능
     $(document).ready(function() {
         let  maxLength = 20; // 최대 글자 수
@@ -88,10 +157,12 @@
         </div>
         <div class="header_info">
             <i class="fa-regular fa-bell"></i>
+            <div class="new_alert">N</div>
+            <input type="text" value="${alertCount}" id="alert_count" class="hidden">
             <div class="dropdown_friends dropdown">
                 <!-- 이동경로 입력 -->
                 <c:forEach var="item" items="${recieveFriends}">
-	                <a href="#"><div class="dropdown-item"></i>${item.m_name}님 으로부터의 일촌신청</div></a>
+	                <input type="text" value="${item.f_num}" class="f_num hidden"><div class="friends_alert dropdown-item"><span class="friends_name">${item.m_name}</span>님 으로부터의 일촌신청</div>
                 </c:forEach>
             </div>
             <img class="header_profile" src="./resources/images/${homeProfile.h_pic}" alt="">
@@ -237,7 +308,7 @@
                         <a href="/cy/friends?id=${hostId}" class="preview_friends preview">
                             <i class="fa-solid fa-user-group preview_icon"></i>
                             <div class="preview_content">
-                                <div>${previewNum.get(2)}<span>&nbsp;&nbsp;</span></div>
+                                <div class="friends_count">${previewNum.get(2)}</div>
                                 <div>일촌<sapn>&nbsp;&nbsp;&nbsp;</sapn></div>
                             </div>
                         </a>

@@ -23,7 +23,6 @@ public class HomeRepository {
     public String getMemberId(String id) {
     	return session.selectOne(namespace+"getMemberId",id);
     }
-    
     public HomeProfileDTO getHomeProfile(String m_id) {
     	return session.selectOne(namespace+"getHomeProfile",m_id);
     }
@@ -44,5 +43,11 @@ public class HomeRepository {
     }
     public List<FriendsDTO> getRecieveFriends (String m_id){
     	return session.selectList(namespace+"getRecieveFriends",m_id);
+    }
+    public int acceptFriends(int f_num) {
+    	return session.update(namespace+"acceptFriends",f_num);
+    }
+    public int rejectFriends(int f_num) {
+    	return session.delete(namespace+"rejectFriends",f_num);
     }
 }
