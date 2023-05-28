@@ -92,5 +92,9 @@
 	<insert id="sendFriend" parameterType="Friends">
 		insert into cy_friends(send_id,recieve_id) values(#{send_id},#{recieve_id})
 	</insert>
+
+	<update id="editMsg" parameterType="HomeProfile">
+		update cy_home set h_msg=#{h_msg} where m_id=#{m_id}
+	</update>
     
 </mapper>

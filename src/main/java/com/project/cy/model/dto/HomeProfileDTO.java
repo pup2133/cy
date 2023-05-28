@@ -1,6 +1,7 @@
 package com.project.cy.model.dto;
 
 public class HomeProfileDTO {
+	String m_id;
 	String m_nick;
 	String h_pic;
 	int m_today;
@@ -10,13 +11,20 @@ public class HomeProfileDTO {
 	public HomeProfileDTO() {
 		// TODO Auto-generated constructor stub
 	}
-	public HomeProfileDTO(String m_nick, String h_pic, int m_today, int m_totaltoday, String h_msg) {
+	public HomeProfileDTO(String m_id, String m_nick, String h_pic, int m_today, int m_totaltoday, String h_msg) {
 		super();
+		this.m_id = m_id;
 		this.m_nick = m_nick;
 		this.h_pic = h_pic;
 		this.m_today = m_today;
 		this.m_totaltoday = m_totaltoday;
 		this.h_msg = h_msg;
+	}
+	public String getM_id() {
+		return m_id;
+	}
+	public void setM_id(String m_id) {
+		this.m_id = m_id;
 	}
 	public String getM_nick() {
 		return m_nick;
@@ -50,8 +58,10 @@ public class HomeProfileDTO {
 	}
 	@Override
 	public String toString() {
-		return "HomeProfileDTO [m_nick=" + m_nick + ", h_pic=" + h_pic + ", m_today=" + m_today + ", m_totaltoday="
-				+ m_totaltoday + ", h_msg=" + h_msg + "]";
+		return "HomeProfileDTO [m_id=" + m_id + ", m_nick=" + m_nick + ", h_pic=" + h_pic + ", m_today=" + m_today
+				+ ", m_totaltoday=" + m_totaltoday + ", h_msg=" + h_msg + "]";
 	}
+	
+	
 
 }

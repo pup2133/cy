@@ -30,7 +30,7 @@ public class MyhomeController {
 	@GetMapping("/myhome")
 	public String getHomeProfile(Model model,String id,HttpSession session) {
 		// 임시 세션 아이디
-		//session.setAttribute("sessionId", "dd");
+		session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		//호스트 아이디 검사
@@ -39,7 +39,6 @@ public class MyhomeController {
 		if(hostId!=null) {
 			try {
 				//아이디정보
-				
 				model.addAttribute("hostId",hostId);
 				model.addAttribute("sessionId",sessionId);
 				//헤더, 프로필
@@ -115,5 +114,18 @@ public class MyhomeController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/login";
+	}
+	
+	//프로필 메시지 수정
+	@PostMapping("/editMsg")
+	@ResponseBody
+	public int editMsg(String id,String h_msg, HttpSession session) {
+		String sessionId = (String) session.getAttribute("sessionId");
+		String hostId = homedao.getMemberId(id);
+		System.out.println(h_msg);
+		int result = homedao.editMsg(h_msg, hostId);
+		System.out.println(result);
+		return result;
+		
 	}
 }

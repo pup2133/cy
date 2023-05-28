@@ -140,9 +140,12 @@
 	});
 
 	//---홈 메인 기능
-    //말줄임표 기능
-    $(document).ready(function() {
-        let  maxLength = 20; // 최대 글자 수
+	$(document).ready(function(){
+		const id= $('#hostId').val();
+		const session = $('#sessionId').val();
+		
+		//말줄입표 기능
+		let  maxLength = 20; // 최대 글자 수
 
         $(".list_content").each(function() {
             let content = $(this).text();
@@ -151,12 +154,8 @@
                 $(this).text(trimmedContent + "..."); // 말줄임표 추가
             }
         });
-    });
-	
-	$(document).ready(function(){
-		const id= $('#hostId').val();
-		const session = $('#sessionId').val();
-		//일촌신청 버튼 숨기기
+		
+		//일촌신청
 		$.ajax({
 			type:"POST",
 			url:"isFriend",
@@ -170,6 +169,7 @@
 				console.log(err);
 			}
 		})
+		
 		//일촌신청하기
 		$(".send_friend").click(function(){
 			Swal.fire({
@@ -198,23 +198,43 @@
 							console.log(err);
 						}
 					})
-					
 				}
 			})
-			/*
-			$.ajax({
-				type:"POST",
-				url:"sendFriend",
-				data:{id:id},
-				success:function(data){
-					alert(data);
-				},
-				error:function(err){
-					console.log(err);
-				}
-			})
-			*/
 		})
+		//프로필 메시지 수정, 버튼 숨기기
+		if(id!==session){
+			$(".edit_button").hide();
+		}
+		let ingEdit=0;
+        $(".edit_button").click(function(){
+            if(ingEdit===0){
+                $(".edit_msg").css("display","inline-block");
+                let h_msg = $(".home_profile_text").text();
+                $(".edit_msg").val(h_msg);
+                ingEdit=1;
+            }else if(ingEdit===1){
+                $(".edit_msg").css("display","none");
+                let h_msg=$(".edit_msg").val();
+                //요 메시지를 ajax로 전달하여db에서 수정
+                $.ajax({
+                	type:"POST",
+                	url:"editMsg",
+                	dataType:"json",
+                	data:{
+                		id:id,
+                		h_msg:h_msg
+                	},
+                	success:function(data){
+                		console.log(data);
+                	},
+                	error:function(err){
+                		console.log(err);
+                	}
+                })
+                $(".home_profile_text").html(h_msg);
+                ingEdit=0;
+            }
+        })
 	})
 </script>
 <body>
@@ -349,9 +369,11 @@
                     <!-- 프로필 정보 가져오기 -->
                     <div class="home_profile_info_wrap">
                         <div class="home_profile_img"><img src="./resources/images/${homeProfile.h_pic}" alt=""></div>
-                        <div class="home_profile_text">
-                            ${homeProfile.h_msg}
+                        <div class="home_profile_text_wrap">
+                        	<div class="home_profile_text">${homeProfile.h_msg}</div>
+                            <button class="edit_button"><i class="fa-solid fa-pen-to-square"></i></button>
                         </div>
+                        <textarea rows="4" cols="15" class="edit_msg home_profile_text_wrap"></textarea>
                     </div>
                     <!-- 친구목록, 파도타기 기능 -->
                     <div class="wave_wrap">

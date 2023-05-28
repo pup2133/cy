@@ -163,7 +163,7 @@ section{
     width: 100%;
     height: 100%;
 }
-.home_profile_text{
+.home_profile_text_wrap{
 	box-sizing: border-box;
     position: absolute;
     bottom: 0;
@@ -173,6 +173,25 @@ section{
     width: 250px;
     background-color: #d9d9d9;
     border-radius: 3px;
+}
+.edit_button{
+    width: 40px;
+    height: 25px;
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    border: 0;
+    font-size: 20px;
+    background-color: #d9d9d9;
+    cursor: pointer;
+}
+.edit_msg{
+    width: 250px;
+    height: 80px;
+    resize: none;
+    bottom: 40px;
+    font-size: 16px;
+    display: none;
 }
 .wave_wrap{
     margin-top:15px;

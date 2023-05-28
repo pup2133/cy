@@ -62,4 +62,13 @@ public class HomeRepository {
     	param.put("send_id", send_id);
 		return session.insert(namespace+"sendFriend",param);
     }
+    public int editMsg(String h_msg,String m_id) {
+    	HashMap<String,Object> param = new HashMap<>();
+    	System.out.println(h_msg);
+    	System.out.println(m_id);
+    	param.put("h_msg", h_msg);
+    	param.put("m_id", m_id);
+		return session.update(namespace+"editMsg",param);
+    }
+    
 }
