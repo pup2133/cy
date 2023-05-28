@@ -153,4 +153,14 @@ public class galleryRepository implements galleryRepositoryImp {
 		return session.selectOne(namespace+"getSecretTotalCount",m_id);
 	}
 	
+	@Override
+	public int clearToday() {
+		return session.update(namespace+"clearToday");
+	}
+	
+	@Override
+	public int updateToday(String m_id) {
+		return session.update(namespace+"updateToday",m_id);
+	}
+	
 }

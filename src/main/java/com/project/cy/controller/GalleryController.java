@@ -163,4 +163,12 @@ public class GalleryController {
 		return service.deleteGallery(g_num);
 	}
 
+	@GetMapping("today")
+	public String today(String id, HttpSession session) {
+	    if (session.getAttribute("visited") == null) {
+			service.updateToday(id);
+	        session.setAttribute("visited", true);
+	    }
+		return "todayTest";
+	}
 }

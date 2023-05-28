@@ -28,4 +28,6 @@ public interface galleryRepositoryImp {
 	public int editGallery(gallery g);
 	public int getTotalCount(String m_id);
 	public int getSecretTotalCount(String m_id);
+	public int updateToday(String m_id);
+	public int clearToday();
 }

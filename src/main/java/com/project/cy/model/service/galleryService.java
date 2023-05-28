@@ -3,6 +3,7 @@ package com.project.cy.model.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.project.cy.model.dao.galleryRepository;
@@ -115,5 +116,16 @@ public class galleryService implements galleryServiceImp {
 		}else {
 			return dao.getSecretTotalCount(m_id);
 		}
+	}
+	
+	@Override
+    @Scheduled(cron = "0 0 18 * * ?") // 매일 0시 0분에 실행
+	public int clearToday() {
+		return dao.clearToday();
+	}
+	
+	@Override
+	public int updateToday(String m_id) {
+		return dao.updateToday(m_id);
 	}
 }
