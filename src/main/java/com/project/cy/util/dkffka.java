@@ -18,10 +18,8 @@ public class dkffka extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		String senderId = getMemberId(session); // 접속한 유저의 http세션을 조회하여 id를 얻는 함수
-		System.out.println(senderId);
 		if(senderId!=null) {	// 로그인 값이 있는 경우만
 			log(senderId + " 연결 됨");
-			System.out.println("연결됨");
 			users.put(senderId, session);   // 로그인중 개별유저 저장
 		}
 	}
