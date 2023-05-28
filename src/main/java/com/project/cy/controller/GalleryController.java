@@ -171,4 +171,9 @@ public class GalleryController {
 	    }
 		return "todayTest";
 	}
+	
+	@GetMapping("alram")
+	public String alam(HttpSession session) {
+		return "alram";
+	}
 }

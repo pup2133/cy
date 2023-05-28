@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="stylesheet" href="./resources/css/header_nav.css">
 <link rel="stylesheet" href="resources/css/gallery_reg.css">
 <script src="./resources/js/galleryRegEdit.js"></script>
