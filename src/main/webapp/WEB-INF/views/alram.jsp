@@ -11,7 +11,7 @@
     .toast {
       position: fixed;
       bottom: 30px;
-      right: -100px;
+      right: 0px;
       transform: translateX(-50%);
       background-color: #333;
       color: #fff;
@@ -29,46 +29,40 @@
   </style>
 <script>
 $(document).ready(function() {
-	  // 웹소켓 연결
-	  var sock = new SockJS('/cy/alram');
-	  
-	  sock.onopen = function() {
-	    console.log('open');
-	  };
-	  
-	  // 데이터를 전달 받았을때
-	  sock.onmessage = onMessage; // toast 생성
-	  
-	  socket = sock;
-	});
+    // 웹소켓 연결
+    const sock = new SockJS('/cy/alram');
 
-	function onMessage(evt) {
-	  let data = evt.data;
-	  console.log(data);
-	  $(".toast").text(data);
-	}
+    sock.onopen = function() {
+      console.log('open');
+    };
 
-	function tlscjd() {
-	  socket.send("abc"+","+"yun");
-      var toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.innerHTML = '예쁜 토스트 창입니다!';
+    // 데이터를 전달 받았을 때
+    sock.onmessage = onMessage; // toast 생성
 
-      document.body.appendChild(toast);
+    function onMessage(evt) {
+      let data = evt.data;
+      let toast = $('<div>', { class: 'toast', text: data });
+      $('body').append(toast);
 
       setTimeout(function() {
-        toast.classList.add('show');
+        toast.addClass('show');
         setTimeout(function() {
-          toast.classList.remove('show');
+          toast.removeClass('show');
           setTimeout(function() {
-            document.body.removeChild(toast);
+            toast.remove();
           }, 300);
         }, 3000);
       }, 100);
-	}
+    }
+
+    $('#toastButton').click(function() {
+      sock.send('abc' + ',' + 'yun');
+    });
+    
+});
 </script>
 </head>
 <body>
-	<button onclick="tlscjd()">친구신청</button>
+	<button id="toastButton">친구신청</button>
 </body>
 </html>
