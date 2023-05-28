@@ -11,7 +11,6 @@
   font-family: 'SUITE-Regular';
 }
 
-
 /* 헤더 시작 */
 header {
   height: 10vh;
@@ -32,29 +31,86 @@ header {
 }
 
 .header_info {
-    width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: right;
+  position: relative;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  cursor:pointer;
 }
 
-.header_info :nth-child(1),
-.header_info :nth-child(2),
-.header_info :nth-child(4) {
+.fa-bell, .header_profile, .profile_drop, .profile_drop>span{
   margin-right: 20px;
 }
 
 .header_info :nth-child(3) {
-    margin-right: 3px;
+    margin-right: 10px;
 }
 
 .header_profile {
-  width: 75px;
-  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%; 
 }
 
 .fa-bell {
-  font-size: 25px;
+  font-size: 30px;
+  cursor: pointer;
+}
+/* 헤더 드롭박스관련 */
+.dropdown {
+  z-index: 99;
+  display: none;
+  position: absolute;
+  width: 130px;
+  top: 80px;
+  right:0px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  transition: 1s;
+  border-radius: 3px;
+}
+.dropdown_friends{
+  width: 350px;
+  position: absolute;
+  right: 160px;
+}
+.dropdown_friends .dropdown-item{
+  text-align: center;
+  margin: 0;
+}
+.dropdown a{
+  text-decoration: none;
+  color: black;
+  height: 10px;
+}
+.dropdown-item {
+  padding: 5px;
+  cursor: pointer;
+  height: 20px;
+  text-align: left;
+  margin: 15px;
+}
+.dropdown_profile a:nth-child(3){
+  color: red;
+}
+.dropdown-item:hover{
+  background-color: #ccc;
+}
+.new_alert{
+  width: 10px;
+  height: 10px;
+  font-size:5px;
+  text-align: center;
+  background-color: red;
+  color: white; 
+  padding: 5px;
+  position: absolute;
+  left: 85px;
+  top: 23px;
+  font-weight: 600;
+  border-radius: 50%;
 }
 /* 헤더 끝 */
 
@@ -64,14 +120,21 @@ header {
 
 /* 네비게이션 시작 */
 nav {
+  position: absolute;
+  left: 0;
   height: 89.7vh;
-  width: 250px;
+  width: 225px;
   background-color: #f1f1f1;
   box-shadow: 3px 0 5px #a2a2a2;
 }
 
 .nav_wrap {
     width: 100%;
+}
+
+
+#audioPlayer{
+  width: 200px;
 }
 
 .music_player {
@@ -135,3 +198,11 @@ nav {
   box-shadow: 0 2px 5px #a2a2a2;
 }
 /* 네비게이션 끝 */
+
+/* 섹션공통 */
+section{
+  width: 100%;
+  height: 89.7vh;
+  box-sizing: border-box;
+  margin-left: 225px;
+}

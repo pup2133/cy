@@ -1,118 +1,27 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import=" java.util.HashMap" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="./resources/css/home.css"> 
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./resources/css/header_nav2.css"> 
-    <link rel="stylesheet" href="./resources/css/home.css"> 
-
+    <link rel="stylesheet" href="./resources/css/header_nav.css"> 
+	<!-- sweet alert -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+
     
 </head> 
-<script>	
-	//---헤더기능
-	//드롭다운
-	$(document).ready(function() {
-        $('.profile_drop').click(function() {
-            $('.dropdown_profile').slideToggle(200);
-        });
-
-        $('.fa-bell').click(function() {
-            $('.dropdown_friends').slideToggle(200);
-        });
-    });;
-	//유효성 (필요하면 사용)
-	$(document).ready(function(){
-		const host = $('#hostId').val();
-		const session = $('#sessionId').val();
-	})
-	//친구알림체크
-	function checkAlert(){
-		if(parseInt($('#alert_count').val())===0){
-			$('.dropdown_friends').text("새로운 일촌신청이 없습니다.");
-			$('.dropdown_friends').css("text-align","center");
-			$('.new_alert').hide();
-		}
-	}
-	//친구알림,수락
-	$(document).ready(function(){
-		const host = $('#hostId').val();
-		const session = $('#sessionId').val();
-		checkAlert();
-		let alert_count = parseInt($('#alert_count').val());
-		$(".friends_alert").click(function(){
-			let recieve_id = $(this).prevAll(".recieve_id").val();
-			let send_id = $(this).prevAll(".send_id").val();
-			let f_num = $(this).prev("input").val();
-			let f_name=$(this).find(".friends_name").text();
-			let $this = $(this);
-			Swal.fire({
-				title: '일촌신청 수락 하시겠습니까?',
-                text: f_name+"님의 일촌신청",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '수락',
-                cancelButtonText: '거절',
-                reverseButtons: true, // 버튼 순서 거꾸로
-			}).then((result)=>{
-				if(result.isConfirmed){
-					$.ajax({
-						type:"POST",
-						url:"accept",
-						data:{f_num:f_num},
-						success:function(data){
-							console.log("수락됨");
-							Swal.fire({
-	                            icon: 'success',
-	                            title: '일촌맺기 완료',
-	                            text: f_name+'님과 일촌이 되었습니다',
-	                        });
-							if(host===recieve_id || host===send_id){
-								let friends_count = parseInt($(".friends_count").text())+1;  //일촌증가(임시)
-								$(".friends_count").text(friends_count);
-							}
-						},
-						error:function(err){
-							console.log(err);
-						}
-					})
-				}else if(!result.isConfrmed){
-					$.ajax({
-						type:"POST",
-						url:"reject",
-						data:{f_num:f_num},
-						success:function(data){
-							Swal.fire({
-	                            title: '일촌신청 거절',
-	                            text: f_name+'님의 일촌신청을 거절했습니다',
-	                        });
-						},
-						error:function(err){
-							console.log(err);
-						}
-					})
-				}
-				$this.remove();  //알람삭제(임시)
-				alert_count=alert_count-1;
-				$('#alert_count').val(alert_count);
-				checkAlert();
-			})
-		})
-	})
+<script>
 	//---네비게이션 기능
 	//배너공개비공개
 	$(document).ready(function() {
@@ -126,10 +35,10 @@
 	      // 이동할 필요 없는 경우에 수행할 동작
 	      // 예: 경고창 띄우기 또는 다른 작업 수행
 	    	Swal.fire({
-                icon: 'warning',
-                title: '비공개',
-                text: '비공개 페이지입니다',
-            });
+	            icon: 'warning',
+	            title: '비공개',
+	            text: '비공개 페이지입니다',
+	        });
 	    } else {
 	      // 이동해야 할 경우에 수행할 동작
 	      // 예: 페이지 이동
@@ -138,7 +47,135 @@
 	    }
 	  });
 	});
-
+	
+	
+	
+	//오디오 관련
+	$(document).ready(function(){
+		const id= $('#hostId').val();
+		const session = $('#sessionId').val();
+	    let audio = document.getElementById('audioPlayer');
+	    let playbackTimeKey = id+'Time'; //여기에 sessionId넣기
+	    let playbackIndexKey = id+'Index'; //여기에 sessionId넣기
+	    //db에서 목록 불러와서 playlist만들기
+	    let playlist = ['./resources/mp3/a02.mp3', './resources/mp3/a03.mp3', './resources/mp3/a04.mp3'];  
+	    let currentIndex = 0;
+	    audio.src = playlist[currentIndex];      
+	    playAudio();
+	    
+	    if(!audio.paused){
+	        $(".play_btn").html('<i class="fa-solid fa-pause"></i>');
+	    }else if(audio.paused){
+	        $(".play_btn").html('<i class="fa-solid fa-play"></i>');
+	    }
+	
+	    // 오디오 재생
+	    function playAudio() {
+	        let storedPlaybackTime = localStorage.getItem(playbackTimeKey);
+	        let storedPlaybackIndex = localStorage.getItem(playbackIndexKey);
+	        if (storedPlaybackTime) {
+	            if(storedPlaybackIndex){
+	                currentIndex = storedPlaybackIndex;
+	                audio.src = playlist[currentIndex];
+	            }
+	            audio.currentTime = parseFloat(storedPlaybackTime);
+	        }
+	            audio.play();
+	        $('.songTitle').text(playlist[currentIndex]);
+	    }
+	
+	    // 현재 재생 중인 오디오가 끝났을 때 호출되는 이벤트 리스너
+	    audio.addEventListener('ended', function() {    
+	    currentIndex++;
+	    if (currentIndex >= playlist.length) {
+	      currentIndex = 0; // 재생목록의 끝에 도달하면 처음으로 돌아감
+	      clearPlaybackTime();
+	    }
+	    audio.src = playlist[currentIndex];
+	    playAudio();
+	    });
+	
+	    // 오디오 일시 정지
+	    function pauseAudio() {
+	        audio.pause();
+	        savePlaybackTime();
+	        savePlaybackIndex();
+	    }
+	
+	    // // 오디오 정지 및 재생 시간 초기화
+	    // function stopAudio() {
+	    //     audio.pause();
+	    //     audio.currentTime = 0;
+	    //     clearPlaybackTime();
+	    // }
+	
+	    //페이지 로드 시 저장된 재생 시간 확인
+	    window.addEventListener('load', function() {
+	        var storedPlaybackTime = localStorage.getItem(playbackTimeKey);
+	        let storedPlaybackIndex = localStorage.getItem(playbackIndexKey);
+	        if (storedPlaybackTime) {
+	            playAudio();
+	        }
+	    });
+	
+	    // 페이지 이동 또는 리로드 시 재생 시간 저장
+	    window.addEventListener('beforeunload', function() {
+	        savePlaybackTime();
+	        savePlaybackIndex();
+	    });
+	
+	    // 재생 시간 저장
+	    function savePlaybackTime() {
+	    localStorage.setItem(playbackTimeKey, audio.currentTime.toString());
+	    }
+	    //재생 순서 저장
+	    function savePlaybackIndex(){
+	        localStorage.setItem(playbackIndexKey,currentIndex.toString());
+	    }
+	
+	    // 재생 시간 초기화
+	    function clearPlaybackTime() {
+	    localStorage.removeItem(playbackTimeKey);
+	    }
+	    
+	    //일시정지 및 재생
+	    
+	    $(".play_btn").click(function(){
+	        if (!audio.paused){
+	            audio.pause();
+	            savePlaybackTime();
+	            savePlaybackIndex();
+	            $(".play_btn").html('<i class="fa-solid fa-play"></i>');
+	        }else if(audio.paused){
+	            playAudio();
+	            $(".play_btn").html('<i class="fa-solid fa-pause"></i>');
+	        }
+	    })
+	
+	
+	    //이전곡
+	    $(".fa-backward-step").click(function(){
+	        currentIndex--;
+	        if (currentIndex < 0) {
+	            currentIndex = playlist.length-1;
+	        }
+	        clearPlaybackTime();
+	        audio.src = playlist[currentIndex];
+	        playAudio();
+	    })
+	
+	    //다음곡
+	    $(".fa-forward-step").click(function(){
+	        currentIndex++;
+	        if (currentIndex >= playlist.length) {
+	            currentIndex = 0;
+	        }
+	        clearPlaybackTime();
+	        audio.src = playlist[currentIndex];
+	        playAudio();
+	    })
+	
+	})
 	//---홈 메인 기능
 	$(document).ready(function(){
 		const id= $('#hostId').val();
@@ -154,7 +191,7 @@
                 $(this).text(trimmedContent + "..."); // 말줄임표 추가
             }
         });
-		
+	
 		//일촌신청
 		$.ajax({
 			type:"POST",
@@ -237,6 +274,7 @@
         })
 	})
 </script>
+<script src="./resources/js/header.js"></script>
 <body>
 	<header>
 		<input id="hostId" type="text" value="${hostId}" class="hidden">
@@ -273,13 +311,17 @@
         <nav>
             <div class="nav_wrap">
                 <div class="music_player">
+                    <audio id="audioPlayer" controls onloadstart="this.volume=0.5" autoplay>
+                        <source  id="audioSource"  src="./resources/mp3/a01.mp3" type="audio/mp3">
+                        Your browser does not support the audio element.
+                    </audio>
                     <div class="music_name">
-                        <span>I AM - IVE</span>
+                        <span class="songTitle">I AM - IVE</span>
                         <i class="fa-solid fa-music"></i>
                     </div>
                     <div class="music_icon">
                         <i class="fa-solid fa-backward-step"></i>
-                        <i class="fa-solid fa-play"></i>
+                        <div class="play_btn" style="display: inline-block;"><i class="fa-solid fa-play"></i></div>
                         <i class="fa-solid fa-forward-step"></i>
                     </div>
                 </div>
