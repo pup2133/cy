@@ -64,9 +64,25 @@
 	    let playbackTimeKey = id+'Time'; //여기에 sessionId넣기
 	    let playbackIndexKey = id+'Index'; //여기에 sessionId넣기
 	    //db에서 목록 불러와서 playlist만들기
-	    let playlist = ['./resources/mp3/a02.mp3', './resources/mp3/a03.mp3', './resources/mp3/a04.mp3'];  
+	    
+	    let playlist_text = $("#myplayList").val();
+	    let titlelist_text = $("#titleList").val();
+		console.log(playlist_text);
+		console.log(titlelist_text);
+		let regexForPlay = /([a-zA-Z0-9]+\.mp3)/g;
+		let regexForTitle = /[\w가-힣]+/g;
+		let playlist = $.map(playlist_text.match(regexForPlay), function(value) {
+		  return value;
+		});
+		let titlelist = $.map(titlelist_text.match(regexForTitle), function(value) {
+			  return value;
+		});
+		console.log(playlist);
+		console.log(titlelist);
+	    
+	    /*let playlist = ['a02.mp3', 'a03.mp3', 'a04.mp3'];*/
 	    let currentIndex = 0;
-	    audio.src = playlist[currentIndex];      
+	    audio.src = './resources/mp3/'+playlist[currentIndex];   
 	    playAudio();
 	    
 	    if(!audio.paused){
@@ -82,12 +98,12 @@
 	        if (storedPlaybackTime) {
 	            if(storedPlaybackIndex){
 	                currentIndex = storedPlaybackIndex;
-	                audio.src = playlist[currentIndex];
+	        	    audio.src = './resources/mp3/'+playlist[currentIndex];   
 	            }
 	            audio.currentTime = parseFloat(storedPlaybackTime);
 	        }
-	            audio.play();
-	        $('.songTitle').text(playlist[currentIndex]);
+	        audio.play();
+	        $('.songTitle').text(titlelist[currentIndex]);
 	    }
 	
 	    // 현재 재생 중인 오디오가 끝났을 때 호출되는 이벤트 리스너
@@ -97,7 +113,7 @@
 	      currentIndex = 0; // 재생목록의 끝에 도달하면 처음으로 돌아감
 	      clearPlaybackTime();
 	    }
-	    audio.src = playlist[currentIndex];
+	    audio.src = './resources/mp3/'+playlist[currentIndex];   
 	    playAudio();
 	    });
 	
@@ -166,8 +182,13 @@
 	            currentIndex = playlist.length-1;
 	        }
 	        clearPlaybackTime();
-	        audio.src = playlist[currentIndex];
-	        playAudio();
+		    audio.src = './resources/mp3/'+playlist[currentIndex];  
+		    $('.songTitle').text(titlelist[currentIndex]);
+		    alert(!audio.paused)
+		    alert(audio.paused)
+		    if(!audio.paused){
+		    	playAudio();
+		    }
 	    })
 	
 	    //다음곡
@@ -177,8 +198,11 @@
 	            currentIndex = 0;
 	        }
 	        clearPlaybackTime();
-	        audio.src = playlist[currentIndex];
-	        playAudio();
+		    audio.src = './resources/mp3/'+playlist[currentIndex];
+		    $('.songTitle').text(titlelist[currentIndex]);
+		    if(!audio.paused){
+		    	playAudio();
+		    } 
 	    })
 	
 	})
@@ -328,11 +352,13 @@
 			<div class="nav_wrap">
 				<div class="music_player">
 					<audio id="audioPlayer" controls onloadstart="this.volume=0.5"
-						autoplay>
+						>
 						<source id="audioSource" src="./resources/mp3/a01.mp3"
 							type="audio/mp3">
 						Your browser does not support the audio element.
 					</audio>
+					<input type="text" value="${urllist}" id="myplayList" class="hidden">
+					<input type="text" value="${titlelist}" id="titleList"  class="hidden">
 					<div class="music_name">
 						<span class="songTitle">I AM - IVE</span> <i
 							class="fa-solid fa-music"></i>

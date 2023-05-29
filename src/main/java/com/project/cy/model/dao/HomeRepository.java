@@ -2,7 +2,6 @@ package com.project.cy.model.dao;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.model.dto.HomeProfileDTO;
+import com.project.cy.model.dto.MyjukeDTO;
 import com.project.cy.model.dto.gallery;
 import com.project.cy.model.dto.visit;
 
@@ -69,6 +69,10 @@ public class HomeRepository {
     	param.put("h_msg", h_msg);
     	param.put("m_id", m_id);
 		return session.update(namespace+"editMsg",param);
+    }
+    public List<MyjukeDTO> getPlay(String m_id){
+		return session.selectList(namespace+"getPlay",m_id);
+    	
     }
     
 }

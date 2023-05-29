@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dao.JukeboxRepository;
 import com.project.cy.model.dto.JukeboxDTO;
 import com.project.cy.model.dto.JukeboxStoreDTO;
@@ -28,6 +29,9 @@ public class JukeboxController{
 	
 	@Autowired
 	JukeboxService service;
+	
+	@Autowired
+	HomeRepository homedao;
 
 	//--주크박스 상점--
 	@GetMapping("/jukestore")
@@ -92,6 +96,16 @@ public class JukeboxController{
 			model.addAttribute("sessionId",sessionId);
 			model.addAttribute("mylist",service.getMyjuke(hostId));
 			model.addAttribute("myplay",service.getMyplay(hostId));
+			List<MyjukeDTO> list =  homedao.getPlay(hostId);
+			ArrayList<String> urllist = new ArrayList<>();
+			ArrayList<String> titlelist = new ArrayList<>();
+			for(MyjukeDTO item: list) {
+				System.out.println(item.getMu_url());
+				urllist.add(item.getMu_url());
+				titlelist.add(item.getMu_title());
+			}
+			model.addAttribute("urllist",urllist);
+			model.addAttribute("titlelist",titlelist);
 			
 		}else {
 			return "error";

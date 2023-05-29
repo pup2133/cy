@@ -1,8 +1,7 @@
 package com.project.cy.controller;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.cy.model.dao.DiaryRepository;
 import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dto.FriendsDTO;
+import com.project.cy.model.dto.JukeboxDTO;
+import com.project.cy.model.dto.MyjukeDTO;
 
 @Controller
 public class MyhomeController {
@@ -41,13 +42,28 @@ public class MyhomeController {
 				//아이디정보
 				model.addAttribute("hostId",hostId);
 				model.addAttribute("sessionId",sessionId);
-				//헤더, 프로필
+				//헤더, 프로필, 네이게이션
 				model.addAttribute("headerProfile",homedao.getHomeProfile(sessionId));
 				model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
 				model.addAttribute("previewNum", homedao.getPreview(hostId));
 				model.addAttribute("banner",homedao.getBanner(hostId));
 				model.addAttribute("recieveFriends",homedao.getRecieveFriends(sessionId));
 				model.addAttribute("alertCount",homedao.getRecieveFriends(sessionId).size());
+				List<MyjukeDTO> list =  homedao.getPlay(hostId);
+				ArrayList<String> urllist = new ArrayList<>();
+				ArrayList<String> titlelist = new ArrayList<>();
+				for(MyjukeDTO item: list) {
+					System.out.println(item.getMu_url());
+					urllist.add(item.getMu_url());
+					titlelist.add(item.getMu_title());
+				}
+				model.addAttribute("urllist",urllist);
+				model.addAttribute("titlelist",titlelist);
+				
+				System.out.println(urllist);
+				System.out.println(titlelist);
+				model.addAttribute("myplayList",homedao.getPlay(hostId));
+				
 				//메인
 				model.addAttribute("diaryList",diarydao.selectDiary(hostId));
 				model.addAttribute("visitList",homedao.getHomeVisit(hostId));
@@ -126,6 +142,16 @@ public class MyhomeController {
 		int result = homedao.editMsg(h_msg, hostId);
 		System.out.println(result);
 		return result;
+	}
+	//플리가져오기
+	@PostMapping("/getPlay")
+	@ResponseBody
+	public List<MyjukeDTO> getPlay(String id,HttpSession session) {
+		session.setAttribute("sessionId", "dd");
+		String sessionId = (String) session.getAttribute("sessionId");
 		
+		//호스트 아이디 검사
+		String hostId = homedao.getMemberId(id);
+		return homedao.getPlay(hostId);
 	}
 }

@@ -96,5 +96,14 @@
 	<update id="editMsg" parameterType="HomeProfile">
 		update cy_home set h_msg=#{h_msg} where m_id=#{m_id}
 	</update>
+	
+	<select id="getPlay" resultType="Myjukebox">
+		select m.mu_title,m.mu_artist,mu_url
+		from cy_play pl
+		join cy_music m
+		on pl.mu_code=m.mu_code
+		where m_id=#{m_id}
+		order by pl.pl_code
+	</select>
     
 </mapper>
