@@ -21,12 +21,12 @@ public class DiaryService implements DiaryServiceImp{
 	}
 
 	@Override
-	public DiaryDTO selectDiary(HashMap<String, String> map) throws Exception {
+	public DiaryDTO selectDiary(HashMap<String, Object> map) throws Exception {
 		return dao.selectDiary(map);
 	}
 
 	@Override
-	public List<DiaryCommentDTO> selectDiaryComment(HashMap<String, String> map) throws Exception {
+	public List<DiaryCommentDTO> selectDiaryComment(HashMap<String, Object> map) throws Exception {
 		return dao.selectDiaryComment(map);
 	}
 
@@ -60,4 +60,8 @@ public class DiaryService implements DiaryServiceImp{
 		return dao.deleteText(d_num);
 	}
 
+	@Override
+	public int selectDiaryCommentCount(HashMap<String, Object> map) {
+		return dao.selectDiaryCommentCount(map);
+	}
 }

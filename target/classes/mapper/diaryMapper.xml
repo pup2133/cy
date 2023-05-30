@@ -24,8 +24,16 @@
 		join CY_HOME h
 		on dc.M_ID = h.M_ID
 		where d.m_id = #{m_id} and d.D_DATE = #{d_date}
-		order by
-		dc.DC_NUM
+		order by dc.DC_NUM
+		OFFSET #{startItem} ROWS FETCH NEXT #{itemsPerPage} ROWS ONLY
+	</select>
+	
+	<select id="selectDiaryCommentCount" parameterType="hashmap" resultType="int">
+		select count(*)
+		from CY_DIARY_COMMENT dc
+		join CY_DIARY d
+		on dc.D_NUM = d.D_NUM
+		where d.m_id = #{m_id} and d.D_DATE = #{d_date}
 	</select>
 	
 	<insert id="insertDiaryComment" parameterType="DiaryCommentDTO">

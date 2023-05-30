@@ -45,11 +45,16 @@ public class HomeController {
 		ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(id);
 		friends.addAll(friendsService.getSend(id));
 		
-		Random r = new Random();
+//		Random r = new Random();
+//		int r_num = r.nextInt(friends.size());
+//		String r_id = friends.get(r_num).getM_id();
+		String r_id = "";
+		if(!friends.isEmpty()) {
+			Random r = new Random();
+			int r_num = r.nextInt(friends.size());
+			r_id = friends.get(r_num).getM_id();
+		}
 		
-		int r_num = r.nextInt(friends.size());
-		
-		String r_id = friends.get(r_num).getM_id();
 		
 		model.addAttribute("friends", friends);
 		model.addAttribute("r_id", r_id);

@@ -425,7 +425,7 @@ function delete_text() {
 					</div>
 
 					<div class="comment_wrap" id="comment_wrap">
-						<h4 id="com_cnt">댓글(${cmCnt})</h4>
+						<h4 id="com_cnt">댓글(${totalCount})</h4>
 						<form class="comment" method="post" name="frm" action="diary/commentReg" id="hide_com">
 							<input type="hidden" name="d_num" id="d_num2" value="${diary.d_num}"> 
 							<input type="hidden" name="d_date" id="d_date" value="${diary.d_date}">
@@ -452,6 +452,15 @@ function delete_text() {
 									</div>
 								</div>
 							</c:forEach>
+						</div>
+						<div class="page">
+							<ul class="pagination">
+								<li class="page-item page_side"><a class="page-link" href="diary?id=${hostId}&days=${selectDay}&page=1"><</a></li>
+								<c:forEach var="pageNumber" begin="${startPage}" end="${endPage}">
+									<li class="page-item"><a class="page-link" href="diary?id=${hostId}&days=${selectDay}&page=${pageNumber}">${pageNumber}</a></li>
+								</c:forEach>
+								<li class="page-item page_side"><a class="page-link" href="diary?id=${hostId}&days=${selectDay}&page=${totalPages}">></a></li>
+							</ul>
 						</div>
 					</div>
 				</div>

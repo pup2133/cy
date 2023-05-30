@@ -7,9 +7,9 @@ import com.project.cy.model.dto.DiaryCommentDTO;
 import com.project.cy.model.dto.DiaryDTO;
 
 public interface DiaryServiceImp {
-	public DiaryDTO selectDiary(HashMap<String, String> map) throws Exception;
+	public DiaryDTO selectDiary(HashMap<String, Object> map) throws Exception;
 
-	public List<DiaryCommentDTO> selectDiaryComment(HashMap<String, String> map) throws Exception;
+	public List<DiaryCommentDTO> selectDiaryComment(HashMap<String, Object> map) throws Exception;
 	
 	public int insertDiaryComment(DiaryCommentDTO dc);
 
@@ -22,4 +22,6 @@ public interface DiaryServiceImp {
 	public int updateText(HashMap<String, Object> map);
 	
 	public int deleteText(String d_num);
+	
+	public int selectDiaryCommentCount(HashMap<String, Object> map);
 }

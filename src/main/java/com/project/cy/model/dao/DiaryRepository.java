@@ -19,12 +19,12 @@ public class DiaryRepository implements DiaryRepositoryImp{
 	private static String namespace = "com.project.diaryMapper.";
 	
 	@Override
-	public DiaryDTO selectDiary(HashMap<String, String> map) throws Exception {
+	public DiaryDTO selectDiary(HashMap<String, Object> map) throws Exception {
 		return session.selectOne(namespace + "selectDiary", map);
 	}
 
 	@Override
-	public List<DiaryCommentDTO> selectDiaryComment(HashMap<String, String> map) throws Exception {
+	public List<DiaryCommentDTO> selectDiaryComment(HashMap<String, Object> map) throws Exception {
 		return session.selectList(namespace + "selectDiaryComment", map);
 	}
 
@@ -56,5 +56,10 @@ public class DiaryRepository implements DiaryRepositoryImp{
 	@Override
 	public int deleteText(String d_num) {
 		return session.delete(namespace + "deleteDiaryText", d_num);
+	}
+
+	@Override
+	public int selectDiaryCommentCount(HashMap<String, Object> map) {
+		return session.selectOne(namespace + "selectDiaryCommentCount", map);
 	}
 }
