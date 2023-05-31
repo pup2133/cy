@@ -76,6 +76,10 @@ section {
   top: 30%;
 }
 
+#up_btn{
+	font-size: 30px;
+}
+
 .pic{
   margin-right: 80px;
   width: 25%;
@@ -83,6 +87,21 @@ section {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  position: relative;
+}
+
+.pic h1{
+	position: absolute;
+	left: 50%;
+	top: 40%;
+	text-align: center;
+	cursor: default;
+	color: gray;
+}
+
+#upload{
+	width: 100%;
+	height: 100%;
 }
 
 .p_text{
@@ -93,6 +112,14 @@ margin-top: 30px;
 
 .p_text h2{
   padding-bottom: 10px;
+}
+
+#file{
+	width: 100%;
+    height: 100%;
+    opacity: 0;
+    display: none;
+    cursor: pointer;
 }
 
 #p_text{

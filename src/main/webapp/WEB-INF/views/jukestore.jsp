@@ -141,13 +141,17 @@
         <nav>
             <div class="nav_wrap">
                 <div class="music_player">
+                    <audio id="audioPlayer" controls onloadstart="this.volume=0.5" autoplay>
+                        <source  id="audioSource"  src="./resources/mp3/a01.mp3" type="audio/mp3">
+                        Your browser does not support the audio element.
+                    </audio>
                     <div class="music_name">
-                        <span>I AM - IVE</span>
+                        <span class="songTitle">I AM - IVE</span>
                         <i class="fa-solid fa-music"></i>
                     </div>
                     <div class="music_icon">
                         <i class="fa-solid fa-backward-step"></i>
-                        <i class="fa-solid fa-play"></i>
+                        <div class="play_btn" style="display: inline-block;"><i class="fa-solid fa-play"></i></div>
                         <i class="fa-solid fa-forward-step"></i>
                     </div>
                 </div>

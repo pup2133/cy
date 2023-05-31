@@ -5,10 +5,12 @@
 <mapper namespace="com.project.profileMapper">
 
 	<select id="selectProfile" parameterType="String" resultType="ProfileDTO">
-		select m.m_id, m.M_NAME, to_char(m.M_BIRTH, 'yyyy-mm-dd') m_birth, m.M_EMAIL, m.M_TEL, p.P_PIC, p.P_TEXT
+		select m.m_id, m.M_NAME, to_char(m.M_BIRTH, 'yyyy-mm-dd') m_birth, m.M_EMAIL, m.M_TEL, h.H_PIC p_pic, p.P_TEXT
 		from CY_PROFILE p
 		join CY_MEMBER m
 		on p.M_ID = m.M_ID
+		join cy_home h
+   		on p.m_id = h.m_id
 		where  m.m_id = #{m_id}
 	</select>
 	
@@ -24,6 +26,12 @@
 		m_birth = #{m_birth},
 		m_email = #{m_email},
 		m_tel = #{m_tel}
+		where m_id = #{m_id}
+	</update>
+	
+	<update id="updateProfile3" parameterType="map">
+		update CY_HOME set 
+		h_pic = #{p_pic} 
 		where m_id = #{m_id}
 	</update>
 

@@ -52,7 +52,7 @@ body {
     border-radius: 3px;
   }
   
-  .container button[type="submit"] {
+  .container button[type="button"] {
     margin: 30px auto;
     width: 100%;
     padding: 15px;

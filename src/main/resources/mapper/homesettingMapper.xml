@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.cy.homesettingMapper">
+
+	<select id="getsetting" resultType="HomeSetting">
+		SELECT b_hide_profile, b_hide_music, b_hide_diary, b_hide_gallery
+		FROM cy_banner
+		WHERE m_id = #{m_id}
+	</select>
+	
+
+	<update id="updatesetting" parameterType="HomeSetting">
+		UPDATE cy_banner
+		SET b_hide_profile = #{b_hide_profile},
+			b_hide_music = #{b_hide_music},
+			b_hide_diary = #{b_hide_diary},
+			b_hide_gallery = #{b_hide_gallery}
+		WHERE id = #{id}
+	</update>
+
+
+
+</mapper>
+

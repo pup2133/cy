@@ -45,6 +45,10 @@ public class JukeboxRepository implements JukeboxRepositoryImp{
 		return session.selectList(namespace+"Myjuke",m_id);
     }
     @Override
+    public List<MyjukeDTO> getMyplay(String m_id){
+		return session.selectList(namespace+"Myplay",m_id);
+    }
+    @Override
     public int addPlay(String m_id,String mu_code) {
     	Map<String, Object> parameters = new HashMap<>();
         parameters.put("m_id", m_id);
@@ -52,10 +56,10 @@ public class JukeboxRepository implements JukeboxRepositoryImp{
         return session.update(namespace + "addPlay", parameters);
     }
     @Override
-    public int subPlay(String m_id,String mu_code) {
+    public int subPlay(String m_id,int pl_code) {
     	Map<String, Object> parameters = new HashMap<>();
         parameters.put("m_id", m_id);
-        parameters.put("mu_code", mu_code);
+        parameters.put("pl_code", pl_code);
         return session.update(namespace + "subPlay", parameters);
     }
 	

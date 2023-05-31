@@ -89,6 +89,7 @@ section{
 /* 댓글 감싸는 부분 오버플로우 시 스크롤*/
 .comment_wrap{
     height: 75%;
+    width:95%;
     padding: 10px;
     display: none;
     overflow-y: scroll;
@@ -126,13 +127,20 @@ section{
 .comment_info :nth-child(1){
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 
 .comment_info :nth-child(2){
     display: flex;
     justify-content: space-between;
+   	margin-bottom: 2px;
 }
+
+.comment_info :nth-child(3){
+    display: flex;
+    justify-content: flex-end;    
+}
+
 /* 댓글 부분 끝 */
 
 /* 게시글 텍스트 부분 시작 */
@@ -230,4 +238,110 @@ section{
 	position: absolute;
     bottom: 29px;
     right: 48px;
+}
+
+.comment_good{
+	margin-left:5px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin-bottom:40px;
+  margin-top:10px;
+}
+
+.pagination li {
+  margin: 0px;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.pagination a:hover {
+  background-color: #eee;
+}
+
+.pagination .active a {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.editGallery{
+	border:0;
+	background-color:white;
+	font-size:16px;
+}
+
+.deleteGallery{
+	border:0;
+	background-color:white;
+	font-size:16px;
+
+}
+
+.edit_comment{
+	border:0;
+	background-color:white;
+	font-size:16px;
+}
+
+.edit_comment2{
+	border:0;
+	background-color:white;
+	font-size:16px;
+}
+
+.delete_comment{
+	margin-top:-2px;
+	border:0;
+	background-color:white;
+	font-size:16px;
+}
+
+
+button:hover{
+	cursor: pointer;
+}
+
+.edit{
+  outline: none;
+  resize: none;
+  width: 100%;
+  border:0;
+  height:50px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.gc_text{
+	font-size:16px;
+}
+
+.spanDiv{
+	word-break: break-all;
+	width:75%;
+}
+
+.cgc{
+	display:flex;
+	align-items: flex-end;
+}
+
+.fa-lock{
+	margin-left:4px;
+	font-size:24px;
+}
+
+a{
+	text-decoration: none;
+	color:black;	
 }

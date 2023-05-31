@@ -8,17 +8,22 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
+let cnt = 0;
+//중복확인
 function dup(){
-	
 	
 	let id = $('input[name=m_id]').val();
 	
 	if(id==""){
-		Swal.fire('아이디 중복 체크', '아이디를 입력해주세요', 'error')
+		Swal.fire('아이디 중복 체크', '아이디를 입력해주세요', 'error');
+		cnt=1;
 		return;
+		
 	}else if(id.length>15 || id.length<4){
-		Swal.fire('아이디 체크', '아이디는 4자 이상 15자 이하로 입력해주세요', 'error')
+		Swal.fire('아이디 체크', '아이디는 4자 이상 15자 이하로 입력해주세요', 'error');
 		return;
+		
+		
 	}
 	
 	$.ajax({
@@ -42,44 +47,50 @@ function dup(){
 		});
 		
 }
-function validateForm(){
-	let m_id = $('input[name=m_id]').val();
-	let m_pw = $('input[name=m_pw]').val();
-	let m_name = $('input[name=m_name]').val();
-	let m_nick = $('input[name=m_nick]').val();
-	let m_birth = $('input[name=m_birth]').val();
-	let m_email = $('input[name=m_email]').val();
-	let m_tel = $('input[name=m_tel]').val();
-	
-	if(m_id===""||m_pw===""||m_name===""||m_nick===""||m_birth===""||m_email===""||m_tel===""){
-		Swal.fire('회원가입', '비어있는 항목이 있는지 확인해주세요', 'error');
-		return;
-	}else if (!/^\d{4}-\d{2}-\d{2}$/.test(m_birth)){
-		Swal.fire('회원가입', '생년월일 형식을 확인해주세요', 'error');
-		return;
-	} else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(m_email)) {
-		Swal.fire('회원가입', '이메일 형식을 확인해주세요', 'error');
-		return;
-	}else if (!/^\d+$/.test(m_tel)){
-		Swal.fire('회원가입', '전화번호 형식을 확인해주세요', 'error');
-		return;
-	}else {
-		Swal.fire('회원가입', '회원 가입이 완료되었습니다.', 'success');
-		return;
-	}
-	
-}
+//회원가입
+function validateForm() {
+	  let m_id = $('input[name=m_id]').val();
+	  let m_pw = $('input[name=m_pw]').val();
+	  let m_name = $('input[name=m_name]').val();
+	  let m_nick = $('input[name=m_nick]').val();
+	  let m_birth = $('input[name=m_birth]').val();
+	  let m_email = $('input[name=m_email]').val();
+	  let m_tel = $('input[name=m_tel]').val();
 
+	  if (m_id === "" || m_pw === "" || m_name === "" || m_nick === "" || m_birth === "" || m_email === "" || m_tel === "") {
+	    Swal.fire('회원가입', '비어있는 항목이 있는지 확인해주세요', 'error');
+	    return;
+	  } else if (!/^\d{4}-\d{2}-\d{2}$/.test(m_birth)) {
+	    Swal.fire('회원가입', '생년월일 형식을 확인해주세요', 'error');
+	    return;
+	  } else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(m_email)) {
+	    Swal.fire('회원가입', '이메일 형식을 확인해주세요', 'error');
+	    return;
+	  } else if (!/^\d{3}-\d{4}-\d{4}$/.test(m_tel)) {
+	    Swal.fire('회원가입', '전화번호 형식을 확인해주세요', 'error');
+	    return;
+	  } else if(cnt==="1"){
+	    Swal.fire({
+	      title: '회원가입',
+	      text: '회원 가입이 완료되었습니다.',
+	      icon: 'success',
+	      showCancelButton: false,
+	      confirmButtonText: '확인',
+	    }).then(() => {
+	      document.frm.submit();
+	    });
+	    return;
+	  }
 </script>
 </head>
   <body>
     <div class="container">
       <h1>회원가입</h1>
       <hr />
-      <form action="register" method="post">
+      <form name="frm" action="register" method="post">
         <h5>아이디</h5>  
         <div class="input-container">
-          <input type="text" name="m_id" placeholder="아이디 입력" required />
+          <input type="text" name="m_id" placeholder="아이디 입력" />
           <input type="button" value="중복확인" class="doublecheck" onclick="dup()">
         </div>
         <h5>비밀번호</h5>
@@ -93,8 +104,8 @@ function validateForm(){
         <h5>이메일</h5>
         <input type="text" name="m_email" placeholder="예) racon@gmail.com" />
         <h5>전화번호</h5>
-        <input type="text" name="m_tel" placeholder="기호없이 번호만 입력" />
-        <button type="submit" onclick="validateForm()">회원가입</button>
+        <input type="text" name="m_tel" placeholder="예) 010-0000-0000" />
+        <button type="button" onclick="validateForm()">회원가입</button>
       </form>
     </div>
   </body>

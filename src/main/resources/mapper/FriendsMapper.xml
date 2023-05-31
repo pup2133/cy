@@ -32,4 +32,8 @@
         delete from cy_friends where f_num=#{f_num}
     </delete>
     
+    <select id="getSearchList" resultType="Friends" parameterType="String">
+    	select m_id, m_nick from cy_member where m_id != #{m_id}
+    </select>
+    
 </mapper>

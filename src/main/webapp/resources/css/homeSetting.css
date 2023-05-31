@@ -1,0 +1,120 @@
+@charset "UTF-8";
+section {
+    width :100%;
+    margin: 0;
+    padding: 0;
+  }
+
+ section .container {
+    height: 50px;
+    padding: 40px;
+    border-radius: 4px;
+  }
+  
+ section .container h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+ section .container hr {
+    width: 100%;
+    margin-bottom: 20px;
+    border: none;
+    border-top: 1px solid #ccc;
+  }
+
+section .container2{
+    display: flex;
+}
+section .block{
+    width: 300px;
+}
+section .container2 form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 650px;
+    margin: 0 auto;
+  }
+
+ section .container2 h3{
+    margin-top: 50px;
+    color: #555;
+  }
+
+ section .radio{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+section .container2 button[type="submit"] {
+    margin: 30px auto;
+    width: 60%;
+    padding: 15px;
+    background-color: #272727;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+ section .container2 button[type="submit"]:hover {
+    background-color: #000;
+  }
+
+ section .radio{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+
+  }
+ section label {
+    padding: 2px;
+  }
+  
+ section span {
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+  
+ section [type="radio"] {
+    vertical-align: middle;
+    appearance: none;
+    border: max(2px, 0.1em) solid gray;
+    border-radius: 50%;
+    width: 1.25em;
+    height: 1.25em;
+    transition: border 0.5s ease-in-out;
+  }
+  
+ section [type="radio"]:checked {
+    border: 0.4em solid #272727;
+  }
+  
+ section [type="radio"]:focus-visible {
+    outline-offset: max(2px, 0.1em);
+    outline: max(2px, 0.1em) dotted #272727;
+  }
+  
+ section [type="radio"]:hover {
+    box-shadow: 0 0 0 max(4px, 0.2em) lightgray;
+    cursor: pointer;
+  }
+  
+ section [type="radio"]:disabled {
+    background-color: lightgray;
+    box-shadow: none;
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+ section [type="radio"]:disabled + span {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
