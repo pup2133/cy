@@ -81,9 +81,6 @@ function validateForm() {
 	    });
 	    return;
 	  }
-	}
-	
-
 </script>
 </head>
   <body>

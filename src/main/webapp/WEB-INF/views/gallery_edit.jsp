@@ -8,7 +8,7 @@
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="stylesheet" href="./resources/css/header_nav.css">
-<link rel="stylesheet" href="./resources/css/gallery_reg.css">
+<link rel="stylesheet" href="resources/css/gallery_reg.css">
 <script src="./resources/js/galleryRegEdit.js"></script>
 </head>
 <body>
@@ -25,25 +25,27 @@
 				</div>
 			</div>
 			<div class="gallery_wrap">
-				<form action="gallery/reg" method="post"
+				<form action="gallery/edit" method="post"
 					enctype="multipart/form-data">
+					<input type="hidden" name="g_num" value="${g_num }">
 					<div class="gallery">
 						<div class="gallery_left">
-							<div class="gallery_img">
-								<h1>사진 첨부</h1>
+							<div class="gallery_img"
+								style="background-image: url('./resources/file/${pic}')">
 								<input name="file" type="file" id="file" accept="image/*">
+								<input name="g_pic" type="hidden" value="${pic }">
 							</div>
 						</div>
 						<div class="gallery_right">
 							<div>
-								<input type="text" name="g_title">
-								<select name="g_secret">
+								<input type="text" name="g_title" value="${title }"> <select
+									name="g_secret">
 									<option value="0">공개</option>
 									<option value="1">비공개</option>
 								</select>
 							</div>
 							<div class="gallery_box">
-								<textarea name="g_text"></textarea>
+								<textarea name="g_text">${text }</textarea>
 							</div>
 							<button>저장</button>
 						</div>
