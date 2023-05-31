@@ -81,9 +81,11 @@ section{
 }
 .gallery_img_wrap{
     /* background-color: green; */
-    height: 460px;
+    margin: 0 auto;
+    height: 465px;
     position: relative;
-    box-sizing: 1px 1px solid;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 10px rgb(169, 169, 169);
 }
 .gallery_back{
     height: 460px;
@@ -103,7 +105,6 @@ section{
 .gallery_img_box{
     position: relative;
     /* background-color: blue; */
-    box-shadow: 1px 1px 10px rgb(169, 169, 169);
 }
 .gallery_img_box img{
     position: relative;
@@ -232,6 +233,7 @@ section{
     border: 0;
     border-radius: 3px;
     cursor: pointer;
+    display:none;
 }
 .send_friend:hover{
     background-color: black;

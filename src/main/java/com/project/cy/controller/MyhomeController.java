@@ -55,7 +55,7 @@ public class MyhomeController {
 				//아이디정보
 				model.addAttribute("hostId",hostId);
 				model.addAttribute("sessionId",sessionId);
-				//헤더, 프로필, 네이게이션
+				//헤더, 프로필, 네비게이션
 				model.addAttribute("headerProfile",homedao.getHomeProfile(sessionId));
 				model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
 				model.addAttribute("previewNum", homedao.getPreview(hostId));
@@ -66,15 +66,11 @@ public class MyhomeController {
 				ArrayList<String> urllist = new ArrayList<>();
 				ArrayList<String> titlelist = new ArrayList<>();
 				for(MyjukeDTO item: list) {
-					System.out.println(item.getMu_url());
 					urllist.add(item.getMu_url());
 					titlelist.add(item.getMu_title());
 				}
 				model.addAttribute("urllist",urllist);
 				model.addAttribute("titlelist",titlelist);
-				
-				System.out.println(urllist);
-				System.out.println(titlelist);
 				model.addAttribute("myplayList",homedao.getPlay(hostId));
 				
 				//메인

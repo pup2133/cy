@@ -49,7 +49,7 @@
 					<input type="hidden" value="${urllist}" id="myplayList">
 					<input type="hidden" value="${titlelist}" id="titleList">
 					<div class="music_name">
-						<span class="songTitle">I AM - IVE</span> <i
+						<span class="songTitle">재생중인 음악 없음</span> <i
 							class="fa-solid fa-music"></i>
 					</div>
 					<div class="music_icon">

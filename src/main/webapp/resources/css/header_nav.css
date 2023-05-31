@@ -134,7 +134,7 @@ nav {
 
 
 #audioPlayer{
-  width: 200px;
+	display:none;
 }
 
 .music_player {

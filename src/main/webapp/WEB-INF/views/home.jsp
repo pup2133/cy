@@ -21,34 +21,6 @@
 	//배너공개비공개
 	$(document).ready(function() {
 		
-		//소켓
-	    // 웹소켓 연결
-	    const sock = new SockJS('/cy/alram');
-	
-	    sock.onopen = function() {
-	      console.log('open');
-	    };
-	
-	    // 데이터를 전달 받았을 때
-	    sock.onmessage = onMessage; // toast 생성
-	
-	    function onMessage(evt) {
-	      let data = evt.data;
-	      let toast = $('<div>', { class: 'toast', text: data });
-	      $('body').append(toast);
-	
-	      setTimeout(function() {
-	        toast.addClass('show');
-	        setTimeout(function() {
-	          toast.removeClass('show');
-	          setTimeout(function() {
-	            toast.remove();
-	          }, 300);
-	        }, 3000);
-	      }, 100);
-	    }
-		
-		
 	  $(".menu_box").click(function(event) {
 	    event.preventDefault(); // 기본 이벤트(페이지 이동) 막기
 	    let value = $(this).prev("input").val(); // menu_box 앞에 있는 input 요소의 값을 가져옴
@@ -70,19 +42,17 @@
 	      window.location.href = href; // 페이지 이동
 	    }
 	  });
-	});
-	
-	
-	
-	//오디오 관련
-	$(document).ready(function(){
-		const id= $('#hostId').val();
+	  
+	  
+	  //오디오관련
+	  const id= $('#hostId').val();
 		const session = $('#sessionId').val();
 	    let audio = document.getElementById('audioPlayer');
 	    let playbackTimeKey = id+'Time'; //여기에 sessionId넣기
 	    let playbackIndexKey = id+'Index'; //여기에 sessionId넣기
-	    //db에서 목록 불러와서 playlist만들기
+	    let playIngKey = id+'Ing';
 	    
+	    //db에서 목록 불러와서 playlist만들기
 	    let playlist_text = $("#myplayList").val();
 	    let titlelist_text = $("#titleList").val();
 		console.log(playlist_text);
@@ -98,21 +68,38 @@
 		console.log(playlist);
 		console.log(titlelist);
 	    
-	    /*let playlist = ['a02.mp3', 'a03.mp3', 'a04.mp3'];*/
 	    let currentIndex = 0;
-	    audio.src = './resources/mp3/'+playlist[currentIndex];   
-	    playAudio();
-	    
-	    if(!audio.paused){
-	        $(".play_btn").html('<i class="fa-solid fa-pause"></i>');
-	    }else if(audio.paused){
-	        $(".play_btn").html('<i class="fa-solid fa-play"></i>');
+	    let currentIng = 0;
+	    audio.src = './resources/mp3/'+playlist[currentIndex];
+	    let storedPlayIng = localStorage.getItem(playIngKey);
+	    console.log("저장된ing:"+storedPlayIng);
+	    let storedPlaybackIndex = localStorage.getItem(playbackIndexKey);
+	    if(storedPlaybackIndex){
+	    	currentIndex = storedPlaybackIndex;
+	    	$('.songTitle').text(titlelist[currentIndex]);
 	    }
-	
+	    if(storedPlayIng){
+	    	currentIng = storedPlayIng;
+	    }
+	    console.log(currentIng);
+	    if(currentIng==1){
+	    	playAudio();
+	    }
+	    chageIcon();
+	    
+	  	//재생아이콘 변경
+	    function chageIcon(){
+		    if(!audio.paused){
+		        $(".play_btn").html('<i class="fa-solid fa-pause"></i>');
+		    }else if(audio.paused){
+		        $(".play_btn").html('<i class="fa-solid fa-play"></i>');
+		    }
+		}
 	    // 오디오 재생
 	    function playAudio() {
 	        let storedPlaybackTime = localStorage.getItem(playbackTimeKey);
 	        let storedPlaybackIndex = localStorage.getItem(playbackIndexKey);
+	        let storedPlayIng = localStorage.getItem(playIngKey);
 	        if (storedPlaybackTime) {
 	            if(storedPlaybackIndex){
 	                currentIndex = storedPlaybackIndex;
@@ -120,7 +107,9 @@
 	            }
 	            audio.currentTime = parseFloat(storedPlaybackTime);
 	        }
-	        audio.play();
+      	audio.play();
+      	localStorage.setItem(playIngKey,"1");
+      	currentIng="1";
 	        $('.songTitle').text(titlelist[currentIndex]);
 	    }
 	
@@ -134,34 +123,32 @@
 	    audio.src = './resources/mp3/'+playlist[currentIndex];   
 	    playAudio();
 	    });
-	
+	    
+	    /*
 	    // 오디오 일시 정지
 	    function pauseAudio() {
 	        audio.pause();
 	        savePlaybackTime();
 	        savePlaybackIndex();
+	        localStorage.setItem(playIngKey,"0");
 	    }
-	
-	    // // 오디오 정지 및 재생 시간 초기화
-	    // function stopAudio() {
-	    //     audio.pause();
-	    //     audio.currentTime = 0;
-	    //     clearPlaybackTime();
-	    // }
-	
+		
 	    //페이지 로드 시 저장된 재생 시간 확인
 	    window.addEventListener('load', function() {
-	        var storedPlaybackTime = localStorage.getItem(playbackTimeKey);
+	        let storedPlaybackTime = localStorage.getItem(playbackTimeKey);
 	        let storedPlaybackIndex = localStorage.getItem(playbackIndexKey);
+	        let storedPlayIng = localStorage.getItem(playIngKey);
 	        if (storedPlaybackTime) {
 	            playAudio();
 	        }
 	    });
+		*/
 	
 	    // 페이지 이동 또는 리로드 시 재생 시간 저장
 	    window.addEventListener('beforeunload', function() {
 	        savePlaybackTime();
 	        savePlaybackIndex();
+	        savePlayIng();
 	    });
 	
 	    // 재생 시간 저장
@@ -172,6 +159,7 @@
 	    function savePlaybackIndex(){
 	        localStorage.setItem(playbackIndexKey,currentIndex.toString());
 	    }
+
 	
 	    // 재생 시간 초기화
 	    function clearPlaybackTime() {
@@ -184,6 +172,8 @@
 	            audio.pause();
 	            savePlaybackTime();
 	            savePlaybackIndex();
+	            localStorage.setItem(playIngKey,"0");
+	            currentIng="0";
 	            $(".play_btn").html('<i class="fa-solid fa-play"></i>');
 	        }else if(audio.paused){
 	            playAudio();
@@ -201,11 +191,8 @@
 	        clearPlaybackTime();
 		    audio.src = './resources/mp3/'+playlist[currentIndex];  
 		    $('.songTitle').text(titlelist[currentIndex]);
-		    alert(!audio.paused)
-		    alert(audio.paused)
-		    if(!audio.paused){
-		    	playAudio();
-		    }
+		    playAudio();
+		    chageIcon();
 	    })
 	
 	    //다음곡
@@ -217,12 +204,13 @@
 	        clearPlaybackTime();
 		    audio.src = './resources/mp3/'+playlist[currentIndex];
 		    $('.songTitle').text(titlelist[currentIndex]);
-		    if(!audio.paused){
-		    	playAudio();
-		    } 
+		    playAudio();
+		    chageIcon();
 	    })
+	});
 	
-	})
+	
+
 	
 	//---홈 메인 기능
 	$(document).ready(function(){
@@ -245,8 +233,8 @@
 			url:"isFriend",
 			data:{id:id},
 			success:function(data){
-				if(data===1 || id===session){
-					$(".send_friend").hide();
+				if(data!==1 && id!==session){
+					$(".send_friend").css({"display":"block"});
 				}
 			},
 			error:function(err){

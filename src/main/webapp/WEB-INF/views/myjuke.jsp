@@ -57,8 +57,9 @@
 	    let audio = document.getElementById('audioPlayer');
 	    let playbackTimeKey = id+'Time'; //여기에 sessionId넣기
 	    let playbackIndexKey = id+'Index'; //여기에 sessionId넣기
-	    //db에서 목록 불러와서 playlist만들기
+	    let playIngKey = id+'Ing';
 	    
+	    //db에서 목록 불러와서 playlist만들기
 	    let playlist_text = $("#myplayList").val();
 	    let titlelist_text = $("#titleList").val();
 		console.log(playlist_text);
@@ -74,21 +75,38 @@
 		console.log(playlist);
 		console.log(titlelist);
 	    
-	    /*let playlist = ['a02.mp3', 'a03.mp3', 'a04.mp3'];*/
 	    let currentIndex = 0;
-	    audio.src = './resources/mp3/'+playlist[currentIndex];   
-	    playAudio();
-	    
-	    if(!audio.paused){
-	        $(".play_btn").html('<i class="fa-solid fa-pause"></i>');
-	    }else if(audio.paused){
-	        $(".play_btn").html('<i class="fa-solid fa-play"></i>');
+	    let currentIng = 0;
+	    audio.src = './resources/mp3/'+playlist[currentIndex];
+	    let storedPlayIng = localStorage.getItem(playIngKey);
+	    console.log("저장된ing:"+storedPlayIng);
+	    let storedPlaybackIndex = localStorage.getItem(playbackIndexKey);
+	    if(storedPlaybackIndex){
+	    	currentIndex = storedPlaybackIndex;
+	    	$('.songTitle').text(titlelist[currentIndex]);
 	    }
-	
+	    if(storedPlayIng){
+	    	currentIng = storedPlayIng;
+	    }
+	    console.log(currentIng);
+	    if(currentIng==1){
+	    	playAudio();
+	    }
+	    chageIcon();
+	    
+	  	//재생아이콘 변경
+	    function chageIcon(){
+		    if(!audio.paused){
+		        $(".play_btn").html('<i class="fa-solid fa-pause"></i>');
+		    }else if(audio.paused){
+		        $(".play_btn").html('<i class="fa-solid fa-play"></i>');
+		    }
+		}
 	    // 오디오 재생
 	    function playAudio() {
 	        let storedPlaybackTime = localStorage.getItem(playbackTimeKey);
 	        let storedPlaybackIndex = localStorage.getItem(playbackIndexKey);
+	        let storedPlayIng = localStorage.getItem(playIngKey);
 	        if (storedPlaybackTime) {
 	            if(storedPlaybackIndex){
 	                currentIndex = storedPlaybackIndex;
@@ -96,7 +114,9 @@
 	            }
 	            audio.currentTime = parseFloat(storedPlaybackTime);
 	        }
-	        audio.play();
+        	audio.play();
+        	localStorage.setItem(playIngKey,"1");
+        	currentIng="1";
 	        $('.songTitle').text(titlelist[currentIndex]);
 	    }
 	
@@ -110,34 +130,32 @@
 	    audio.src = './resources/mp3/'+playlist[currentIndex];   
 	    playAudio();
 	    });
-	
+	    
+	    /*
 	    // 오디오 일시 정지
 	    function pauseAudio() {
 	        audio.pause();
 	        savePlaybackTime();
 	        savePlaybackIndex();
+	        localStorage.setItem(playIngKey,"0");
 	    }
-	
-	    // // 오디오 정지 및 재생 시간 초기화
-	    // function stopAudio() {
-	    //     audio.pause();
-	    //     audio.currentTime = 0;
-	    //     clearPlaybackTime();
-	    // }
-	
+		
 	    //페이지 로드 시 저장된 재생 시간 확인
 	    window.addEventListener('load', function() {
-	        var storedPlaybackTime = localStorage.getItem(playbackTimeKey);
+	        let storedPlaybackTime = localStorage.getItem(playbackTimeKey);
 	        let storedPlaybackIndex = localStorage.getItem(playbackIndexKey);
+	        let storedPlayIng = localStorage.getItem(playIngKey);
 	        if (storedPlaybackTime) {
 	            playAudio();
 	        }
 	    });
+		*/
 	
 	    // 페이지 이동 또는 리로드 시 재생 시간 저장
 	    window.addEventListener('beforeunload', function() {
 	        savePlaybackTime();
 	        savePlaybackIndex();
+	        savePlayIng();
 	    });
 	
 	    // 재생 시간 저장
@@ -148,6 +166,7 @@
 	    function savePlaybackIndex(){
 	        localStorage.setItem(playbackIndexKey,currentIndex.toString());
 	    }
+
 	
 	    // 재생 시간 초기화
 	    function clearPlaybackTime() {
@@ -155,12 +174,13 @@
 	    }
 	    
 	    //일시정지 및 재생
-	    
 	    $(".play_btn").click(function(){
 	        if (!audio.paused){
 	            audio.pause();
 	            savePlaybackTime();
 	            savePlaybackIndex();
+	            localStorage.setItem(playIngKey,"0");
+	            currentIng="0";
 	            $(".play_btn").html('<i class="fa-solid fa-play"></i>');
 	        }else if(audio.paused){
 	            playAudio();
@@ -176,8 +196,10 @@
 	            currentIndex = playlist.length-1;
 	        }
 	        clearPlaybackTime();
-		    audio.src = './resources/mp3/'+playlist[currentIndex];   
-	        playAudio();
+		    audio.src = './resources/mp3/'+playlist[currentIndex];  
+		    $('.songTitle').text(titlelist[currentIndex]);
+		    playAudio();
+		    chageIcon();
 	    })
 	
 	    //다음곡
@@ -187,8 +209,10 @@
 	            currentIndex = 0;
 	        }
 	        clearPlaybackTime();
-		    audio.src = './resources/mp3/'+playlist[currentIndex];   
-	        playAudio();
+		    audio.src = './resources/mp3/'+playlist[currentIndex];
+		    $('.songTitle').text(titlelist[currentIndex]);
+		    playAudio();
+		    chageIcon();
 	    })
 	
 	})
