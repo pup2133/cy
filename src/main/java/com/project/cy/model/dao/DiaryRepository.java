@@ -64,8 +64,7 @@ public class DiaryRepository implements DiaryRepositoryImp{
 	}
 	
 	@Override
-	public DiaryDTO selectDiary2(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<DiaryDTO> selectDiary2(String m_id) {
+		return session.selectList(namespace + "selectDiary2", m_id);
 	}
 }

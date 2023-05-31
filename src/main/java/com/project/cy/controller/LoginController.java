@@ -59,7 +59,7 @@ public class LoginController {
 			// 세션 아이디 확인용
 			String asd = (String) session.getAttribute("sessionId");
 			System.out.println(asd);
-			return "redirect:/home?id=" + id;
+			return "redirect:/myhome?id=" + id;
 		} else {
 			System.out.println("로그인실패");
 			return "redirect:/login";

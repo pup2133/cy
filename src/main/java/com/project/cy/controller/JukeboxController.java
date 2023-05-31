@@ -51,7 +51,7 @@ public class JukeboxController{
 	@PostMapping("/buymusic")
 	public void buyMusic(@RequestParam("mu_code") String mu_code, HttpSession session) {		
 		// 임시 세션 아이디
-		session.setAttribute("sessionId", "dd");
+		//session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		//뮤직코드 가져오기
 		//String mu_code = "a02";
@@ -67,7 +67,7 @@ public class JukeboxController{
 	public String checkDuplicatePurchase(@RequestParam("mu_code") String mu_code, HttpSession session) {
 		System.out.println(mu_code);
 		// 임시 세션 아이디
-		session.setAttribute("sessionId", "dd");
+		//session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		String isDu = "false";
 		ArrayList<MyjukeDTO> mylist = (ArrayList<MyjukeDTO>) service.getMyjuke(sessionId);
@@ -83,7 +83,7 @@ public class JukeboxController{
 	@GetMapping("/myjuke")
 	public String getMyjuke(Model model,String id, HttpSession session) {
 		// 임시 세션 아이디
-		session.setAttribute("sessionId", "dd");
+		//session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		//호스트 아이디 검사
@@ -121,7 +121,7 @@ public class JukeboxController{
 	@ResponseBody
 	public List<MyjukeDTO> addPlaylist(@RequestParam("mu_code") String mu_code, HttpSession session){
 		// 임시 세션 아이디
-		session.setAttribute("sessionId", "dd");
+		//session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		service.addPlay(sessionId, mu_code);
@@ -133,7 +133,7 @@ public class JukeboxController{
 	@ResponseBody
 	public List<MyjukeDTO> subPlaylist(@RequestParam("pl_code") int pl_code, HttpSession session){
 		// 임시 세션 아이디
-		session.setAttribute("sessionId", "dd");
+		//session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		service.subPlay(sessionId, pl_code);

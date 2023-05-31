@@ -9,7 +9,7 @@
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="resources/css/header_nav2.css">
+    <link rel="stylesheet" href="resources/css/header_nav.css">
     <link rel="stylesheet" href="./resources/css/homeSetting.css" />
     <script>
     function() saveSetting{

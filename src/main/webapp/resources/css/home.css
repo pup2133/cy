@@ -225,7 +225,7 @@ section{
 
 .send_friend{
     width: 100%;
-    margin-top: 10px;
+    margin-top: 35px;
     height: 40px;
     background-color: rgb(40, 40, 40);
     color: white;
@@ -283,10 +283,12 @@ section{
     top: 35%;
 }
 /* 필요하면 수정해서 사용해주세요 new 알림*/
+/*
 .preview_friends::before{
     content: "N";font-size:5px;background-color: red;color: white; padding: 5px;
     position: absolute;left: 10px;top: 10px;font-weight: 600;
 }
+*/
 .preview_content{
     position: absolute;
     right: 10%;
