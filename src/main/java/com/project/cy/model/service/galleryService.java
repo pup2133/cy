@@ -119,7 +119,7 @@ public class galleryService implements galleryServiceImp {
 	}
 	
 	@Override
-    @Scheduled(cron = "0 0 18 * * ?") // 매일 0시 0분에 실행
+    @Scheduled(cron = "0 0 0 * * ?") // 매일 0시 0분에 실행
 	public int clearToday() {
 		return dao.clearToday();
 	}
