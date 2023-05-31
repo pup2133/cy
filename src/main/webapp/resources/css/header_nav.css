@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
 	font-family: 'SUITE-Regular';
 	src:
@@ -45,16 +46,60 @@ header {
 }
 
 .header_info :nth-child(3) {
+<<<<<<< HEAD
 	margin-right: 3px;
+=======
+    margin-right: 10px;
+>>>>>>> refs/heads/ki
 }
 
 .header_profile {
+<<<<<<< HEAD
 	width: 75px;
 	border-radius: 50%;
+=======
+  width: 60px;
+  border-radius: 50%;
+>>>>>>> refs/heads/ki
 }
 
 .fa-bell {
+<<<<<<< HEAD
 	font-size: 25px;
+=======
+  font-size: 30px;
+}
+/* 헤더 드롭박스관련 */
+.dropdown {
+  z-index: 99;
+  display: none;
+  position: absolute;
+  width: 130px;
+  top: 80px;
+  right:-15px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  transition: 1s;
+  border-radius: 3px;
+}
+.dropdown a{
+  text-decoration: none;
+  color: black;
+  height: 10px;
+}
+.dropdown-item {
+  padding: 5px;
+  cursor: pointer;
+  height: 20px;
+  text-align: left;
+}
+.dropdown a:nth-child(3){
+  color: red;
+}
+.dropdown-item:hover{
+  background-color: #ccc;
+>>>>>>> refs/heads/ki
 }
 /* 헤더 끝 */
 .nav_section {
@@ -63,10 +108,19 @@ header {
 
 /* 네비게이션 시작 */
 nav {
+<<<<<<< HEAD
 	height: 89.7vh;
 	width: 250px;
 	background-color: #f1f1f1;
 	box-shadow: 3px 0 5px #a2a2a2;
+=======
+  position: absolute;
+  left: 0;
+  height: 89.7vh;
+  width: 225px;
+  background-color: #f1f1f1;
+  box-shadow: 3px 0 5px #a2a2a2;
+>>>>>>> refs/heads/ki
 }
 
 .nav_wrap {
@@ -110,9 +164,22 @@ nav {
 	padding: 8px;
 }
 
+<<<<<<< HEAD
 .search_bar>input {
 	border: 0;
 	outline: none;
+=======
+datalist{
+	max-height: 5px;
+}
+.search_bar > input {
+  border: 0;
+  outline: none;
+>>>>>>> refs/heads/ki
+}
+
+#searchbtn:hover{
+	cursor: pointer;
 }
 
 .menu {
@@ -134,3 +201,11 @@ nav {
 	box-shadow: 0 2px 5px #a2a2a2;
 }
 /* 네비게이션 끝 */
+
+/* 섹션공통 */
+section{
+  width: 100%;
+  height: 89.7vh;
+  box-sizing: border-box;
+  margin-left: 225px;
+}

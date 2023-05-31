@@ -1,19 +1,14 @@
 package com.project.cy.controller;
 
-import java.io.IOException;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.project.cy.model.dao.LoginRepository;
 import com.project.cy.model.dto.LoginDTO;
@@ -38,7 +33,7 @@ public class LoginController {
 	public String FindIdForm() {
 		return "FindId";
 	}
-	
+
 	@GetMapping("/register")
 	public String registerForm() {
 		return "register";
@@ -48,9 +43,9 @@ public class LoginController {
 	// 로그인
 	@PostMapping("/login")
 	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw,HttpSession session) {
-
 		LoginDTO member = dao.findMember(id);
-
+		session.setAttribute("sessionId", id);
+		
 		if (member == null) {
 			return "login";
 		} else if (member.getM_id().equals(id) && member.getM_pw().equals(pw)) {
@@ -60,13 +55,14 @@ public class LoginController {
 			//세션 아이디 확인용
 			String asd = (String)session.getAttribute("sessionId");
 			System.out.println(asd);
-			return "redirect:/login";
+			return "redirect:/home?id=" + id;
 		} else {
 			System.out.println("로그인실패");
-			return "home";
+			return "login";
 
 		}
 	}
+
 	
 	//회원가입
 	@PostMapping("register")
@@ -75,8 +71,8 @@ public class LoginController {
 		dao.register(member);
 		System.out.println(member);
 		return "redirect:/login";
-		
-	}
+
+	}	
 	
 	//아이디 중복확인 
 	@PostMapping("dup")
@@ -84,13 +80,13 @@ public class LoginController {
 	public Boolean duplication(String m_id) {
 		System.out.println(m_id);
 		String result = dao.duplication(m_id);
-		
-		if(result == null) {
+
+		if (result == null) {
 			return true;
 		} else {
 			return false;
 		}
-	
+
 	}
 	
 	//아이디 찾기
@@ -105,9 +101,8 @@ public class LoginController {
 		    }else {
 		        return "1";
 		    }
-
 	}
-	
+
 	//패스워드 찾기
 	@PostMapping("FindPw")
 	@ResponseBody

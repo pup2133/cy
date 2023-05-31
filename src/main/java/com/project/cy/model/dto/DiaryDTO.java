@@ -67,4 +67,11 @@ public class DiaryDTO {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public String toString() {
+		return "DiaryDTO [d_num=" + d_num + ", m_id=" + m_id + ", m_nick=" + m_nick + ", d_date=" + d_date + ", d_text=" + d_text + "]";
+	}
+	
+	
+
 }

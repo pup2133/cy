@@ -37,4 +37,9 @@ public class FriendsService implements FriendsServiceImp{
     public int delete(int f_num) {
     	return dao.delete(f_num);
     }
+    
+    @Override
+    public List<FriendsDTO> getSearchList(String m_id) {
+		return dao.getSearchList(m_id);
+    }
 }

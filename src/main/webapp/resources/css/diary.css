@@ -175,6 +175,30 @@ section {
   height: 50%;
 }
 
+.pagination{
+	display: flex;
+	list-style: none;
+	justify-content: center;
+}
+
+.page-item{
+	margin: 1px;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+}
+
+.page_side{
+	background-color: #d9d4d4;
+}
+
+.page-link{
+	color: black;
+	font-weight: bold;
+}
+
+
+
 /* 罹섎┛�뜑 */
 td {
   width: 50px;

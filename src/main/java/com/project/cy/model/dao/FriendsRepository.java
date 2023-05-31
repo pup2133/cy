@@ -34,5 +34,8 @@ public class FriendsRepository implements FriendsRepositoryImp{
     	return session.delete(namespace+"delete",f_num);
     }
     
-	
+    @Override
+    public List<FriendsDTO> getSearchList(String m_id) {
+		return session.selectList(namespace+"getSearchList", m_id);
+    }
 }
