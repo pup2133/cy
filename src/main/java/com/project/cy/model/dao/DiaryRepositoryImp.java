@@ -24,4 +24,7 @@ public interface DiaryRepositoryImp {
 	public int deleteText(String d_num);
 	
 	public int selectDiaryCommentCount(HashMap<String, Object> map);
+	
+	public DiaryDTO selectDiary2(String id);
+
 }

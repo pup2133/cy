@@ -62,4 +62,10 @@ public class DiaryRepository implements DiaryRepositoryImp{
 	public int selectDiaryCommentCount(HashMap<String, Object> map) {
 		return session.selectOne(namespace + "selectDiaryCommentCount", map);
 	}
+	
+	@Override
+	public DiaryDTO selectDiary2(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

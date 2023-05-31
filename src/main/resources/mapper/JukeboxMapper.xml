@@ -25,23 +25,28 @@
     </insert>
     
     <select id="Myjuke" resultType="Myjukebox">
-        select mu.mu_code, mu.mu_title ,mu.mu_artist, mu.mu_genre, mu.mu_date, mu.mu_img, mu.mu_url, mm.m_id, mm.mm_in 
+        select mu.mu_code, mu.mu_title ,mu.mu_artist, mu.mu_genre, mu.mu_date, mu.mu_img, mu.mu_url, mm.m_id, mm.mm_in
 		from cy_music mu 
 		join cy_mymusic mm 
 		on mu.mu_code = mm.mu_code 
 		where m_id=#{m_id}
     </select>
+    
+    <select id="Myplay" resultType="Myjukebox">
+		select mu.mu_code, mu.mu_title ,mu.mu_artist, mu.mu_genre, mu.mu_date, mu.mu_img, mu.mu_url, pl.m_id , pl.pl_code
+		from cy_music mu 
+		join cy_play pl
+		on mu.mu_code = pl.mu_code 
+		where m_id=#{m_id}
+		order by pl_code asc
+    </select>
 	
 	<update id="addPlay" parameterType="Myjukebox">
-		update cy_mymusic 
-		set mm_in=1 
-		where m_id=#{m_id} and mu_code=#{mu_code}
+		insert into cy_play(mu_code,m_id) values(#{mu_code},#{m_id})
 	</update>
 	
 	<update id="subPlay" parameterType="Myjukebox">
-		update cy_mymusic 
-		set mm_in=0
-		where m_id=#{m_id} and mu_code=#{mu_code}
+		delete from cy_play where pl_code=#{pl_code}
 	</update>
 	
     

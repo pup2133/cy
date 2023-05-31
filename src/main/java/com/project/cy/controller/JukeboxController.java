@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dao.JukeboxRepository;
 import com.project.cy.model.dto.JukeboxDTO;
 import com.project.cy.model.dto.JukeboxStoreDTO;
@@ -28,6 +29,9 @@ public class JukeboxController{
 	
 	@Autowired
 	JukeboxService service;
+	
+	@Autowired
+	HomeRepository homedao;
 
 	//--주크박스 상점--
 	@GetMapping("/jukestore")
@@ -88,9 +92,21 @@ public class JukeboxController{
 		System.out.println(sessionId);
 		System.out.println(id);
 		if(hostId!=null) {
-			model.addAttribute("mylist",service.getMyjuke(hostId));
 			model.addAttribute("hostId",hostId);
 			model.addAttribute("sessionId",sessionId);
+			model.addAttribute("mylist",service.getMyjuke(hostId));
+			model.addAttribute("myplay",service.getMyplay(hostId));
+			List<MyjukeDTO> list =  homedao.getPlay(hostId);
+			ArrayList<String> urllist = new ArrayList<>();
+			ArrayList<String> titlelist = new ArrayList<>();
+			for(MyjukeDTO item: list) {
+				System.out.println(item.getMu_url());
+				urllist.add(item.getMu_url());
+				titlelist.add(item.getMu_title());
+			}
+			model.addAttribute("urllist",urllist);
+			model.addAttribute("titlelist",titlelist);
+			
 		}else {
 			return "error";
 		}
@@ -109,20 +125,20 @@ public class JukeboxController{
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		service.addPlay(sessionId, mu_code);
-		System.out.println(service.getMyjuke(sessionId));
-		return service.getMyjuke(sessionId);
+		System.out.println(service.getMyplay(sessionId));
+		return service.getMyplay(sessionId);
 	}
 	//플레이리스트 제거
 	@PostMapping("/subPlaylist")
 	@ResponseBody
-	public List<MyjukeDTO> subPlaylist(@RequestParam("mu_code") String mu_code, HttpSession session){
+	public List<MyjukeDTO> subPlaylist(@RequestParam("pl_code") int pl_code, HttpSession session){
 		// 임시 세션 아이디
 		session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		
-		service.subPlay(sessionId, mu_code);
-		System.out.println(service.getMyjuke(sessionId));
-		return service.getMyjuke(sessionId);
+		service.subPlay(sessionId, pl_code);
+		System.out.println(service.getMyplay(sessionId));
+		return service.getMyplay(sessionId);
 	}
 	
 }

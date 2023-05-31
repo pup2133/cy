@@ -1,73 +1,61 @@
-@charset "UTF-8";
 @font-face {
-	font-family: 'SUITE-Regular';
-	src:
-		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2')
-		format('woff2');
-	font-weight: 400;
-	font-style: normal;
+  font-family: 'SUITE-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
 }
 
 * {
-	margin: 0;
-	padding: 0;
-	font-family: 'SUITE-Regular';
+  margin: 0;
+  padding: 0;
+  font-family: 'SUITE-Regular';
 }
 
 /* 헤더 시작 */
 header {
-	height: 10vh;
-	border-bottom: 1px solid black;
-	display: flex;
-	justify-content: space-between;
-	box-shadow: 0 2px 5px #a2a2a2;
+  height: 10vh;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 2px 5px #a2a2a2;
 }
 
 .icon {
-	line-height: 10vh;
-	display: flex;
-	align-items: center;
+    line-height: 10vh;
+    display: flex;
+    align-items: center;
 }
 
 .icon img {
-	width: 200px;
+  width: 200px;
 }
 
 .header_info {
-	width: 300px;
-	display: flex;
-	align-items: center;
-	justify-content: right;
+  position: relative;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  cursor:pointer;
 }
 
-.header_info :nth-child(1), .header_info :nth-child(2), .header_info :nth-child(4)
-	{
-	margin-right: 20px;
+.fa-bell, .header_profile, .profile_drop, .profile_drop>span{
+  margin-right: 20px;
 }
 
 .header_info :nth-child(3) {
-<<<<<<< HEAD
-	margin-right: 3px;
-=======
     margin-right: 10px;
->>>>>>> refs/heads/ki
 }
 
 .header_profile {
-<<<<<<< HEAD
-	width: 75px;
-	border-radius: 50%;
-=======
   width: 60px;
-  border-radius: 50%;
->>>>>>> refs/heads/ki
+  height: 60px;
+  border-radius: 50%; 
 }
 
 .fa-bell {
-<<<<<<< HEAD
-	font-size: 25px;
-=======
   font-size: 30px;
+  cursor: pointer;
 }
 /* 헤더 드롭박스관련 */
 .dropdown {
@@ -76,12 +64,21 @@ header {
   position: absolute;
   width: 130px;
   top: 80px;
-  right:-15px;
+  right:0px;
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 10px;
   transition: 1s;
   border-radius: 3px;
+}
+.dropdown_friends{
+  width: 350px;
+  position: absolute;
+  right: 160px;
+}
+.dropdown_friends .dropdown-item{
+  text-align: center;
+  margin: 0;
 }
 .dropdown a{
   text-decoration: none;
@@ -93,112 +90,112 @@ header {
   cursor: pointer;
   height: 20px;
   text-align: left;
+  margin: 15px;
 }
-.dropdown a:nth-child(3){
+.dropdown_profile a:nth-child(3){
   color: red;
 }
 .dropdown-item:hover{
   background-color: #ccc;
->>>>>>> refs/heads/ki
+}
+.new_alert{
+  width: 10px;
+  height: 10px;
+  font-size:5px;
+  text-align: center;
+  background-color: red;
+  color: white; 
+  padding: 5px;
+  position: absolute;
+  left: 85px;
+  top: 23px;
+  font-weight: 600;
+  border-radius: 50%;
 }
 /* 헤더 끝 */
-.nav_section {
-	display: flex;
+
+.nav_section{
+    display: flex;
 }
 
 /* 네비게이션 시작 */
 nav {
-<<<<<<< HEAD
-	height: 89.7vh;
-	width: 250px;
-	background-color: #f1f1f1;
-	box-shadow: 3px 0 5px #a2a2a2;
-=======
   position: absolute;
   left: 0;
   height: 89.7vh;
   width: 225px;
   background-color: #f1f1f1;
   box-shadow: 3px 0 5px #a2a2a2;
->>>>>>> refs/heads/ki
 }
 
 .nav_wrap {
-	width: 100%;
+    width: 100%;
+}
+
+
+#audioPlayer{
+  width: 200px;
 }
 
 .music_player {
-	padding: 10px;
-	background-color: #d9d9d9;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	border-radius: 5px;
-	width: 80%;
-	margin: 20px auto;
+  padding: 10px;
+  background-color: #d9d9d9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  width: 80%;
+  margin: 20px auto;
 }
 
-.music_name>* {
-	margin: 0 5px;
+.music_name > * {
+  margin: 0 5px;
 }
 
-.music_icon>* {
-	margin: 5px 10px;
-	font-size: 20px;
+.music_icon > * {
+    margin: 5px 10px;
+    font-size: 20px;
 }
 
 .fa-play {
-	font-size: 25px;
+  font-size: 25px;
 }
 
 .search {
-	padding: 10px;
-	margin-top: 50px;
+  padding: 10px;
+  margin-top: 50px;
 }
 
 .search_bar {
-	margin-top: 5px;
-	background-color: #ffffff;
-	display: flex;
-	justify-content: space-between;
-	padding: 8px;
+  margin-top: 5px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
 }
 
-<<<<<<< HEAD
-.search_bar>input {
-	border: 0;
-	outline: none;
-=======
-datalist{
-	max-height: 5px;
-}
 .search_bar > input {
   border: 0;
   outline: none;
->>>>>>> refs/heads/ki
-}
-
-#searchbtn:hover{
-	cursor: pointer;
 }
 
 .menu {
-	margin-top: 80px;
+    margin-top: 80px;
 }
 
 .menu a {
-	text-decoration: none;
-	color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .menu a div {
-	text-align: center;
-	background-color: #d9d9d9;
-	height: 50px;
-	border-radius: 3px;
-	line-height: 50px;
-	margin-top: 30px;
-	box-shadow: 0 2px 5px #a2a2a2;
+  text-align: center;
+  background-color: #d9d9d9;
+  height: 50px;
+  border-radius: 3px;
+  line-height: 50px;
+  margin-top: 30px;
+  box-shadow: 0 2px 5px #a2a2a2;
 }
 /* 네비게이션 끝 */
 

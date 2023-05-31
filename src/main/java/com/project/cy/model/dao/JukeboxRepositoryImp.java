@@ -18,8 +18,11 @@ public interface JukeboxRepositoryImp {
 	
 	public List<MyjukeDTO> getMyjuke(String m_id);
 	
+	public List<MyjukeDTO> getMyplay(String m_id);
+	
 	public int addPlay(String m_id,String mu_code);
 	
-	public int subPlay(String m_id,String mu_code);
+	public int subPlay(String m_id,int pl_code);
+
 	
 }	
