@@ -31,7 +31,6 @@ public class MyhomeController {
 	@GetMapping("/myhome")
 	public String getHomeProfile(Model model,String id,HttpSession session) {
 		// 임시 세션 아이디
-		session.setAttribute("sessionId", "dd");
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		//호스트 아이디 검사

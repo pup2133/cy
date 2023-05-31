@@ -38,8 +38,10 @@ public class ProfileController {
 	public String getProfile(Model model, String id, HttpSession session) throws Exception {
 		
 		profile = (ProfileDTO) service.selectProfile(id);
-		
+		String sessionId = (String)session.getAttribute("sessionId");
 		model.addAttribute("profile", profile);
+		model.addAttribute("hostId",id);
+		model.addAttribute("sessionId",sessionId);
 		
 		return "profile";
 	}
