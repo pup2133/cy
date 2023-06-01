@@ -352,9 +352,10 @@ function delete_text() {
   }
 }
 </script>
+<script src="./resources/js/header.js"></script>
 </head>
 <body>
-	<%@ include file="header_nav.jsp"%>
+		<%@ include file="header_nav.jsp"%>
 		<section>
 			<div class="section_wrap">
 				<div class="section_title">다이어리</div>

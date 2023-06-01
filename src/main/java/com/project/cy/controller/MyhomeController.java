@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.cy.model.dao.DiaryRepository;
 import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dto.FriendsDTO;
-import com.project.cy.model.dto.JukeboxDTO;
 import com.project.cy.model.dto.MyjukeDTO;
 import com.project.cy.service.FriendsService;
 
@@ -31,7 +31,7 @@ public class MyhomeController {
 	
 	@Autowired
 	HomeRepository homedao;
-	
+	//
 	@Autowired
 	DiaryRepository diarydao;
 	
@@ -44,21 +44,18 @@ public class MyhomeController {
 	
 	@GetMapping("/myhome")
 	public String getHomeProfile(Model model,String id,HttpSession session) {
-		// 임시 세션 아이디
+		//여기1
 		String sessionId = (String) session.getAttribute("sessionId");
-		
-		//호스트 아이디 검사
 		String hostId = homedao.getMemberId(id);
-		
+
 		if(hostId!=null) {
 			try {
+				//---반복<
 				//아이디정보
 				model.addAttribute("hostId",hostId);
 				model.addAttribute("sessionId",sessionId);
 				//헤더, 프로필, 네비게이션
 				model.addAttribute("headerProfile",homedao.getHomeProfile(sessionId));
-				model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
-				model.addAttribute("previewNum", homedao.getPreview(hostId));
 				model.addAttribute("banner",homedao.getBanner(hostId));
 				model.addAttribute("recieveFriends",homedao.getRecieveFriends(sessionId));
 				model.addAttribute("alertCount",homedao.getRecieveFriends(sessionId).size());
@@ -72,37 +69,26 @@ public class MyhomeController {
 				model.addAttribute("urllist",urllist);
 				model.addAttribute("titlelist",titlelist);
 				model.addAttribute("myplayList",homedao.getPlay(hostId));
+				//---반복>
 				
 				//메인
+				model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
+				model.addAttribute("previewNum", homedao.getPreview(hostId));
 				model.addAttribute("diaryList",diarydao.selectDiary2(hostId));
 				model.addAttribute("visitList",homedao.getHomeVisit(hostId));
 				model.addAttribute("galleryList",homedao.getHomeGallery(hostId));
-				
-				
-				
-				//광일님부분
-				session.setAttribute("hostId", id);
-				
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-				Calendar c1 = Calendar.getInstance();
-				String strToday = sdf.format(c1.getTime());
-				
-				session.setAttribute("today", strToday);
-				
 				ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(id);
 				friends.addAll(friendsService.getSend(id));
-				
+				model.addAttribute("friends", friends);
+				//파도타기 부분
+				session.setAttribute("hostId", id);
 				String r_id = "";
 				if(!friends.isEmpty()) {
 					Random r = new Random();
 					int r_num = r.nextInt(friends.size());
 					r_id = friends.get(r_num).getM_id();
 				}
-				
-				
-				model.addAttribute("friends", friends);
 				model.addAttribute("r_id", r_id);
-				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -207,4 +193,6 @@ public class MyhomeController {
 		
 		return jslist.toString();
 	}
+
+	
 }

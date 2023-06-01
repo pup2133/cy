@@ -1,7 +1,10 @@
 package com.project.cy.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,9 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dao.JukeboxRepository;
+import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.model.dto.JukeboxDTO;
 import com.project.cy.model.dto.JukeboxStoreDTO;
 import com.project.cy.model.dto.MyjukeDTO;
+import com.project.cy.service.FriendsService;
 import com.project.cy.service.JukeboxService;
 
 @Controller
@@ -33,10 +38,59 @@ public class JukeboxController{
 	@Autowired
 	HomeRepository homedao;
 
+	FriendsService friendsService;
+	@Autowired
+	public void setFriendsService(FriendsService friendsService) {
+		this.friendsService = friendsService;
+	}
+	
 	//--주크박스 상점--
 	@GetMapping("/jukestore")
-	public String getMusicList(Model model) {
+	public String getMusicList(Model model,String id, HttpSession session) {
+		String sessionId = (String) session.getAttribute("sessionId");
+		String hostId = homedao.getMemberId(id);
+		//아이디정보
+		model.addAttribute("hostId",hostId);
+		model.addAttribute("sessionId",sessionId);
+		//헤더, 프로필, 네비게이션
+		model.addAttribute("headerProfile",homedao.getHomeProfile(sessionId));
+		model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
+		model.addAttribute("previewNum", homedao.getPreview(hostId));
+		model.addAttribute("banner",homedao.getBanner(hostId));
+		model.addAttribute("recieveFriends",homedao.getRecieveFriends(sessionId));
+		model.addAttribute("alertCount",homedao.getRecieveFriends(sessionId).size());
+		model.addAttribute("myplayList",homedao.getPlay(hostId));
+		model.addAttribute("mylist",service.getMyjuke(hostId));
+		model.addAttribute("myplay",service.getMyplay(hostId));
+		List<MyjukeDTO> list =  homedao.getPlay(hostId);
+		ArrayList<String> urllist = new ArrayList<>();
+		ArrayList<String> titlelist = new ArrayList<>();
+		for(MyjukeDTO item: list) {
+			System.out.println(item.getMu_url());
+			urllist.add(item.getMu_url());
+			titlelist.add(item.getMu_title());
+		}
+		model.addAttribute("urllist",urllist);
+		model.addAttribute("titlelist",titlelist);
+		//아이디검색
+		ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(id);
+		friends.addAll(friendsService.getSend(id));
+		
+		String r_id = "";
+		if(!friends.isEmpty()) {
+			Random r = new Random();
+			int r_num = r.nextInt(friends.size());
+			r_id = friends.get(r_num).getM_id();
+		}
+		
+		
+//		model.addAttribute("friends", friends);
+		model.addAttribute("r_id", r_id);
+		
+		//
 		model.addAttribute("musiclist",service.All());
+		
+		
 		return "jukestore";
 	}
 	//음악검색
@@ -94,6 +148,15 @@ public class JukeboxController{
 		if(hostId!=null) {
 			model.addAttribute("hostId",hostId);
 			model.addAttribute("sessionId",sessionId);
+			
+			//헤더, 프로필, 네비게이션
+			model.addAttribute("headerProfile",homedao.getHomeProfile(sessionId));
+			model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
+			model.addAttribute("previewNum", homedao.getPreview(hostId));
+			model.addAttribute("banner",homedao.getBanner(hostId));
+			model.addAttribute("recieveFriends",homedao.getRecieveFriends(sessionId));
+			model.addAttribute("alertCount",homedao.getRecieveFriends(sessionId).size());
+			model.addAttribute("myplayList",homedao.getPlay(hostId));
 			model.addAttribute("mylist",service.getMyjuke(hostId));
 			model.addAttribute("myplay",service.getMyplay(hostId));
 			List<MyjukeDTO> list =  homedao.getPlay(hostId);
@@ -106,6 +169,10 @@ public class JukeboxController{
 			}
 			model.addAttribute("urllist",urllist);
 			model.addAttribute("titlelist",titlelist);
+			//아이디검색 관련
+			ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(id);
+			friends.addAll(friendsService.getSend(id));
+			model.addAttribute("friends", friends);
 			
 		}else {
 			return "error";

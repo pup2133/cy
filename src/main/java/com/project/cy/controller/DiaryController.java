@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,25 +21,72 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dto.DiaryCommentDTO;
 import com.project.cy.model.dto.DiaryDTO;
+import com.project.cy.model.dto.FriendsDTO;
+import com.project.cy.model.dto.MyjukeDTO;
 import com.project.cy.model.service.DiaryService;
+import com.project.cy.service.FriendsService;
+import com.project.cy.service.JukeboxService;
 import com.project.cy.util.DiaryCommentPage;
 
 @Controller
 public class DiaryController {
 
 	DiaryService service;
-
 	@Autowired
 	public void setService(DiaryService service) {
 		this.service = service;
+	}
+	//
+	@Autowired
+	JukeboxService jservice;
+	
+	@Autowired
+	HomeRepository homedao;
+
+	FriendsService friendsService;
+	@Autowired
+	public void setFriendsService(FriendsService friendsService) {
+		this.friendsService = friendsService;
 	}
 
 	@GetMapping("diary")
 	public String diary(Model model, String id, String days, HttpSession session, @RequestParam(defaultValue = "1") int page) {
 		try {
-
+			//아이디정보
+			String sessionId = (String) session.getAttribute("sessionId");
+			String hostId = homedao.getMemberId(id);
+			model.addAttribute("hostId",hostId);
+			model.addAttribute("sessionId",sessionId);
+			//헤더, 프로필, 네비게이션
+			model.addAttribute("headerProfile",homedao.getHomeProfile(sessionId));
+			model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
+			model.addAttribute("previewNum", homedao.getPreview(hostId));
+			model.addAttribute("banner",homedao.getBanner(hostId));
+			model.addAttribute("recieveFriends",homedao.getRecieveFriends(sessionId));
+			model.addAttribute("alertCount",homedao.getRecieveFriends(sessionId).size());
+			model.addAttribute("myplayList",homedao.getPlay(hostId));
+			model.addAttribute("mylist",jservice.getMyjuke(hostId));
+			model.addAttribute("myplay",jservice.getMyplay(hostId));
+			List<MyjukeDTO> plist =  homedao.getPlay(hostId);
+			ArrayList<String> urllist = new ArrayList<>();
+			ArrayList<String> titlelist = new ArrayList<>();
+			for(MyjukeDTO item: plist) {
+				System.out.println(item.getMu_url());
+				urllist.add(item.getMu_url());
+				titlelist.add(item.getMu_title());
+			}
+			model.addAttribute("urllist",urllist);
+			model.addAttribute("titlelist",titlelist);
+			//아이디검색
+			ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(id);
+			friends.addAll(friendsService.getSend(id));
+			
+			model.addAttribute("friends", friends);
+			
+			//
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("m_id", id);
 			map.put("d_date", days);

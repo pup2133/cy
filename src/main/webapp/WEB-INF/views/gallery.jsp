@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="resources/css/gallery.css">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script src="./resources/js/gallery.js"></script>
+<script src="./resources/js/header.js"></script>
 </head>
 <body>
 	<%@ include file="header_nav.jsp"%>

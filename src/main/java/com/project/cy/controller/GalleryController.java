@@ -18,14 +18,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.cy.model.dao.HomeRepository;
+import com.project.cy.model.dto.FriendsDTO;
+import com.project.cy.model.dto.MyjukeDTO;
 import com.project.cy.model.dto.gallery;
 import com.project.cy.model.service.galleryService;
+import com.project.cy.service.FriendsService;
+import com.project.cy.service.JukeboxService;
 import com.project.cy.util.fileUpload;
 import com.project.cy.util.pagination;
 
 @Controller
 public class GalleryController {
+	
 
+
+	
+	@Autowired
+	HomeRepository homedao;
+
+
+	//
 	private galleryService service;
 
 	@Autowired
@@ -37,9 +50,17 @@ public class GalleryController {
 	}
 	
 	@GetMapping("gallery")
-	public String gallery(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session, String hostId) {
-		String sessionId = (String)session.getAttribute("sessionId");
+	public String gallery(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session, String id) {
 		
+		//아이디정보
+		String sessionId = (String) session.getAttribute("sessionId");
+		String hostId = homedao.getMemberId(id);
+		
+		model.addAttribute("hostId",hostId);
+		model.addAttribute("sessionId",sessionId);
+
+		
+		//
 		int totalCount = service.getTotalCount(hostId, sessionId);
 		pagination p = new pagination();
 		Map<String, Integer> pagination = p.pagination(totalCount, page, 3);

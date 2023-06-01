@@ -29,9 +29,9 @@
 			</div>
 			<div class="dropdown_profile dropdown">
 				<!-- 이동경로 입력 -->
-				<a href="#"><div class="dropdown-item">
+				<a href="/cy/imformSetting"><div class="dropdown-item">
 					<i class="fa-solid fa-gear"></i>&nbsp회원설정</div></a> 
-				<a href="/cy/homeSetting?id=${sessionId}"><div class="dropdown-item">
+				<a href="/cy/homeSetting"><div class="dropdown-item">
 					<i class="fa-solid fa-house-lock"></i>&nbsp공개설정</div></a> 
 				<a href="/cy/logout"><div class="dropdown-item">
 					<i class="fa-solid fa-right-from-bracket"></i>&nbsp로그아웃</div></a>
@@ -64,8 +64,7 @@
                     <span><b>아이디검색</b></span>
                     <div class="search_bar">
                         <input type="text" id="search_text" list="ids" autocomplete="off">
-                        <datalist id="ids">
-                        </datalist>
+                        <datalist id="ids"></datalist>
                         <i class="fa-solid fa-magnifying-glass" id="searchbtn"></i>
                     </div>
                 </div>

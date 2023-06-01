@@ -93,6 +93,7 @@
 		}
 	}
 </script>
+<script src="./resources/js/header.js"></script>
 </head>
 <body>
 	<%@ include file="header_nav.jsp"%>

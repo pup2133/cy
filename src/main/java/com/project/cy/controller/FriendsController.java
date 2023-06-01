@@ -1,5 +1,6 @@
 package com.project.cy.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,23 +15,66 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.cy.model.dao.FriendsRepository;
+import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dto.FriendsDTO;
+import com.project.cy.model.dto.MyjukeDTO;
 import com.project.cy.service.FriendsService;
+import com.project.cy.service.JukeboxService;
 
 @Controller	
 public class FriendsController {
 	
 	@Autowired
+	JukeboxService jservice;
+	
+	@Autowired
+	HomeRepository homedao;
+
+	FriendsService friendsService;
+	@Autowired
+	public void setFriendsService(FriendsService friendsService) {
+		this.friendsService = friendsService;
+	}
+	//
+	@Autowired
 	FriendsService service;
 	
 	@RequestMapping("/friends")
 	public String getFriend(Model model,String id, HttpSession session){
-		// 임시 세션 아이디
+		//아이디정보
 		String sessionId = (String) session.getAttribute("sessionId");
-		System.out.println(sessionId);
-		//호스트 아이디 검사
-		String hostId = service.getMemberId(id);
-		System.out.println(hostId);
+		String hostId = homedao.getMemberId(id);
+		model.addAttribute("hostId",hostId);
+		model.addAttribute("sessionId",sessionId);
+		//헤더, 프로필, 네비게이션
+		model.addAttribute("headerProfile",homedao.getHomeProfile(sessionId));
+		model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
+		model.addAttribute("previewNum", homedao.getPreview(hostId));
+		model.addAttribute("banner",homedao.getBanner(hostId));
+		model.addAttribute("recieveFriends",homedao.getRecieveFriends(sessionId));
+		model.addAttribute("alertCount",homedao.getRecieveFriends(sessionId).size());
+		model.addAttribute("myplayList",homedao.getPlay(hostId));
+		model.addAttribute("mylist",jservice.getMyjuke(hostId));
+		model.addAttribute("myplay",jservice.getMyplay(hostId));
+		List<MyjukeDTO> list =  homedao.getPlay(hostId);
+		ArrayList<String> urllist = new ArrayList<>();
+		ArrayList<String> titlelist = new ArrayList<>();
+		for(MyjukeDTO item: list) {
+			System.out.println(item.getMu_url());
+			urllist.add(item.getMu_url());
+			titlelist.add(item.getMu_title());
+		}
+		model.addAttribute("urllist",urllist);
+		model.addAttribute("titlelist",titlelist);
+		//아이디검색
+		ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(id);
+		friends.addAll(friendsService.getSend(id));
+		
+		model.addAttribute("friends", friends);
+		
+		
+		
+		
 		if(hostId!=null) {
 			List<FriendsDTO> list1 = service.getRecieve(hostId);
 			List<FriendsDTO> list2 = service.getSend(hostId);
