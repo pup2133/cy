@@ -22,9 +22,9 @@ import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.model.dto.MyjukeDTO;
 import com.project.cy.model.dto.gallery;
+import com.project.cy.model.service.FriendsService;
+import com.project.cy.model.service.JukeboxService;
 import com.project.cy.model.service.galleryService;
-import com.project.cy.service.FriendsService;
-import com.project.cy.service.JukeboxService;
 import com.project.cy.util.fileUpload;
 import com.project.cy.util.pagination;
 

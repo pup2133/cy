@@ -27,8 +27,8 @@ import com.project.cy.model.dto.DiaryDTO;
 import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.model.dto.MyjukeDTO;
 import com.project.cy.model.service.DiaryService;
-import com.project.cy.service.FriendsService;
-import com.project.cy.service.JukeboxService;
+import com.project.cy.model.service.FriendsService;
+import com.project.cy.model.service.JukeboxService;
 import com.project.cy.util.DiaryCommentPage;
 
 @Controller

@@ -18,8 +18,8 @@ import com.project.cy.model.dao.FriendsRepository;
 import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.model.dto.MyjukeDTO;
-import com.project.cy.service.FriendsService;
-import com.project.cy.service.JukeboxService;
+import com.project.cy.model.service.FriendsService;
+import com.project.cy.model.service.JukeboxService;
 
 @Controller	
 public class FriendsController {

@@ -24,4 +24,6 @@ public interface DiaryServiceImp {
 	public int deleteText(String d_num);
 	
 	public int selectDiaryCommentCount(HashMap<String, Object> map);
+
+	public List<DiaryDTO> selectDiary2(String m_id);
 }

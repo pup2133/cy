@@ -21,9 +21,9 @@ import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.model.dto.MyjukeDTO;
 import com.project.cy.model.dto.ProfileDTO;
+import com.project.cy.model.service.FriendsService;
+import com.project.cy.model.service.JukeboxService;
 import com.project.cy.model.service.ProfileService;
-import com.project.cy.service.FriendsService;
-import com.project.cy.service.JukeboxService;
 import com.project.cy.util.fileUpload;
 
 @Controller

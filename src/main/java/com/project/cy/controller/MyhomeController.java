@@ -24,16 +24,18 @@ import com.project.cy.model.dao.DiaryRepository;
 import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.model.dto.MyjukeDTO;
-import com.project.cy.service.FriendsService;
+import com.project.cy.model.service.DiaryService;
+import com.project.cy.model.service.FriendsService;
+import com.project.cy.model.service.HomeService;
 
 @Controller
 public class MyhomeController {
 	
 	@Autowired
-	HomeRepository homedao;
+	HomeService hservice;
 	//
 	@Autowired
-	DiaryRepository diarydao;
+	DiaryService dservice;
 	
 	FriendsService friendsService;
 	@Autowired
@@ -46,7 +48,7 @@ public class MyhomeController {
 	public String getHomeProfile(Model model,String id,HttpSession session) {
 		//여기1
 		String sessionId = (String) session.getAttribute("sessionId");
-		String hostId = homedao.getMemberId(id);
+		String hostId = hservice.getMemberId(id);
 
 		if(hostId!=null) {
 			try {
@@ -55,11 +57,11 @@ public class MyhomeController {
 				model.addAttribute("hostId",hostId);
 				model.addAttribute("sessionId",sessionId);
 				//헤더, 프로필, 네비게이션
-				model.addAttribute("headerProfile",homedao.getHomeProfile(sessionId));
-				model.addAttribute("banner",homedao.getBanner(hostId));
-				model.addAttribute("recieveFriends",homedao.getRecieveFriends(sessionId));
-				model.addAttribute("alertCount",homedao.getRecieveFriends(sessionId).size());
-				List<MyjukeDTO> list =  homedao.getPlay(hostId);
+				model.addAttribute("headerProfile",hservice.getHomeProfile(sessionId));
+				model.addAttribute("banner",hservice.getBanner(hostId));
+				model.addAttribute("recieveFriends",hservice.getRecieveFriends(sessionId));
+				model.addAttribute("alertCount",hservice.getRecieveFriends(sessionId).size());
+				List<MyjukeDTO> list =  hservice.getPlay(hostId);
 				ArrayList<String> urllist = new ArrayList<>();
 				ArrayList<String> titlelist = new ArrayList<>();
 				for(MyjukeDTO item: list) {
@@ -68,15 +70,15 @@ public class MyhomeController {
 				}
 				model.addAttribute("urllist",urllist);
 				model.addAttribute("titlelist",titlelist);
-				model.addAttribute("myplayList",homedao.getPlay(hostId));
+				model.addAttribute("myplayList",hservice.getPlay(hostId));
 				//---반복>
 				
 				//메인
-				model.addAttribute("homeProfile",homedao.getHomeProfile(hostId));
-				model.addAttribute("previewNum", homedao.getPreview(hostId));
-				model.addAttribute("diaryList",diarydao.selectDiary2(hostId));
-				model.addAttribute("visitList",homedao.getHomeVisit(hostId));
-				model.addAttribute("galleryList",homedao.getHomeGallery(hostId));
+				model.addAttribute("homeProfile",hservice.getHomeProfile(hostId));
+				model.addAttribute("previewNum", hservice.getPreview(hostId));
+				model.addAttribute("diaryList",dservice.selectDiary2(hostId));
+				model.addAttribute("visitList",hservice.getHomeVisit(hostId));
+				model.addAttribute("galleryList",hservice.getHomeGallery(hostId));
 				ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(id);
 				friends.addAll(friendsService.getSend(id));
 				model.addAttribute("friends", friends);
@@ -102,14 +104,14 @@ public class MyhomeController {
 	@PostMapping("/accept")
 	@ResponseBody
 	public void acceptFriends(int f_num) {
-		homedao.acceptFriends(f_num);
+		hservice.acceptFriends(f_num);
 		System.out.println(f_num+"수락됨");
 	}
 	//일촌거절
 	@PostMapping("/reject")
 	@ResponseBody
 	public void rejectFriends(int f_num) {
-		homedao.rejectFriends(f_num);
+		hservice.rejectFriends(f_num);
 		System.out.println(f_num+"거절됨");
 	}
 	//일촌확인
@@ -119,9 +121,9 @@ public class MyhomeController {
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		//호스트 아이디 검사
-		String hostId = homedao.getMemberId(id);
-		List<FriendsDTO> list1 = homedao.getRecieve(hostId);
-		List<FriendsDTO> list2 = homedao.getSend(hostId);
+		String hostId = hservice.getMemberId(id);
+		List<FriendsDTO> list1 = hservice.getRecieve(hostId);
+		List<FriendsDTO> list2 = hservice.getSend(hostId);
 		list1.addAll(list2);
 		int result=0;
 		for(Object a:list1) {
@@ -139,8 +141,8 @@ public class MyhomeController {
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		//호스트 아이디 검사
-		String hostId = homedao.getMemberId(id);
-		int result = homedao.sendFriend(sessionId, hostId);
+		String hostId = hservice.getMemberId(id);
+		int result = hservice.sendFriend(sessionId, hostId);
 		System.out.println(result);
 		return result;
 	}
@@ -157,9 +159,9 @@ public class MyhomeController {
 	@ResponseBody
 	public int editMsg(String id,String h_msg, HttpSession session) {
 		String sessionId = (String) session.getAttribute("sessionId");
-		String hostId = homedao.getMemberId(id);
+		String hostId = hservice.getMemberId(id);
 		System.out.println(h_msg);
-		int result = homedao.editMsg(h_msg, hostId);
+		int result = hservice.editMsg(h_msg, hostId);
 		System.out.println(result);
 		return result;
 	}
@@ -171,8 +173,8 @@ public class MyhomeController {
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		//호스트 아이디 검사
-		String hostId = homedao.getMemberId(id);
-		return homedao.getPlay(hostId);
+		String hostId = hservice.getMemberId(id);
+		return hservice.getPlay(hostId);
 	}
 	//아이디검색
 	@RequestMapping(value="searchList", method=RequestMethod.GET, produces="application/text; charset=UTF-8")

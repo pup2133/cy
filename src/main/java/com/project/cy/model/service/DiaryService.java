@@ -64,4 +64,9 @@ public class DiaryService implements DiaryServiceImp{
 	public int selectDiaryCommentCount(HashMap<String, Object> map) {
 		return dao.selectDiaryCommentCount(map);
 	}
+	
+	@Override
+	public List<DiaryDTO> selectDiary2(String m_id) {
+		return dao.selectDiary2(m_id);
+	}
 }
