@@ -75,37 +75,20 @@ public class JukeboxController{
 	//--마이 주크박스--
 	@GetMapping("/myjuke")
 	public String getMyjuke(Model model,String id, HttpSession session) {
-		// 임시 세션 아이디
-		String sessionId = (String) session.getAttribute("sessionId");
 		
 		//호스트 아이디 검사
 		String hostId = service.getMemberId(id);
-		
-		System.out.println(sessionId);
-		System.out.println(id);
+
+		session.setAttribute("hostId", hostId);
+
 		if(hostId!=null) {
-			model.addAttribute("hostId",hostId);
-			model.addAttribute("sessionId",sessionId);
 			model.addAttribute("mylist",service.getMyjuke(hostId));
 			model.addAttribute("myplay",service.getMyplay(hostId));
-			System.out.println(service.getMyjuke(hostId));
-			System.out.println(service.getMyplay(hostId));
-			List<MyjukeDTO> list =  homedao.getPlay(hostId);
-			ArrayList<String> urllist = new ArrayList<>();
-			ArrayList<String> titlelist = new ArrayList<>();
-			for(MyjukeDTO item: list) {
-				System.out.println(item.getMu_url());
-				urllist.add(item.getMu_url());
-				titlelist.add(item.getMu_title());
-			}
-			model.addAttribute("urllist",urllist);
-			model.addAttribute("titlelist",titlelist);
-			
+
 		}else {
 			return "error";
 		}
 		
-		//System.out.println(model.addAttribute("mylist",dao.getMyjuke(m_id)));
 		return "myjuke";
 	}
 	

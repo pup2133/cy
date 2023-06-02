@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="./resources/css/header_nav.css">
 <link rel="stylesheet" href="./resources/css/gallery_reg.css">
 <script src="./resources/js/galleryRegEdit.js"></script>
+<script src="./resources/js/header.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 </head>
 <body>
 	<%@ include file="header_nav.jsp"%>
@@ -21,7 +23,7 @@
 					<c:if test="${hostId == sessionId}">
 						<a href="galleryReg"><i class="fa-solid fa-pen"></i></a>
 					</c:if>
-					<a href="gallery?hostId=${hostId }"><i class="fa-solid fa-list"></i></a>
+					<a href="gallery?id=${hostId }"><i class="fa-solid fa-list"></i></a>
 				</div>
 			</div>
 			<div class="gallery_wrap">

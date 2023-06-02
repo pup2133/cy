@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.project.cy.model.dao.galleryRepository;
 import com.project.cy.model.dto.gallery;
-import com.project.cy.util.isHostOrGuest;
 
 @Service
 public class galleryService implements galleryServiceImp {
@@ -27,12 +26,10 @@ public class galleryService implements galleryServiceImp {
 	
 	@Override
 	public List<gallery> getGalleryList(String hostId, String sessionId, int startItem, int itemsPerPage) {
-		isHostOrGuest ihog = new isHostOrGuest();
-		String m_id = ihog.determineRole(hostId, sessionId);
-		if(m_id.equals(sessionId)) {
-			return dao.getGalleryList(m_id, startItem, itemsPerPage);
+		if(sessionId.equals(hostId)) {
+			return dao.getGalleryList(sessionId, startItem, itemsPerPage);
 		}else {
-			return dao.getGallerySecretList(m_id, startItem, itemsPerPage);
+			return dao.getGallerySecretList(hostId, startItem, itemsPerPage);
 		}
 	}
 	

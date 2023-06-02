@@ -9,6 +9,7 @@
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="resources/css/header_nav.css" />
 <link rel="stylesheet" href="resources/css/profile.css" />
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
 	$(document).ready(
 			function() {
@@ -93,6 +94,7 @@
 		}
 	}
 </script>
+<script src="./resources/js/header.js"></script>
 </head>
 <body>
 	<%@ include file="header_nav.jsp"%>

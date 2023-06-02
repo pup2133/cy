@@ -30,6 +30,7 @@ public class VisitController {
 	public String visit(@RequestParam(defaultValue = "1") int page, Model model, String id, HttpSession session) {
 
 		String sessionId = (String) session.getAttribute("sessionId");
+		session.setAttribute("hostId", id);
 
 		try {
 			
@@ -37,15 +38,13 @@ public class VisitController {
 			
 			if (hostId != null) {
 				
-				int totalCount = service.getTotalCount(); // 방명록이 총 몇개 있는지
+				int totalCount = service.getTotalCount(id); // 방명록이 총 몇개 있는지
 
 				pagination p = new pagination();
 				Map<String, Integer> pagination = p.pagination(totalCount, page, 4);
 
 				List<visit> visitList = service.getVisit(pagination.get("startItem"), pagination.get("itemsPerPage"),id);
 
-				model.addAttribute("hostId", hostId);
-				model.addAttribute("sessionId", sessionId);
 				model.addAttribute("member", service.getMember(sessionId));
 				model.addAttribute("list", visitList);
 				model.addAttribute("totalPages", pagination.get("totalPages"));
@@ -67,6 +66,9 @@ public class VisitController {
 	public String visitReg(visit dto) {
 
 		String hostId = dto.getV_hostId();
+		
+		System.out.println(dto.getV_hostId());
+		System.out.println(dto.getV_guestId());
 
 		try {
 			visit newVisit = new visit(dto.getV_text(), dto.getV_hostId(), dto.getV_guestId());

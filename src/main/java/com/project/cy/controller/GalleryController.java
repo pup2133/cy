@@ -43,7 +43,6 @@ public class GalleryController {
 	public String gallery(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session, String id) {
 		String sessionId = (String)session.getAttribute("sessionId");
 		session.setAttribute("hostId", id);
-		System.out.println(session.getAttribute("hostId"));
 		
 		int totalCount = service.getTotalCount(id, sessionId);
 		pagination p = new pagination();
@@ -51,7 +50,6 @@ public class GalleryController {
 		
 		List<gallery> list = service.getGalleryList(id, sessionId, pagination.get("startItem"), pagination.get("itemsPerPage"));		
 		model.addAttribute("list", list);
-		model.addAttribute("hostId", id);
 		model.addAttribute("totalPages", pagination.get("totalPages"));
 		model.addAttribute("currentPage", page);
 		model.addAttribute("startPage", pagination.get("startPage"));
@@ -76,7 +74,7 @@ public class GalleryController {
 		gallery dto = new gallery(gallery.getG_title(), uniqueName, gallery.getG_text(), sessionId, gallery.getG_secret());
 		service.add(dto);
 
-		return "redirect:/gallery?hostId="+sessionId;
+		return "redirect:/gallery?id="+sessionId;
 	}
 
 	@PostMapping("gallery/edit")
@@ -89,7 +87,7 @@ public class GalleryController {
 		gallery g = new gallery(gallery.getG_title(), uniqueName, gallery.getG_text(), gallery.getG_secret(), gallery.getG_num());
 		service.editGallery(g);
 
-		return "redirect:/gallery?hostId="+sessionId;
+		return "redirect:/gallery?id="+sessionId;
 	}
 
 	@PostMapping("galleryGood")

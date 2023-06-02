@@ -41,8 +41,8 @@ public class visitRepository implements visitRepositoryImp {
 	}
 
 	@Override
-	public int getTotalCount() throws Exception {
-		return session.selectOne(namespace + "countVisit");
+	public int getTotalCount(String id) throws Exception {
+		return session.selectOne(namespace + "countVisit",id);
 	}
 
 	@Override

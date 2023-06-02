@@ -9,20 +9,17 @@ public class LoginDTO {
 	private String m_birth;
 	private String m_email;
 	private String m_tel;
+	private String m_wave;
 	
 	public LoginDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
 	public LoginDTO(String m_id) {
 		super();
 		this.m_id = m_id;
 	}
-
-
 
 	public String getM_id() {
 		return m_id;
@@ -80,6 +77,14 @@ public class LoginDTO {
 		this.m_tel = m_tel;
 	}
 	
+	public String getM_wave() {
+		return m_wave;
+	}
+
+	public void setM_wave(String m_wave) {
+		this.m_wave = m_wave;
+	}
+	
 	
 
 	public LoginDTO(String m_id, String m_pw, String m_name, String m_nick, String m_birth, String m_email, String m_tel) {
@@ -95,17 +100,23 @@ public class LoginDTO {
 	
 	
 
+	public LoginDTO(String m_id, String m_pw, String m_name, String m_nick, String m_birth, String m_email,
+			String m_tel, String m_wave) {
+		super();
+		this.m_id = m_id;
+		this.m_pw = m_pw;
+		this.m_name = m_name;
+		this.m_nick = m_nick;
+		this.m_birth = m_birth;
+		this.m_email = m_email;
+		this.m_tel = m_tel;
+		this.m_wave = m_wave;
+	}
+
 	@Override
 	public String toString() {
 		return "Login [m_id=" + m_id + ", m_pw=" + m_pw + ", m_name=" + m_name + ", m_nick=" + m_nick + ", m_birth="
 				+ m_birth + ", m_email=" + m_email + ", m_tel=" + m_tel + "]";
 	}
-
-	
-	
-	
-	
-	
-	
 	
 }

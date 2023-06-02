@@ -134,7 +134,7 @@ nav {
 
 
 #audioPlayer{
-  width: 200px;
+	display:none;
 }
 
 .music_player {
@@ -161,6 +161,10 @@ nav {
   font-size: 25px;
 }
 
+.fa-pause {
+  font-size: 25px;
+}
+
 .search {
   padding: 10px;
   margin-top: 50px;
@@ -175,7 +179,7 @@ nav {
 }
 
 .search_bar > input {
-  border:0;
+  border: 0;
   outline: none;
 }
 
@@ -205,8 +209,4 @@ section{
   height: 89.7vh;
   box-sizing: border-box;
   margin-left: 225px;
-}
-
-input::-webkit-calendar-picker-indicator {
-
 }

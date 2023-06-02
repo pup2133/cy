@@ -25,10 +25,45 @@
     	AND m_email = #{m_email}
     </select>
     
+    <select id="getInformation" resultType="Login">
+		SELECT m_id , m_pw, m_name, m_nick, to_char(m_birth,'yyyy-mm-dd') m_birth, m_email, m_tel, m_wave
+		FROM cy_member
+		WHERE m_id = #{m_id}
+	</select>
+    
+    <update	id="modify" parameterType="Login">
+    	UPDATE cy_member
+	    SET		m_pw = #{m_pw},
+	    		m_name = #{m_name},
+	    		m_nick = #{m_nick},
+	    		m_birth = #{m_birth},
+	    		m_email = #{m_email},
+	    		m_tel = #{m_tel},
+	    		m_wave = #{m_wave}
+    	WHERE m_id = #{m_id}
+    
+    </update>
+    
+    
     <insert id="register" parameterType="Login">
     	INSERT INTO cy_member (m_id, m_pw ,m_name, m_nick, m_birth, m_email, m_tel)
 		VALUES (#{m_id},#{m_pw},#{m_name},#{m_nick},#{m_birth},#{m_email},#{m_tel})
     </insert>
+    
+    <!-- 배너추가 -->
+    <insert id="createBanner" parameterType="Login">
+		INSERT INTO cy_banner
+			(m_id)
+		VALUES
+			(#{m_id})
+	</insert>
+	
+	<insert id="createP_text" parameterType="Login">
+		INSERT INTO cy_profile
+			(m_id)
+		VALUES
+			(#{m_id})
+	</insert>
         
     <select id="duplication" resultType="String">
     	SELECT m_id

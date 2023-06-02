@@ -10,11 +10,12 @@
 <!-- CSS only -->
 <link rel="stylesheet" href="./resources/css/header_nav.css"> 
 <link rel="stylesheet" href="./resources/css/visit.css">
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
 	
 	$(document).ready(function() {
 		$('.page-item.active').removeClass('active');
-		const host = $("#host").val();
+		const host = $("#hostId").val();
 		const sessionId = $("#sessionId").val();
 
 		if (host == sessionId) {
@@ -96,6 +97,7 @@
 	});	
 
 </script>
+<script src="./resources/js/header.js"></script>
 </head>
 <body>
 	<%@ include file="header_nav.jsp"%>
@@ -111,8 +113,8 @@
 	                   		<p>${member.m_nick}</p>
 	                	</div>
 	                    <textarea name="v_text"></textarea>
-	                   	<input id="host" type="hidden" name="v_hostId" value="${host}">
-						<input id="sessionId" type="hidden" name="v_guestId" value="${sessionId}">
+	                   	<input id="host" type="hidden" name="v_hostId" value="${sessionScope.hostId}">
+						<input id="sessionId" type="hidden" name="v_guestId" value="${sessionScope.sessionId}">
 	                    <div class="reg_btn">
 	                        <button>등록</button>
 	                    </div>
@@ -155,11 +157,11 @@
 	                
 					<div class ="page">
 						<ul class="pagination">
-					    	<li class="page-item"><a class="page-link" href="./visit?id=${host}&page=1"><</a></li>
+					    	<li class="page-item"><a class="page-link" href="./visit?id=${hostId}&page=1"><</a></li>
 					    	<c:forEach var="pageNumber" begin="${startPage}" end="${endPage}">
-					    		<li class="page-item"><a class="page-link" href="./visit?id=${host }&page=${pageNumber}">${pageNumber}</a></li>
+					    		<li class="page-item"><a class="page-link" href="./visit?id=${hostId}&page=${pageNumber}">${pageNumber}</a></li>
 					 		</c:forEach>
-					    	<li class="page-item"><a class="page-link" href="./visit?id=${host}&page=${totalPages}">></a></li>
+					    	<li class="page-item"><a class="page-link" href="./visit?id=${hostId}&page=${totalPages}">></a></li>
 					  	</ul>
 					</div>
                 </div>

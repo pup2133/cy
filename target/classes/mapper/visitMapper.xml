@@ -27,7 +27,7 @@
 	</select>
 
 	<select id="countVisit" resultType="int">
-		SELECT count(*) FROM cy_visit
+		SELECT count(*) FROM cy_visit where host_id =#{id}
 	</select>
 
 	<insert id="insertVisit" parameterType="visit">

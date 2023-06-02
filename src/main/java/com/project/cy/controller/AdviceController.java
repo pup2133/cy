@@ -14,7 +14,7 @@ import com.project.cy.model.dao.HomeRepository;
 import com.project.cy.model.dto.MyjukeDTO;
 
 @ControllerAdvice(assignableTypes = {DiaryController.class, FriendsController.class, GalleryController.class, 
-		JukeboxController.class,MyhomeController.class,ProfileController.class,SettingController.class,VisitController.class})
+		JukeboxController.class,MyhomeController.class,ProfileController.class,HomeSettingController.class,VisitController.class})
 public class AdviceController {
 
 	HomeRepository homedao;
@@ -24,7 +24,7 @@ public class AdviceController {
 		this.homedao = homedao;
 	}
 	
-	@ModelAttribute("hostId")
+	@ModelAttribute
     public void populateModel(Model model, HttpSession session) {
 		String sessionId = (String)session.getAttribute("sessionId");
 		String hostId = (String)session.getAttribute("hostId");

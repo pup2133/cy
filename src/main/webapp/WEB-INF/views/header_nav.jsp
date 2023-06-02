@@ -50,7 +50,7 @@
 					<input type="hidden" value="${urllist}" id="myplayList">
 					<input type="hidden" value="${titlelist}" id="titleList">
 					<div class="music_name">
-						<span class="songTitle">I AM - IVE</span> <i
+						<span class="songTitle">곡 없음</span> <i
 							class="fa-solid fa-music"></i>
 					</div>
 					<div class="music_icon">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="menu">
 					<a href="/cy/myhome?id=${hostId }">
-						<input type="hidden" value="0">
+						<input type="hidden">
 						<div class="menu_box">홈</div>
 					</a> 
 					<a href="/cy/profile?id=${hostId }">
@@ -87,12 +87,12 @@
 						<input type="hidden" value="${banner.B_HIDE_DIARY }">
 						<div class="menu_box">다이어리</div>
 					</a>
-					<a	href="/cy/gallery?hostId=${hostId }">
+					<a	href="/cy/gallery?id=${hostId }">
 						<input type="hidden" value="${banner.B_HIDE_GALLERY }">
 						<div class="menu_box">갤러리</div>
 					</a>
 					<a href="/cy/visit?id=${hostId }">
-						<input type="hidden" value="0">
+						<input type="hidden">
 						<div class="menu_box">방명록</div>
 					</a>
 				</div>

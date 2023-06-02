@@ -13,7 +13,7 @@ public interface visitServiceImp {
 
     public String getMemberId(String id) throws Exception;
     
-    public int getTotalCount() throws Exception;
+    public int getTotalCount(String id) throws Exception;
     
     public int editVisit(visit v) throws Exception;
     

@@ -42,8 +42,8 @@ public class visitService implements visitServiceImp {
 	}
 
 	@Override
-	public int getTotalCount() throws Exception {
-		return dao.getTotalCount();
+	public int getTotalCount(String id) throws Exception {
+		return dao.getTotalCount(id);
 	}
 
 	@Override

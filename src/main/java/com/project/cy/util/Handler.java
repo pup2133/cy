@@ -1,5 +1,8 @@
 package com.project.cy.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,12 +15,24 @@ public class Handler implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-
+				
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("sessionId");
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar c1 = Calendar.getInstance();
+		String strToday = sdf.format(c1.getTime());
+		session.setAttribute("days", strToday);
+
 		String hostId = request.getParameter("id");
-		session.setAttribute("hostId", hostId);
+
+		if(hostId==null) {
+			hostId = (String)session.getAttribute("hostId");
+			System.out.println(hostId);
+			session.setAttribute("hostId", hostId);
+		}else {
+			session.setAttribute("hostId", hostId);
+		}
 		
 		if(id == null) {
 			response.sendRedirect("./login");

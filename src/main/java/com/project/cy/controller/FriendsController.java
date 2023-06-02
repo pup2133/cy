@@ -15,42 +15,39 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.model.service.FriendsService;
 
-@Controller	
+@Controller
 public class FriendsController {
-	
+
 	@Autowired
 	FriendsService service;
-	
-	@RequestMapping("/friends")
-	public String getFriend(Model model,String id, HttpSession session){
-		
-		// 임시 세션 아이디
-		String sessionId = (String) session.getAttribute("sessionId");
 
-		//호스트 아이디 검사
+	@RequestMapping("/friends")
+	public String getFriend(Model model, String id, HttpSession session) {
+
+		// 호스트 아이디 검사
 		String hostId = service.getMemberId(id);
-		
-		if(hostId!=null) {
+
+		session.setAttribute("hostId", hostId);
+
+		if (hostId != null) {
 			List<FriendsDTO> list1 = service.getRecieve(hostId);
 			List<FriendsDTO> list2 = service.getSend(hostId);
 			list1.addAll(list2);
-			model.addAttribute("hostId",hostId);
-			model.addAttribute("sessionId",sessionId);
-			model.addAttribute("friendsList",list1);
+			
+			model.addAttribute("friendsList", list1);
 			System.out.println(list1);
-		}else {
+		} else {
 			return "error";
 		}
 		return "friends";
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/deleteFriend")
 	public String deleteFriend(@RequestParam int f_num) {
-		//String m_id = session.getId();
+		// String m_id = session.getId();
 		int result = service.delete(f_num);
 		return "ddd";
 	}
-	
-	
+
 }

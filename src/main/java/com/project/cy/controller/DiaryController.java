@@ -36,13 +36,9 @@ public class DiaryController {
 	@GetMapping("diary")
 	public String diary(Model model, String id, String days, HttpSession session, @RequestParam(defaultValue = "1") int page) {
 		try {
-						
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			Calendar c1 = Calendar.getInstance();
-			String strToday = sdf.format(c1.getTime());
 			
-			session.setAttribute("days", strToday);
-			
+			session.setAttribute("hostId", id);
+
 			DiaryDTO diary = (DiaryDTO) service.selectDiary(id,days);
 						
 			pagination p = new pagination();
@@ -58,7 +54,6 @@ public class DiaryController {
 			model.addAttribute("diary", diary);
 			model.addAttribute("diaryComment", diaryComment);
 			model.addAttribute("totalCount", totalCount);
-			model.addAttribute("hostId",id);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

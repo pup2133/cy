@@ -40,20 +40,26 @@ public class HomeSettingDTO {
 		this.b_hide_gallery = b_hide_gallery;
 	}
 	public HomeSettingDTO() {
-		super();
+		//super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 	public HomeSettingDTO(String b_hide_profile, String b_hide_music, String b_hide_diary, String b_hide_gallery) {
-		super();
+		//super();
 		this.b_hide_profile = b_hide_profile;
 		this.b_hide_music = b_hide_music;
 		this.b_hide_diary = b_hide_diary;
 		this.b_hide_gallery = b_hide_gallery;
 	}
 	
+	public HomeSettingDTO(String m_id) {
+		super();
+		this.m_id = m_id;
+	}
 	public HomeSettingDTO(String m_id, String b_hide_profile, String b_hide_music, String b_hide_diary,
 			String b_hide_gallery) {
-		super();
+		//super();
 		this.m_id = m_id;
 		this.b_hide_profile = b_hide_profile;
 		this.b_hide_music = b_hide_music;
