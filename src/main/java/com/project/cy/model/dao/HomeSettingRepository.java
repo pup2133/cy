@@ -1,7 +1,5 @@
 package com.project.cy.model.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,13 +13,16 @@ public class HomeSettingRepository {
 	private SqlSession session;
 	private String namespace = "com.project.cy.homesettingMapper.";
 	
-	public List<HomeSettingDTO> getsetting(String m_id){
-		return session.selectList(namespace+"getsetting", m_id);
+	// 홈 배너 공개,비공개 설정 가져오기
+	public HomeSettingDTO getsetting(String id){
+		return session.selectOne(namespace+"getsetting", id);
 	}
 	
-	// 설정 업데이트
+	
+	// 홈 배너 공개,비공개 설정 업데이트
 	public int updatesetting(HomeSettingDTO dto) {
 		return session.update(namespace+"updatesetting", dto);
 	}
+	
 	
 }

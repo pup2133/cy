@@ -2,7 +2,6 @@ package com.project.cy.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.http.HttpRequest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.cy.model.dto.DiaryCommentDTO;
 import com.project.cy.model.dto.DiaryDTO;
 import com.project.cy.model.service.DiaryService;
-import com.project.cy.util.DiaryCommentPage;
+import com.project.cy.util.pagination;
 
 @Controller
 public class DiaryController {
@@ -37,38 +36,26 @@ public class DiaryController {
 	@GetMapping("diary")
 	public String diary(Model model, String id, String days, HttpSession session, @RequestParam(defaultValue = "1") int page) {
 		try {
+			
+			session.setAttribute("hostId", id);
 
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("m_id", id);
-			map.put("d_date", days);
-			session.setAttribute("selectDay", days);
-
-			DiaryDTO diary = (DiaryDTO) service.selectDiary(map);
-			model.addAttribute("diary", diary);
-//			ArrayList<DiaryCommentDTO> listC = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment(map);
-
-			// 페이징?
-			DiaryCommentPage p = new DiaryCommentPage();
-			int totalCount = service.selectDiaryCommentCount(map);
+			DiaryDTO diary = (DiaryDTO) service.selectDiary(id,days);
+						
+			pagination p = new pagination();
+			int totalCount = service.selectDiaryCommentCount(id,days);
 			Map<String, Integer> pagination = p.pagination(totalCount, page, 10);
 			
-			HashMap<String, Object> map2 = new HashMap<String, Object>();
-			map2.put("m_id", id);
-			map2.put("d_date", days);
-			map2.put("startItem",pagination.get("startItem"));
-			map2.put("itemsPerPage",pagination.get("itemsPerPage"));
-			ArrayList<DiaryCommentDTO> listC = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment(map2);
+			ArrayList<DiaryCommentDTO> diaryComment = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment(id,days,pagination.get("startItem"),pagination.get("itemsPerPage"));
 			
 			model.addAttribute("totalPages", pagination.get("totalPages"));
 			model.addAttribute("currentPage", page);
 			model.addAttribute("startPage", pagination.get("startPage"));
 			model.addAttribute("endPage", pagination.get("endPage"));
-
-//			model.addAttribute("diary", diary);
-			model.addAttribute("listC", listC);
+			model.addAttribute("diary", diary);
+			model.addAttribute("diaryComment", diaryComment);
 			model.addAttribute("totalCount", totalCount);
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -113,11 +100,13 @@ public class DiaryController {
 	@PostMapping("diary_reg")
 	public void post_diary_reg(HttpSession session, @RequestParam("d_text") String d_text, HttpServletResponse response) {
 		String m_id = (String) session.getAttribute("sessionId");
-		String strToday = (String) session.getAttribute("today");
-
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar c1 = Calendar.getInstance();
+		String strToday = sdf.format(c1.getTime());
+	
 		DiaryDTO d = new DiaryDTO(m_id, d_text);
 
-		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = null;
 		try {
 			out = response.getWriter();

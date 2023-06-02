@@ -10,10 +10,10 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 91vh;
+    height: 88vh;
     width: 500px;
     margin: 0 auto;
-    padding: 40px;
+    padding: 40px 50px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -21,6 +21,12 @@ body {
 
   .container a{
     margin: 0 auto;
+    text-decoration: none;
+ 	 color: #272727;
+  }
+  
+  .container2 a:hover {
+    color: #272727;
   }
  
   .container img{
@@ -37,28 +43,42 @@ body {
   .container input[type="text"],
   .container input[type="password"] {
     width: 500px;
-    padding: 30px;
+    padding: 14px;
     margin-bottom: 20px;
+    font-size: 24px;
     border: 1px solid #ccc;
     border-radius: 3px;
   }
   
   .container button {
     width: 100%;
-    padding: 30px;
+    padding: 11px;
+    font-size: 26px;
     background-color: #272727;
     color: #fff;
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }  
+  .container button[type="submit"]:hover {
+    background-color: #000;
+  }
   
   .container2{
     display: flex;
     justify-content: space-around;
+    width: 100%;
+    padding: 23px;
   }
   .container2 a {
-  margin: 0 10px;
+  
+  margin: 0 30px;
   color: #272727;
+  font-size: 18px;
   text-decoration: none;
   }
+  .container2 a:hover {
+  color: #000;
+  text-decoration: underline;
+ }

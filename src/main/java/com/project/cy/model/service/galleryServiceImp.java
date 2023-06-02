@@ -20,7 +20,5 @@ public interface galleryServiceImp {
 	public int deleteGallery(int g_num);
 	public int editGallery(gallery g);
 	public int getTotalCount(String m_id, String sessionId);
-	public int updateToday(String m_id);
-	public int clearToday();
 
 }

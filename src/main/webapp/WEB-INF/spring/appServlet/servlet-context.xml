@@ -41,7 +41,6 @@
 
 	<task:annotation-driven/>
 	
-	
 	<websocket:handlers allowed-origins="*">
 		<websocket:mapping handler="alram" path="/alram" />
 		  <websocket:handshake-interceptors>
@@ -50,6 +49,27 @@
 		<websocket:sockjs></websocket:sockjs>
 	</websocket:handlers>
 
-	<beans:bean id="alram" class="com.project.cy.util.dkffka"/>
+	<beans:bean id="alram" class="com.project.cy.util.Message"/>
+
+	<interceptors>
+		<interceptor>
+			<mapping path="/visit"/>
+			<mapping path="/profile"/>
+			<mapping path="/homeSetting"/>
+			<mapping path="/informModify"/>
+			<mapping path="/myhome"/>
+			<mapping path="/jukestore"/>
+			<mapping path="/myjuke"/>
+			<mapping path="/gallery"/>
+			<mapping path="/galleryReg"/>
+			<mapping path="/editGallery"/>
+			<mapping path="/friends"/>
+			<mapping path="/diary"/>
+			<mapping path="/diary_reg"/>
+			<mapping path="/homeSetting"/>
+			<mapping path="/informModify"/>
+			<beans:bean id="DefaultInterceptor" class="com.project.cy.util.Handler" />
+		</interceptor>
+	</interceptors>
 
 </beans:beans>

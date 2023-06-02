@@ -134,7 +134,7 @@ nav {
 
 
 #audioPlayer{
-  width: 200px;
+	display:none;
 }
 
 .music_player {
@@ -158,6 +158,10 @@ nav {
 }
 
 .fa-play {
+  font-size: 25px;
+}
+
+.fa-pause {
   font-size: 25px;
 }
 

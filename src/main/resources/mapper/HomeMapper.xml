@@ -105,5 +105,17 @@
 		where m_id=#{m_id}
 		order by pl.pl_code
 	</select>
+	
+	<select id="getToday" resultType="HomeProfile">
+		select m_today, m_totaltoday from cy_member where m_id = #{m_id}
+	</select>
+	
+	<update id="clearToday">
+		UPDATE cy_member set m_today = 0
+	</update>
+	
+	<update id="updateToday" parameterType="String">
+		update cy_member set m_today = m_today +1, m_totaltoday = m_totaltoday+1 where m_id = #{m_id}
+	</update>
     
 </mapper>

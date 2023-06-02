@@ -10,12 +10,12 @@
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="resources/css/header_nav.css" />
 <link rel="stylesheet" href="resources/css/diary.css" />
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script type="text/javascript">
-let days = "${param.days}";;
-
-  let choiceYear2 = days.substr(0, 4);
-  let choiceMonth2 = days.substring(4, 6);
-  let choiceDay2 = days.substring(6, 8);
+	let days = "${param.days}";
+	let choiceYear2 = days.substr(0, 4);
+	let choiceMonth2 = days.substring(4, 6);
+  	let choiceDay2 = days.substring(6, 8);
   
 window.onload = function () {
   buildCalendar();
@@ -56,6 +56,7 @@ if (choiceDay.length == 1) {
 
 let choicedays = choiceYear + choiceMonth + choiceDay;
 console.log(choicedays);
+
 
 
 
@@ -352,62 +353,10 @@ function delete_text() {
   }
 }
 </script>
+<script src="./resources/js/header.js"></script>
 </head>
 <body>
-	<header>
-		<div class="icon">
-			<img src="resources/images/racon.png" alt="" />
-		</div>
-		<div class="header_info">
-			<i class="fa-regular fa-bell"></i>
-			<img class="header_profile" src="resources/images/p.png" alt="" /> <span>너굴</span>
-			<i class="fa-sharp fa-solid fa-chevron-down"></i>
-		</div>
-	</header>
-	<div class="nav_section">
-		<nav>
-			<div class="nav_wrap">
-				<div class="music_player">
-					<div class="music_name">
-						<span>I AM - IVE</span>
-						<i class="fa-solid fa-music"></i>
-					</div>
-					<div class="music_icon">
-						<i class="fa-solid fa-backward-step"></i>
-						<i class="fa-solid fa-play"></i>
-						<i class="fa-solid fa-forward-step"></i>
-					</div>
-				</div>
-
-				<div class="search">
-					<span><b>아이디검색</b></span>
-					<div class="search_bar">
-						<input type="text" name="" id="" />
-						<i class="fa-solid fa-magnifying-glass"></i>
-					</div>
-				</div>
-				<div class="menu">
-					<a href="home?id=${hostId}">
-						<div class="menu_box">홈</div>
-					</a>
-					<a href="profile?id=${hostId}">
-						<div class="menu_box">프로필</div>
-					</a>
-					<a href="">
-						<div class="menu_box">주크박스</div>
-					</a>
-					<a href="diary?id=${hostId}&days=${today}">
-						<div class="menu_box">다이어리</div>
-					</a>
-					<a href="">
-						<div>갤러리</div>
-					</a>
-					<a href="">
-						<div>방명록</div>
-					</a>
-				</div>
-			</div>
-		</nav>
+	<%@ include file="header_nav.jsp"%>
 		<section>
 			<div class="section_wrap">
 				<div class="section_title">다이어리</div>
@@ -433,7 +382,7 @@ function delete_text() {
 							<input type="submit" value="등록" id="com_sub" />
 						</form>
 						<div id="comment_all">
-							<c:forEach var="cm" items="${listC}">
+							<c:forEach var="cm" items="${diaryComment}">
 								<div class="comment_list">
 									<div class="com_profile" style="background-image: url(resources/file/profile/${cm.h_pic})"></div>
 									<div class="com_text">
@@ -464,7 +413,6 @@ function delete_text() {
 						</div>
 					</div>
 				</div>
-
 				<!-- 캘린더 -->
 				<div class="calendar_wrap">
 					<table class="calendar">

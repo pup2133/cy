@@ -1,15 +1,8 @@
 	$(document).ready(function() {
 		
-		const host = $("#host").val();
+		const host = $("#hostId").val();
 		const sessionId = $("#sessionId").val();
-
-		if (host != sessionId) {
-			$('.editGallery').hide();
-			$('.deleteGallery').hide();
-		}
-		
-		
-		
+	
 		function comment(data, commentWrap){
 			for(let i=0; i<data.length; i++){
 				// 새로운 comment 요소 생성

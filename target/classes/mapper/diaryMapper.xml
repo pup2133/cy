@@ -4,7 +4,7 @@
 
 <mapper namespace="com.project.diaryMapper">
 
-	<select id="selectDiary" parameterType="hashmap" resultType="DiaryDTO">
+	<select id="selectDiary" resultType="DiaryDTO">
 		select d.d_num, d.M_ID, m.M_NICK, TO_CHAR(d.D_DATE, 'YYYYmmdd') as d_date,
 		d.D_TEXT
 		from CY_DIARY d
@@ -22,7 +22,7 @@
 		where d.m_id = #{m_id}
 	</select>
 
-	<select id="selectDiaryComment" parameterType="hashmap" resultType="DiaryCommentDTO">
+	<select id="selectDiaryComment" resultType="DiaryCommentDTO">
 		select dc.dc_num, d.D_NUM, m.M_id, m.M_NICK, TO_CHAR(dc.DC_TIME, 'YYYY-mm-dd hh24:mm') dc_time,
 		dc.DC_TEXT,	h.H_PIC
 		from CY_DIARY_COMMENT dc
@@ -37,7 +37,7 @@
 		OFFSET #{startItem} ROWS FETCH NEXT #{itemsPerPage} ROWS ONLY
 	</select>
 	
-	<select id="selectDiaryCommentCount" parameterType="hashmap" resultType="int">
+	<select id="selectDiaryCommentCount" resultType="int">
 		select count(*)
 		from CY_DIARY_COMMENT dc
 		join CY_DIARY d

@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="resources/css/gallery.css">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script src="./resources/js/gallery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="./resources/js/header.js"></script>
 </head>
 <body>
 	<%@ include file="header_nav.jsp"%>
@@ -21,7 +23,7 @@
 					<c:if test="${hostId == sessionId}">
 						<a href="galleryReg"><i class="fa-solid fa-pen"></i></a>
 					</c:if>
-					<a href="gallery?hostId=${hostId }"><i class="fa-solid fa-list"></i></a>
+					<a href="gallery?id=${hostId }"><i class="fa-solid fa-list"></i></a>
 				</div>
 			</div>
 			<!-- 갤러리 wrap 오버플로우 시 스크롤 -->
@@ -42,8 +44,10 @@
 										</c:if>
 									</h1>
 									<div>
-										<button class="editGallery">수정 |</button>
-										<button type="button" class="deleteGallery">삭제</button>
+										<c:if test="${hostId == sessionId}">
+											<button class="editGallery">수정 |</button>
+											<button type="button" class="deleteGallery">삭제</button>
+										</c:if>
 									</div>
 								</div>
 							</form>
@@ -85,11 +89,11 @@
 				</c:forEach>
 				<div class="page">
 					<ul class="pagination">
-						<li class="page-item"><a class="page-link" href="./gallery?hostId=${hostId}&page=1"><</a></li>
+						<li class="page-item"><a class="page-link" href="./gallery?id=${hostId}&page=1"><</a></li>
 						<c:forEach var="pageNumber" begin="${startPage}" end="${endPage}">
-							<li class="page-item"><a class="page-link" href="./gallery?hostId=${hostId}&page=${pageNumber}">${pageNumber}</a></li>
+							<li class="page-item"><a class="page-link" href="./gallery?id=${hostId}&page=${pageNumber}">${pageNumber}</a></li>
 						</c:forEach>
-						<li class="page-item"><a class="page-link" href="./gallery?hostId=${hostId}&page=${totalPages}">></a></li>
+						<li class="page-item"><a class="page-link" href="./gallery?id=${hostId}&page=${totalPages}">></a></li>
 					</ul>
 				</div>
 			</div>
