@@ -42,9 +42,9 @@ public class VisitController {
 				pagination p = new pagination();
 				Map<String, Integer> pagination = p.pagination(totalCount, page, 4);
 
-				List<visit> visitList = service.getVisit(pagination.get("startItem"), pagination.get("itemsPerPage"));
+				List<visit> visitList = service.getVisit(pagination.get("startItem"), pagination.get("itemsPerPage"),id);
 
-				model.addAttribute("host", hostId);
+				model.addAttribute("hostId", hostId);
 				model.addAttribute("sessionId", sessionId);
 				model.addAttribute("member", service.getMember(sessionId));
 				model.addAttribute("list", visitList);

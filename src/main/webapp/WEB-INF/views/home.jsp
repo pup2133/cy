@@ -1,6 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page session="false"%>
 <%@ page import=" java.util.HashMap"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,18 +13,48 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 	<script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 </head> 
 <script>
 	//---네비게이션 기능
 	//배너공개비공개
 	$(document).ready(function() {
+		
+		//소켓
+	    // 웹소켓 연결
+	    const sock = new SockJS('/cy/alram');
+	
+	    sock.onopen = function() {
+	      console.log('open');
+	    };
+	
+	    // 데이터를 전달 받았을 때
+	    sock.onmessage = onMessage; // toast 생성
+	
+	    function onMessage(evt) {
+	      let data = evt.data;
+	      let toast = $('<div>', { class: 'toast', text: data });
+	      $('body').append(toast);
+	
+	      setTimeout(function() {
+	        toast.addClass('show');
+	        setTimeout(function() {
+	          toast.removeClass('show');
+	          setTimeout(function() {
+	            toast.remove();
+	          }, 300);
+	        }, 3000);
+	      }, 100);
+	    }
+		
+		
 	  $(".menu_box").click(function(event) {
 	    event.preventDefault(); // 기본 이벤트(페이지 이동) 막기
 	    let value = $(this).prev("input").val(); // menu_box 앞에 있는 input 요소의 값을 가져옴
 	    if($('#hostId').val()===$('#sessionId').val()){
 	    	let href = $(this).parent("a").attr("href"); // a 태그의 href 속성 값 가져옴
 		    window.location.href = href; // 페이지 이동
-	    }else if(value === "1") {
+	    }else if(value === "0") {
 	      // 이동할 필요 없는 경우에 수행할 동작
 	      // 예: 경고창 띄우기 또는 다른 작업 수행
 	    	Swal.fire({
@@ -55,8 +84,6 @@
 	    
 	    let playlist_text = $("#myplayList").val();
 	    let titlelist_text = $("#titleList").val();
-		console.log(playlist_text);
-		console.log(titlelist_text);
 		let regexForPlay = /([a-zA-Z0-9]+\.mp3)/g;
 		let regexForTitle = /[\w가-힣]+/g;
 		let playlist = $.map(playlist_text.match(regexForPlay), function(value) {
@@ -65,8 +92,6 @@
 		let titlelist = $.map(titlelist_text.match(regexForTitle), function(value) {
 			  return value;
 		});
-		console.log(playlist);
-		console.log(titlelist);
 	    
 	    /*let playlist = ['a02.mp3', 'a03.mp3', 'a04.mp3'];*/
 	    let currentIndex = 0;
@@ -149,7 +174,6 @@
 	    }
 	    
 	    //일시정지 및 재생
-	    
 	    $(".play_btn").click(function(){
 	        if (!audio.paused){
 	            audio.pause();
@@ -194,6 +218,7 @@
 	    })
 	
 	})
+	
 	//---홈 메인 기능
 	$(document).ready(function(){
 		const id= $('#hostId').val();
@@ -201,7 +226,6 @@
 		
 		//말줄입표 기능
 		let  maxLength = 20; // 최대 글자 수
-
         $(".list_content").each(function() {
             let content = $(this).text();
             if (content.length > maxLength) {
@@ -209,42 +233,7 @@
                 $(this).text(trimmedContent + "..."); // 말줄임표 추가
             }
         });
-    });
-    
-    //파도타기
-    $(document).ready(function name() {
-    	$("#wave_list").change(function name() {
-    		let m_id = $("#wave_list :selected").val();
-    		location.href = "home?id=" + m_id;
-		});
-    	
-    	//랜덤
-    	$("#wave_random").click(function name() {
-    		location.href = "home?id=${r_id}";
-		});
-    	
-    	//검색 리스트
-    	$.ajax({
-    	      url: "searchList",
-    	      method: "get",
-    	      success: function(list){
-    	    	  $.each(JSON.parse(list), function(key, m){ 
-    	    		    let tmp = "<option value='"+m.m_id+"'>"+m.m_nick+"</option>";
-    	    		    $("#ids").append(tmp);
-    	    		});
-    	      },
-    	      error:function(err){
-    	        console.log(err);
-    	      }    
-    	    });
-    	
-    	//아이디 검색
-    	$("#searchbtn").click(function name() {
-    		let s_id = $("#search_text").val();
-    		location.href = "home?id=" + s_id;
-		})
-	});
-    	
+	
 		//일촌신청
 		$.ajax({
 			type:"POST",
@@ -297,6 +286,7 @@
 		}
 		let ingEdit=0;
         $(".edit_button").click(function(){
+        	alert(ingEdit);
             if(ingEdit===0){
                 $(".edit_msg").css("display","inline-block");
                 let h_msg = $(".home_profile_text").text();
@@ -326,6 +316,42 @@
             }
         })
 	})
+    
+    //파도타기
+    $(document).ready(function name() {
+    	$("#wave_list").change(function name() {
+    		let m_id = $("#wave_list :selected").val();
+    		location.href = "myhome?id=" + m_id;
+		});
+    	
+    	//랜덤
+    	$("#wave_random").click(function name() {
+    		location.href = "myhome?id=${r_id}";
+		});
+    	
+    	//검색 리스트
+    	$.ajax({
+    	      url: "searchList",
+    	      method: "get",
+    	      success: function(list){
+    	    	  $.each(JSON.parse(list), function(key, m){ 
+    	    		    let tmp = "<option value='"+m.m_id+"'>"+m.m_nick+"</option>";
+    	    		    $("#ids").append(tmp);
+    	    		});
+    	      },
+    	      error:function(err){
+    	        console.log(err);
+    	      }    
+    	    });
+    	
+    	//아이디 검색
+    	$("#searchbtn").click(function name() {
+    		let s_id = $("#search_text").val();
+    		location.href = "myhome?id=" + s_id;
+		})
+	});
+
+	
 </script>
 <script src="./resources/js/header.js"></script>
 <body>
@@ -352,8 +378,7 @@
 							<ul class="preview_list">
 								<c:forEach var="item" items="${visitList}" varStatus="status"
 									end="5">
-									<li><span class="list_content">${item.v_text }</span><span
-										class="list_nick">${item.m_nick }</span></li>
+									<li><span class="list_content">${item.v_text }</span><span class="list_nick">${item.m_nick }</span></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -376,15 +401,13 @@
 						<div class="gallery_img_box">
 							<!-- 이미지 10개만 불러오기 -->
 							<!-- 이미지 10개 이하인 경우 background보임 -->
-							<c:forEach var="item" items="${galleryList}" varStatus="status"
-								end="9">
+							<c:forEach var="item" items="${galleryList}" varStatus="status" end="9">
 								<img src="./resources/images/${item.g_pic}" alt="">
 							</c:forEach>
 						</div>
 					</div>
 				</div>
 			</div>
-			${diary }
 			<div class="home_profile_side">
 				<div class="home_profile_side_wrap">
 					<div class="today_wrap">
@@ -401,7 +424,7 @@
 					<!-- 프로필 정보 가져오기 -->
 					<div class="home_profile_info_wrap">
 						<div class="home_profile_img">
-							<img src="./resources/images/${homeProfile.h_pic}" alt="">
+							<img src="./resources/file/profile/${homeProfile.h_pic}" alt="">
 						</div>
 						<div class="home_profile_text_wrap">
 							<div class="home_profile_text">${homeProfile.h_msg}</div>
@@ -413,9 +436,17 @@
 							class="edit_msg home_profile_text_wrap"></textarea>
 					</div>
 					<!-- 친구목록, 파도타기 기능 -->
-					<div class="wave_wrap">
-						<div>파도타기 드롭박스 들어감</div>
-					</div>
+                    <div class="wave_wrap">
+                        <div>
+							<select id="wave_list">
+								<option>친구목록</option>
+								<c:forEach var="f" items="${friends}">
+									<option value="${f.m_id}">${f.m_nick}</option>
+								</c:forEach>
+							</select>
+							<button id="wave_random">Random</button>
+						</div>
+                    </div>
 					<div>
 						<button class="send_friend">일촌신청하기</button>
 					</div>
@@ -455,74 +486,6 @@
 				</div>
 
 			</div>
-            <div class="home_profile_side">
-                <div class="home_profile_side_wrap">
-                    <div class="today_wrap">
-                        <div class="today">
-                            <div class="today_num num">230</div>
-                            <div>TODAY</div>
-                        </div>
-                        <!-- 방문자수 가져오기 -->
-                        <div class="total">
-                            <div class="total_num num">400</div>
-                            <div>TOTAL</div>
-                        </div>
-                    </div>
-                    <!-- 프로필 정보 가져오기 -->
-                    <div class="home_profile_info_wrap">
-                        <div class="home_profile_img"><img src="./resources/images/ng.png" alt=""></div>
-                        <div class="home_profile_text">
-                            안녕하세요 너구리입니다.아하하하하하하하하하
-                            솜사탕사탕사탕아아아앙아ㅏ아아아아아ㅏ아ㅏ앙
-                        </div>
-                    </div>
-                    <!-- 친구목록, 파도타기 기능 -->
-                    <div class="wave_wrap">
-                        <div>
-							<select id="wave_list">
-								<option>친구목록</option>
-								<c:forEach var="f" items="${friends}">
-									<option value="${f.m_id}">${f.m_nick}</option>
-								</c:forEach>
-							</select>
-							<button id="wave_random">Random</button>
-						</div>
-                    </div>
-                    <!-- 프리뷰 가져오기 -->
-                    <div class="preview_wrap">
-                        <div class="preview_diary preview">
-                            <i class="fa-solid fa-book preview_icon"></i>
-                            <div class="preview_content">
-                                <div>11</div>
-                                <div>다이어리</div>
-                            </div>
-                        </div>
-                        <div class="preview_gallery preview">
-                            <i class="fa-solid fa-image preview_icon"></i>
-                            <div class="preview_content">
-                                <div>112</div>
-                                <div>갤러리&nbsp;</div>
-                            </div>
-                        </div>
-                        <div class="preview_friends preview">
-                            <i class="fa-solid fa-user-group preview_icon"></i>
-                            <div class="preview_content">
-                                <div>55<span>&nbsp;&nbsp;</span></div>
-                                <div>일촌<sapn>&nbsp;&nbsp;&nbsp;</sapn></div>
-                            </div>
-                        </div>
-                        <div class="preview_visit preview">
-                            <i class="fa-solid fa-pen-nib preview_icon"></i>
-                            <div class="preview_content">
-                                <div>121</div>
-                                <div>방명록&nbsp;</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
         </section>
     </div>
 </body>

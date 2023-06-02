@@ -11,11 +11,10 @@
 <link rel="stylesheet" href="resources/css/header_nav.css" />
 <link rel="stylesheet" href="resources/css/diary.css" />
 <script type="text/javascript">
-let days = "${param.days}";;
-
-  let choiceYear2 = days.substr(0, 4);
-  let choiceMonth2 = days.substring(4, 6);
-  let choiceDay2 = days.substring(6, 8);
+	let days = "${param.days}";
+	let choiceYear2 = days.substr(0, 4);
+	let choiceMonth2 = days.substring(4, 6);
+  	let choiceDay2 = days.substring(6, 8);
   
 window.onload = function () {
   buildCalendar();
@@ -56,6 +55,7 @@ if (choiceDay.length == 1) {
 
 let choicedays = choiceYear + choiceMonth + choiceDay;
 console.log(choicedays);
+
 
 
 
@@ -380,7 +380,7 @@ function delete_text() {
 							<input type="submit" value="등록" id="com_sub" />
 						</form>
 						<div id="comment_all">
-							<c:forEach var="cm" items="${listC}">
+							<c:forEach var="cm" items="${diaryComment}">
 								<div class="comment_list">
 									<div class="com_profile" style="background-image: url(resources/file/profile/${cm.h_pic})"></div>
 									<div class="com_text">
@@ -411,7 +411,6 @@ function delete_text() {
 						</div>
 					</div>
 				</div>
-
 				<!-- 캘린더 -->
 				<div class="calendar_wrap">
 					<table class="calendar">

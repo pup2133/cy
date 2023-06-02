@@ -27,8 +27,9 @@ public class visitRepository implements visitRepositoryImp {
 	}
 
 	@Override
-	public List<visit> getVisit(int startItem, int itemsPerPage) throws Exception {
-		Map<String, Integer> params = new HashMap<>();
+	public List<visit> getVisit(int startItem, int itemsPerPage, String id) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		params.put("id", id);
 		params.put("startItem", startItem);
 		params.put("itemsPerPage", itemsPerPage);
 		return session.selectList(namespace + "selectVisit", params);

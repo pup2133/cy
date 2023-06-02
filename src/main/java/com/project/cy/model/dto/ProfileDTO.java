@@ -76,5 +76,11 @@ public class ProfileDTO {
 		this.p_text = p_text;
 	}
 
+	@Override
+	public String toString() {
+		return "ProfileDTO [m_id=" + m_id + ", m_name=" + m_name + ", m_birth=" + m_birth + ", m_email=" + m_email
+				+ ", m_tel=" + m_tel + ", p_pic=" + p_pic + ", p_text=" + p_text + "]";
+	}
+
 	
 }

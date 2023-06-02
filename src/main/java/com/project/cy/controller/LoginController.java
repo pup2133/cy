@@ -48,18 +48,18 @@ public class LoginController {
 	@PostMapping("/login")
 	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session) {
 		LoginDTO member = dao.findMember(id);
-		session.setAttribute("sessionId", id);
 
 		if (member == null) {
 			return "login";
 		} else if (member.getM_id().equals(id) && member.getM_pw().equals(pw)) {
 			System.out.println("로그인 성공");
 			session.setAttribute("sessionId", id);
+			session.setAttribute("hostId", id);
 
 			// 세션 아이디 확인용
 			String asd = (String) session.getAttribute("sessionId");
 			System.out.println(asd);
-			return "redirect:/home?id=" + id;
+			return "redirect:/myhome?id=" + id;
 		} else {
 			System.out.println("로그인실패");
 			return "redirect:/login";

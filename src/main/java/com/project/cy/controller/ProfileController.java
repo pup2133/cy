@@ -39,6 +39,7 @@ public class ProfileController {
 		
 		profile = (ProfileDTO) service.selectProfile(id);
 		String sessionId = (String)session.getAttribute("sessionId");
+		
 		model.addAttribute("profile", profile);
 		model.addAttribute("hostId",id);
 		model.addAttribute("sessionId",sessionId);

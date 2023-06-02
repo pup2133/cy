@@ -1,4 +1,4 @@
-package com.project.cy.service;
+package com.project.cy.model.service;
 
 import java.util.List;
 

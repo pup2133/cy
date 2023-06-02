@@ -117,15 +117,4 @@ public class galleryService implements galleryServiceImp {
 			return dao.getSecretTotalCount(m_id);
 		}
 	}
-	
-	@Override
-    @Scheduled(cron = "0 0 0 * * ?") // 매일 0시 0분에 실행
-	public int clearToday() {
-		return dao.clearToday();
-	}
-	
-	@Override
-	public int updateToday(String m_id) {
-		return dao.updateToday(m_id);
-	}
 }

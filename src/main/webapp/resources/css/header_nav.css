@@ -175,7 +175,7 @@ nav {
 }
 
 .search_bar > input {
-  border: 0;
+  border:0;
   outline: none;
 }
 
@@ -205,4 +205,8 @@ section{
   height: 89.7vh;
   box-sizing: border-box;
   margin-left: 225px;
+}
+
+input::-webkit-calendar-picker-indicator {
+
 }

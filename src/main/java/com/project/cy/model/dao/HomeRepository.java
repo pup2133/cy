@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import com.project.cy.model.dto.FriendsDTO;
@@ -74,5 +75,18 @@ public class HomeRepository {
 		return session.selectList(namespace+"getPlay",m_id);
     	
     }
+    
+	@Scheduled(cron = "0 0 0 * * ?") // 매일 0시 0분에 실행
+	public int clearToday() {
+		return session.update(namespace+"clearToday");
+	}
+	
+	public int updateToday(String m_id) {
+		return session.update(namespace+"updateToday",m_id);
+	}
+	
+	public HomeProfileDTO getToday(String m_id) {
+		return session.selectOne(namespace+"getToday",m_id);
+	}
     
 }

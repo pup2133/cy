@@ -28,8 +28,8 @@ public class visitService implements visitServiceImp {
 	}
 
 	@Override
-	public List<visit> getVisit(int startItem, int itemsPerPage) throws Exception {
-		return dao.getVisit(startItem, itemsPerPage);
+	public List<visit> getVisit(int startItem, int itemsPerPage, String id) throws Exception {
+		return dao.getVisit(startItem, itemsPerPage, id);
 	}
 
 	@Override

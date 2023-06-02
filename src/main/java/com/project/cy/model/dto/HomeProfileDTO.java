@@ -61,7 +61,5 @@ public class HomeProfileDTO {
 		return "HomeProfileDTO [m_id=" + m_id + ", m_nick=" + m_nick + ", h_pic=" + h_pic + ", m_today=" + m_today
 				+ ", m_totaltoday=" + m_totaltoday + ", h_msg=" + h_msg + "]";
 	}
-	
-	
 
 }

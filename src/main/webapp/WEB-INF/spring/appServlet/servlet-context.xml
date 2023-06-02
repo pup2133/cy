@@ -51,5 +51,25 @@
 	</websocket:handlers>
 
 	<beans:bean id="alram" class="com.project.cy.util.dkffka"/>
+	
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/visit"/>
+			<mapping path="/profile"/>
+			<mapping path="/homeSetting"/>
+			<mapping path="/informModify"/>
+			<mapping path="/myhome"/>
+			<mapping path="/jukestore"/>
+			<mapping path="/myjuke"/>
+			<mapping path="/gallery"/>
+			<mapping path="/galleryReg"/>
+			<mapping path="/editGallery"/>
+			<mapping path="/friends"/>
+			<mapping path="/diary"/>
+			<mapping path="/diary_reg"/>	
+			<beans:bean id="DefaultInterceptor" class="com.project.cy.util.Handler" />
+		</interceptor>
+	</interceptors>
 
 </beans:beans>

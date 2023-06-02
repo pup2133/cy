@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 	<header>
-		<input id="hostId" type="hidden" value="${hostId}">
-		<input id="sessionId" type="hidden" value="${sessionId}">
+		<input id="hostId" type="hidden" value="${sessionScope.hostId}">
+		<input id="sessionId" type="hidden" value="${sessionScope.sessionId}">
 		<div class="icon">
 			<img src="./resources/images/racon.png" alt="">
 		</div>
@@ -22,7 +22,7 @@
 				</c:forEach>
 			</div>
 			<img class="header_profile"
-				src="./resources/images/${headerProfile.h_pic}" alt="">
+				src="./resources/file/profile/${headerProfile.h_pic}" alt="">
 			<div class="profile_drop">
 				<span>${headerProfile.m_nick}</span> <i
 					class="fa-sharp fa-solid fa-chevron-down"></i>
@@ -65,8 +65,8 @@
                     <span><b>아이디검색</b></span>
                     <div class="search_bar">
                         <input type="text" id="search_text" list="ids" autocomplete="off">
-                        <datalist id="ids">
-                        </datalist>
+	                    <datalist id="ids">
+	                    </datalist>
                         <i class="fa-solid fa-magnifying-glass" id="searchbtn"></i>
                     </div>
                 </div>
@@ -83,12 +83,12 @@
 						<input type="hidden" value="${banner.B_HIDE_MUSIC }">
 						<div class="menu_box">주크박스</div>
 					</a>
-					<a href="/cy/diary?id=${hostId }">
+					<a href="/cy/diary?id=${hostId }&days=${sessionScope.days}">
 						<input type="hidden" value="${banner.B_HIDE_DIARY }">
 						<div class="menu_box">다이어리</div>
 					</a>
-					<a	href="/cy/gallery?id=${hostId }">
-						<input type="hidden"	value="${banner.B_HIDE_GALLERY }">
+					<a	href="/cy/gallery?hostId=${hostId }">
+						<input type="hidden" value="${banner.B_HIDE_GALLERY }">
 						<div class="menu_box">갤러리</div>
 					</a>
 					<a href="/cy/visit?id=${hostId }">

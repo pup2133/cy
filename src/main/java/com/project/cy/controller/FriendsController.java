@@ -7,15 +7,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.project.cy.model.dao.FriendsRepository;
 import com.project.cy.model.dto.FriendsDTO;
-import com.project.cy.service.FriendsService;
+import com.project.cy.model.service.FriendsService;
 
 @Controller	
 public class FriendsController {
@@ -25,12 +23,13 @@ public class FriendsController {
 	
 	@RequestMapping("/friends")
 	public String getFriend(Model model,String id, HttpSession session){
+		
 		// 임시 세션 아이디
 		String sessionId = (String) session.getAttribute("sessionId");
-		System.out.println(sessionId);
+
 		//호스트 아이디 검사
 		String hostId = service.getMemberId(id);
-		System.out.println(hostId);
+		
 		if(hostId!=null) {
 			List<FriendsDTO> list1 = service.getRecieve(hostId);
 			List<FriendsDTO> list2 = service.getSend(hostId);
@@ -44,6 +43,7 @@ public class FriendsController {
 		}
 		return "friends";
 	}
+	
 	@ResponseBody
 	@PostMapping("/deleteFriend")
 	public String deleteFriend(@RequestParam int f_num) {

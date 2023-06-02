@@ -17,6 +17,7 @@
 		FROM cy_visit v
 		JOIN cy_member m ON v.guest_id = m.m_id
 		JOIN cy_home h ON h.m_id = m.m_id
+		WHERE host_Id= #{id}
 		ORDER BY v.v_num DESC
 		OFFSET #{startItem} ROWS FETCH NEXT #{itemsPerPage} ROWS ONLY
 	</select>

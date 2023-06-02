@@ -42,8 +42,10 @@
 										</c:if>
 									</h1>
 									<div>
-										<button class="editGallery">수정 |</button>
-										<button type="button" class="deleteGallery">삭제</button>
+										<c:if test="${hostId == sessionId}">
+											<button class="editGallery">수정 |</button>
+											<button type="button" class="deleteGallery">삭제</button>
+										</c:if>
 									</div>
 								</div>
 							</form>

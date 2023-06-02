@@ -20,7 +20,6 @@ public class SettingController {
 
 	@GetMapping("/homeSetting")
 	public String homeSettingForm(Model model) {
-		//model.attribute
 		return "homeSetting";
 	}
 	
@@ -28,14 +27,7 @@ public class SettingController {
 	public String informModifyForm() {
 		return "informModify";
 	}
-	
-	@GetMapping("/garden")
-	public String homeForm() {
-		return "home";
-	}
-	
-	
-	
+
 	//세팅 업데이트
 	@PostMapping("savesetting")
 	public String homesetting(HttpSession session, HomeSettingDTO dto) {

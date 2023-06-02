@@ -9,7 +9,7 @@ public interface visitServiceImp {
     
     public int addVisit(visit dto) throws Exception;
     
-    public List<visit> getVisit(int startItem, int itemsPerPage) throws Exception;
+    public List<visit> getVisit(int startItem, int itemsPerPage, String id) throws Exception;
 
     public String getMemberId(String id) throws Exception;
     

@@ -25,6 +25,6 @@ public interface DiaryRepositoryImp {
 	
 	public int selectDiaryCommentCount(HashMap<String, Object> map);
 	
-	public DiaryDTO selectDiary2(String id);
+	public List<DiaryDTO> selectDiary2(String id);
 
 }
