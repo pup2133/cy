@@ -43,33 +43,6 @@ public class LoginController {
 		return "FindPw";
 	}
 	
-	// 회원정보 수정화면에서 정보 가져오기
-	@GetMapping("/informModify")
-	public String informModifyForm(HttpSession session, Model model) {
-		String sessionId = (String) session.getAttribute("sessionId");
-						//Id 셀렉트 
-		LoginDTO member = service.getInformation(sessionId);		
-		model.addAttribute("member" , member);
-		
-		return "informModify";
-	}
-	
-	//정보 업데이트
-	@PostMapping("updateInform")
-	public String Modify(LoginDTO dto) {
-		LoginDTO member = new LoginDTO(dto.getM_id(),dto.getM_pw(),dto.getM_name(),dto.getM_nick(),dto.getM_birth(),dto.getM_email(),dto.getM_tel(),dto.getM_wave());
-		int result = service.modify(member);
-		
-		if (result > 0) {
-			// 업데이트 성공
-			return "redirect:/informModify";
-		} else {
-			// 업데이트 실패
-			return "error";
-		}
-	
-	}
-	
 	// 로그인
 	@PostMapping("/login")
 	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session) {

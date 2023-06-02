@@ -15,7 +15,6 @@
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="./resources/js/header.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
 
 //---홈 메인 기능

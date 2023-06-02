@@ -4,13 +4,12 @@
 <head>
 <meta charset="UTF-8" />
 <title>Document</title>
-<link rel="stylesheet" href="./resources/css/header_nav.css">
-<link rel="stylesheet" href="./resources/css/informModify.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="./resources/css/header_nav.css">
+<link rel="stylesheet" href="./resources/css/informModify.css">
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script src="./resources/js/header.js"></script>
 <script>
 	$(document).ready(function(){
 		
@@ -109,9 +108,10 @@
 	
 	
 </script>
+<script src="./resources/js/header.js"></script>
 </head>
   <body>
-    <%@ include file="header_nav.jsp"%>	
+	<%@ include file="header_nav.jsp"%>	
     <section>
     <div class="container">
       <h1>회원정보 수정</h1>
@@ -173,7 +173,7 @@
       </form>
       
     </div>
-      
+          
       <input type="hidden" id="m_pw" value="${member.m_pw}">
       <input type="hidden" id="m_name" value="${member.m_name}">
       <input type="hidden" id="m_nick" value="${member.m_nick}">

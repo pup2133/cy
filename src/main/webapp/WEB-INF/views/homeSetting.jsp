@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="./resources/css/header_nav.css">
 <link rel="stylesheet" href="./resources/css/homeSetting.css" />
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<script src="./resources/js/header.js"></script>
 <script>
 	
 	$(document).ready(function(){
@@ -76,6 +75,7 @@
 
     				
 </script>
+<script src="./resources/js/header.js"></script>
 </head>
 <body>
 	<%@ include file="header_nav.jsp"%>	

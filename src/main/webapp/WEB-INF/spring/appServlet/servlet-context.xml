@@ -65,7 +65,9 @@
 			<mapping path="/editGallery"/>
 			<mapping path="/friends"/>
 			<mapping path="/diary"/>
-			<mapping path="/diary_reg"/>	
+			<mapping path="/diary_reg"/>
+			<mapping path="/homeSetting"/>
+			<mapping path="/informModify"/>
 			<beans:bean id="DefaultInterceptor" class="com.project.cy.util.Handler" />
 		</interceptor>
 	</interceptors>
