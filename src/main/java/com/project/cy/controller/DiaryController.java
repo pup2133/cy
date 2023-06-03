@@ -38,6 +38,7 @@ public class DiaryController {
 		try {
 			
 			session.setAttribute("hostId", id);
+			session.setAttribute("selectDay", days);
 
 			DiaryDTO diary = (DiaryDTO) service.selectDiary(id,days);
 						

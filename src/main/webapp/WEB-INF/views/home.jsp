@@ -228,7 +228,7 @@ $(document).ready(function(){
                     <div class="wave_wrap">
                         <div>
 							<select id="wave_list">
-								<option>친구목록</option>
+								<option value="${param.id}">파도타기</option>
 								<c:forEach var="f" items="${friends}">
 									<option value="${f.m_id}">${f.m_nick}</option>
 								</c:forEach>

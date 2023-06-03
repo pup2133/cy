@@ -59,15 +59,15 @@ public class MyhomeController {
 				model.addAttribute("visitList", hservice.getHomeVisit(hostId));
 				model.addAttribute("galleryList", hservice.getHomeGallery(hostId));
 
-				ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(id);
-				friends.addAll(friendsService.getSend(id));
-				model.addAttribute("friends", friends);
+				ArrayList<FriendsDTO> waves = (ArrayList<FriendsDTO>) friendsService.getSearchList(hostId);
+				
+				model.addAttribute("friends", waves);
 
 				String r_id = "";
-				if (!friends.isEmpty()) {
+				if (!waves.isEmpty()) {
 					Random r = new Random();
-					int r_num = r.nextInt(friends.size());
-					r_id = friends.get(r_num).getM_id();
+					int r_num = r.nextInt(waves.size());
+					r_id = waves.get(r_num).getM_id();
 				}
 
 				session.setAttribute("hostId", hostId);
