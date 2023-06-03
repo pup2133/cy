@@ -24,7 +24,6 @@
     		let mu_code =  $(this).data('mu-code');
     		Swal.fire({
                 title: '해당 곡을 구매하시겠습니까?',
-                text: "sdfsf",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

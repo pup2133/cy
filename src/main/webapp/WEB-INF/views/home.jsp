@@ -47,8 +47,8 @@ $(document).ready(function(){
 		url:"isFriend",
 		data:{id:host},
 		success:function(data){
-			if(data===1 || host===session){
-				$(".send_friend").hide();
+			if(data!==1 && host!==session){
+				$(".send_friend").css({"display":"block"});
 			}
 		},
 		error:function(err){

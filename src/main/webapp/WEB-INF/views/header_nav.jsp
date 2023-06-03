@@ -29,9 +29,9 @@
 			</div>
 			<div class="dropdown_profile dropdown">
 				<!-- 이동경로 입력 -->
-				<a href="#"><div class="dropdown-item">
+				<a href="/cy/informModify?id=${host }"><div class="dropdown-item">
 						<i class="fa-solid fa-gear"></i>&nbsp회원설정
-					</div></a> <a href="#"><div class="dropdown-item">
+					</div></a> <a href="/cy/homesetting?id=${host }"><div class="dropdown-item">
 						<i class="fa-solid fa-house-lock"></i>&nbsp공개설정
 					</div></a> <a href="/cy/logout"><div class="dropdown-item">
 						<i class="fa-solid fa-right-from-bracket"></i>&nbsp로그아웃
