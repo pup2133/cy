@@ -45,10 +45,13 @@ public class LoginController {
 	
 	// 로그인
 	@PostMapping("/login")
-	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session) {
+	public String login(String id, String pw, HttpSession session, Model model) {
 		LoginDTO member = service.login(id);
-
+		model.addAttribute("member",member);
+		
 		if (member == null) {
+			System.out.println("로그인 실패");
+			System.out.println(member);
 			return "login";
 		} else if (member.getM_id().equals(id) && member.getM_pw().equals(pw)) {
 			System.out.println("로그인 성공");
