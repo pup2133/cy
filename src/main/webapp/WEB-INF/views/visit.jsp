@@ -6,96 +6,101 @@
 <meta charset="UTF-8">
 <title>${host }님의 홈페이지</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 <!-- CSS only -->
 <link rel="stylesheet" href="./resources/css/header_nav.css"> 
 <link rel="stylesheet" href="./resources/css/visit.css">
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
 <script>
+$(document).ready(function() {
 	
-	$(document).ready(function() {
-		$('.page-item.active').removeClass('active');
-		const host = $("#hostId").val();
-		const sessionId = $("#sessionId").val();
+    // 웹소켓 연결
+    const sock = new SockJS('/cy/alram');
 
-		if (host == sessionId) {
-			$(".guest_reg").hide();
-		    $(".comment_list").css("height", "700px");
-		    $('input[name="userType"]').val(sessionId);
-		} else {
-		    $('input[name="userType"]').val(host);
-		}
+    // 데이터를 전달 받았을 때
+    sock.onmessage = onMessage; // toast 생성
+    
+	$('.page-item.active').removeClass('active');
+	const host = $("#hostId").val();
+	const sessionId = $("#sessionId").val();
+
+	if (host == sessionId) {
+		$(".guest_reg").hide();
+	    $(".comment_list").css("height", "700px");
+	    $('input[name="userType"]').val(sessionId);
+	} else {
+	    $('input[name="userType"]').val(host);
+	}
+	
+	$(".geust_box").each(function() {
+		const guestId = $(this).find("#guest_id").val();
+
+	    if (guestId != sessionId && host != sessionId) {
+	    	$(this).find("#edit, #delete, #line").hide();
+	    } else if (host == sessionId) {
+	    	$(this).find("#edit, #line").hide();
+	    }
+	});
+
+	$(".geust_box").on("click", "#edit", function() {
 		
-		$(".geust_box").each(function() {
-			const guestId = $(this).find("#guest_id").val();
+		const $comment_update = $(this).closest(".geust_box").find(".comment_update");
+	    const $comment = $(this).closest(".geust_box").find(".comment");
+	    const $commentText = $comment.children("p").text();
 
-		    if (guestId != sessionId && host != sessionId) {
-		    	$(this).find("#edit, #delete, #line").hide();
-		    } else if (host == sessionId) {
-		    	$(this).find("#edit, #line").hide();
-		    }
-		});
+	    $comment_update.show();
+	    $comment_update.children("textarea").val($commentText);
+	    $comment.hide();
 
-		$(".geust_box").on("click", "#edit", function() {
-			
-			const $comment_update = $(this).closest(".geust_box").find(".comment_update");
-		    const $comment = $(this).closest(".geust_box").find(".comment");
-		    const $commentText = $comment.children("p").text();
+	    $(this).hide();
+	    $(this).closest(".geust_box").find("#edit2").show();
+		
+	});
+	
+	$(".geust_box").on("click", "#edit2", function() {
+		
+		const $comment_update = $(this).closest(".geust_box").find(".comment_update");
+	    const $comment = $(this).closest(".geust_box").find(".comment");
+	    const text = $(this).closest(".geust_box").find(".comment_update").children("textarea").val();
+	 
+		const v_num = $(this).closest("form[name='frmUpdate']").find("input[name='v_num']").val();
+		const v_text = text;
+		const v_time = $(this).closest("form[name='frmUpdate']").find("input[name='v_time']").val();
+		const v_hostId = $(this).closest("form[name='frmUpdate']").find("input[name='v_hostId']").val();
+		const v_guestId = $(this).closest("form[name='frmUpdate']").find("input[name='v_guestId']").val();
+		
+		const edit = $(this).closest(".geust_box").find("#edit");
+		const edit2 = $(this);
+	    
+	    
+		$.ajax({
+			url: "visit/edit", // 요청을 보낼 URL
+			method: "POST",
+			dataType: "text",
+			data: { 
+				"v_num" : v_num,
+				"v_text" : v_text,
+				"v_time" : v_time,
+				"v_hostId" : v_hostId,
+				"v_guestId" : v_guestId
+			},
+			success: function(response) {
+				$comment_update.hide();
+				$comment.show();
+				$comment.children("p").text(text);
+				
+			    edit2.hide();
+			   	edit.show();
 
-		    $comment_update.show();
-		    $comment_update.children("textarea").val($commentText);
-		    $comment.hide();
-
-		    $(this).hide();
-		    $(this).closest(".geust_box").find("#edit2").show();
-			
+			},
+			error: function(xhr, status, error) {
+				console.log(error);
+			}
 		});
 		
-		$(".geust_box").on("click", "#edit2", function() {
-			
-			const $comment_update = $(this).closest(".geust_box").find(".comment_update");
-		    const $comment = $(this).closest(".geust_box").find(".comment");
-		    const text = $(this).closest(".geust_box").find(".comment_update").children("textarea").val();
-		 
-			const v_num = $(this).closest("form[name='frmUpdate']").find("input[name='v_num']").val();
-			const v_text = text;
-			const v_time = $(this).closest("form[name='frmUpdate']").find("input[name='v_time']").val();
-			const v_hostId = $(this).closest("form[name='frmUpdate']").find("input[name='v_hostId']").val();
-			const v_guestId = $(this).closest("form[name='frmUpdate']").find("input[name='v_guestId']").val();
-			
-			const edit = $(this).closest(".geust_box").find("#edit");
-			const edit2 = $(this);
-		    
-		    
-			$.ajax({
-				url: "visit/edit", // 요청을 보낼 URL
-				method: "POST",
-				dataType: "text",
-				data: { 
-					"v_num" : v_num,
-					"v_text" : v_text,
-					"v_time" : v_time,
-					"v_hostId" : v_hostId,
-					"v_guestId" : v_guestId
-				},
-				success: function(response) {
-					$comment_update.hide();
-					$comment.show();
-					$comment.children("p").text(text);
-					
-				    edit2.hide();
-				   	edit.show();
-				    
-				    console.log(response);
-				},
-				error: function(xhr, status, error) {
-					console.log(error);
-				}
-			});
-			
-		  });	
-	});	
-
+	  });	
+});
 </script>
 <script src="./resources/js/header.js"></script>
 </head>

@@ -14,11 +14,18 @@
 <!-- sweet alert -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script type="text/javascript">
 //ajax로 플레이리스트 html변경 함수
 function playlistItem(data) {
+	
+    // 웹소켓 연결
+    const sock = new SockJS('/cy/alram');
+
+    // 데이터를 전달 받았을 때
+    sock.onmessage = onMessage; // toast 생성
+    
 	let htmls = "";
 	for (let i = 0; i < data.length; i++) {
 		let item = data[i]

@@ -15,17 +15,17 @@ let cnt = 0;
 //중복확인
 function dup(){
 	
-	let id = $('input[name=m_id]').val();
+	const id = $('input[name=m_id]').val();
 	
 	if(id==""){
 		Swal.fire('아이디 중복 체크', '아이디를 입력해주세요', 'error');	
 		return;
-		
-	}else if(id.length>15 || id.length<4){
+	}else if(!/^[A-Za-z0-9]+$/.test(id)){
+		 Swal.fire('회원가입', '아이디는 영문 또는 숫자만 입력해주세요', 'error');
+		return;
+	}else if(id.length > 15 || id.length < 4){
 		Swal.fire('아이디 체크', '아이디는 4자 이상 15자 이하로 입력해주세요', 'error');
 		return;
-		
-		
 	}
 	
 	$.ajax({
@@ -36,12 +36,12 @@ function dup(){
 				"m_id" : id
 			},
 			success : function(data, status) {
-				
 				if (data === "true") {
 					Swal.fire('아이디 중복 체크', '사용가능한 아이디 입니다', 'success');
 					cnt=1;
-				
-					
+				    $('input[name=m_id]').prop('readonly', true);
+				    $('input[name=m_id]').css('outline', 'none');
+
 				} else if (data === "false") {
 					Swal.fire('아이디 중복 체크', '이미 존재하는 아이디 입니다', 'error');
 				}
@@ -63,24 +63,30 @@ function validateForm() {
 	  let m_email = $('input[name=m_email]').val();
 	  let m_tel = $('input[name=m_tel]').val();
 	 
-	  if (m_id == "" || m_pw == "" || m_name == "" || m_nick == "" || m_birth == "" || m_email == "" || m_tel == "") {
-	    Swal.fire('회원가입', '비어있는 항목이 있는지 확인해주세요', 'error');
-	    return;
-	  } else if (!/^[A-Za-z0-9]+$/.test(m_id)) 
-	  	{Swal.fire('회원가입', '아이디는 영문 또는 숫자만 입력해주세요', 'error');
-		return;
-	  } else if (!/^\d{4}-\d{2}-\d{2}$/.test(m_birth)) 
-	    {Swal.fire('회원가입', '생년월일 형식을 확인해주세요', 'error');
-	    return;
-	  } else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(m_email)) {
-	    Swal.fire('회원가입', '이메일 형식을 확인해주세요', 'error');
-	    return;
-	  } else if (!/^\d{3}-\d{4}-\d{4}$/.test(m_tel)) {
-	    Swal.fire('회원가입', '전화번호 형식을 확인해주세요', 'error');
-	    return;
-	  } else if(cnt!=1){
-	    Swal.fire('회원가입', '중복확인을 체크해주세요', 'error');
-	  } else if(cnt===1){    // 1 ==  "1"    1 === 1
+	  if(cnt!=1){
+		  Swal.fire('회원가입', '중복확인을 체크해주세요', 'error');
+	  }else if(m_pw.length > 20  || m_pw.length < 6){
+		  Swal.fire('회원가입', '비밀번호는 6자 이상 20자 이하로 입력해주세요 ', 'error');
+		  return;
+	  }else if(m_name.length > 10 || m_name.length < 2){
+		  Swal.fire('회원가입', '이름은 2자 이상 10자 이하로 입력해주세요 ', 'error');
+		  return;
+	  }else if(m_nick.length > 10 || m_nick.length < 2){
+		  Swal.fire('회원가입', '닉네임은 2자 이상 10자 이하로 입력해주세요 ', 'error');
+		  return;
+	  }else if (!/^\d{4}-\d{2}-\d{2}$/.test(m_birth)) {
+		  Swal.fire('회원가입', '생년월일 형식을 확인해주세요', 'error');
+		  return;
+	  }else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(m_email)) {
+		  Swal.fire('회원가입', '이메일 형식을 확인해주세요', 'error');
+		  return;
+	  }else if (!/^\d{3}-\d{4}-\d{4}$/.test(m_tel)) {
+		  Swal.fire('회원가입', '전화번호 형식을 확인해주세요', 'error');
+		  return;
+	  }else if (m_id == "" || m_pw == "" || m_name == "" || m_nick == "" || m_birth == "" || m_email == "" || m_tel == "") {
+		  Swal.fire('회원가입', '비어있는 항목이 있는지 확인해주세요', 'error');
+		  return;
+	  }else if(cnt===1){    // 1 ==  "1"    1 === 1
 		  Swal.fire({
 	      title: '회원가입',
 	      text: '회원 가입이 완료되었습니다.',
@@ -89,7 +95,7 @@ function validateForm() {
 	      confirmButtonText: '확인',
 	    }).then( () => {document.frm.submit();} );
 	    return;
-	  }   
+	  }  
 }
 </script>
 </head>

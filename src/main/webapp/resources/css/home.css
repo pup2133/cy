@@ -303,22 +303,3 @@ section{
 .preview_content div:nth-child(2){
     font-size: 13px;
 }
-/* 토스트 창 스타일 */
-.toast {
-	position: fixed;
-	bottom: 30px;
-	right: 40%;
-	transform: translateX(-50%);
-	background-color: #333;
-	color: #fff;
-	padding: 15px;
-	border-radius: 5px;
-	opacity: 0;
-	transition: opacity 0.3s;
-	z-index: 9999;
-}
-
-/* 토스트 창 애니메이션 */
-.toast.show {
-	opacity: 1;
-}

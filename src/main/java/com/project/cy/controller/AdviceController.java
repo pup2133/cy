@@ -28,9 +28,7 @@ public class AdviceController {
     public void populateModel(Model model, HttpSession session) {
 		String sessionId = (String)session.getAttribute("sessionId");
 		String hostId = (String)session.getAttribute("hostId");
-		
-		System.out.println("=============");
-		
+				
 		//헤더, 프로필, 네이게이션
 		model.addAttribute("headerProfile",homedao.getHomeProfile(sessionId));
 		model.addAttribute("banner",homedao.getBanner(hostId));

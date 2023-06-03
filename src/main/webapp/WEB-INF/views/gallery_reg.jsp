@@ -6,12 +6,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./resources/css/header_nav.css">
 <link rel="stylesheet" href="./resources/css/gallery_reg.css">
 <script src="./resources/js/galleryRegEdit.js"></script>
 <script src="./resources/js/header.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
 </head>
 <body>
 	<%@ include file="header_nav.jsp"%>
@@ -32,7 +33,7 @@
 					<div class="gallery">
 						<div class="gallery_left">
 							<div class="gallery_img">
-								<h1>사진 첨부</h1>
+								<h1 id="pic_text">사진 첨부</h1>
 								<input name="file" type="file" id="file" accept="image/*">
 							</div>
 						</div>

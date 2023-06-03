@@ -44,6 +44,7 @@ public class MyhomeController {
 
 		String sessionId = (String) session.getAttribute("sessionId");
 		String hostId = hservice.getMemberId(id);
+		session.setAttribute("hostId", hostId);
 
 		if (hostId != null) {
 			try {
@@ -59,18 +60,19 @@ public class MyhomeController {
 				model.addAttribute("visitList", hservice.getHomeVisit(hostId));
 				model.addAttribute("galleryList", hservice.getHomeGallery(hostId));
 
-				ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(id);
-				friends.addAll(friendsService.getSend(id));
+				ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(hostId);
+				friends.addAll(friendsService.getSend(hostId));
 				model.addAttribute("friends", friends);
+				
+				ArrayList<FriendsDTO> list = (ArrayList<FriendsDTO>) friendsService.getSearchList(sessionId);
 
 				String r_id = "";
-				if (!friends.isEmpty()) {
+				if (!list.isEmpty()) {
 					Random r = new Random();
-					int r_num = r.nextInt(friends.size());
-					r_id = friends.get(r_num).getM_id();
+					int r_num = r.nextInt(list.size());
+					r_id = list.get(r_num).getM_id();
 				}
 
-				session.setAttribute("hostId", hostId);
 				model.addAttribute("r_id", r_id);
 
 			} catch (Exception e) {
@@ -162,7 +164,7 @@ public class MyhomeController {
 
 		String id = (String) session.getAttribute("hostId");
 		ArrayList<FriendsDTO> list = (ArrayList<FriendsDTO>) friendsService.getSearchList(id);
-
+		
 		JSONArray jslist = new JSONArray();
 		for (FriendsDTO f : list) {
 			JSONObject data = new JSONObject();

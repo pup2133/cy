@@ -15,4 +15,6 @@ public interface FriendsRepositoryImp {
 	int delete(int f_num);
 	
 	List<FriendsDTO> getSearchList(String m_id);
+	
+	
 }

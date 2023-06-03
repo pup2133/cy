@@ -65,7 +65,7 @@ public class DiaryController {
 	// 댓글 등록
 	@PostMapping("diary/commentReg")
 	public String commentReg(String d_num, String d_date, String dc_text, HttpSession session) {
-		String m_id = (String) session.getAttribute("sessionId");
+		String m_id = (String) session.getAttribute("hostId");
 		DiaryCommentDTO dc = new DiaryCommentDTO(d_num, m_id, dc_text);
 
 		service.insertDiaryComment(dc);

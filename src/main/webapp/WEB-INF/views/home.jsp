@@ -16,12 +16,17 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="./resources/js/header.js"></script>
 <script>
-
 //---홈 메인 기능
 $(document).ready(function(){
 	
 	const host = $('#hostId').val();
 	const session = $('#sessionId').val();
+	
+    // 웹소켓 연결
+    const sock = new SockJS('/cy/alram');
+
+    // 데이터를 전달 받았을 때
+    sock.onmessage = onMessage; // toast 생성
 			
 	//상메
 	let h_msg2 = $(".home_profile_text").text();
@@ -39,16 +44,14 @@ $(document).ready(function(){
         }
     });
 	
-	console.log(host+"<<<");
-	
 	//일촌신청
 	$.ajax({
 		type:"POST",
 		url:"isFriend",
 		data:{id:host},
 		success:function(data){
-			if(data===1 || host===session){
-				$(".send_friend").hide();
+			if(data!==1 && host!==session){
+				$(".send_friend").css({"display":"block"});
 			}
 		},
 		error:function(err){

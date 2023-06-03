@@ -3,6 +3,7 @@ $(document).ready(function() {
 	const host = $('#hostId').val();
 	const session = $('#sessionId').val();
 	
+	
 	/* 헤더기능 */
 	
 	checkAlert();
@@ -111,17 +112,17 @@ $(document).ready(function() {
 	    
 	    //db에서 목록 불러와서 playlist만들기
 	    let playlist_text = $("#myplayList").val();
-	    console.log(playlist_text);
 	    let titlelist_text = $("#titleList").val();
 		let regexForPlay = /([a-zA-Z0-9]+\.mp3)/g;
 		let regexForTitle = /[\w가-힣]+/g;
-		
+
 		let playlist = $.map(playlist_text.match(regexForPlay), function(value) {
 			return value;
 		});
+	
 		let titlelist = $.map(titlelist_text.match(regexForTitle), function(value) {
 			return value;
-		});
+		});		
 		
 	    let currentIndex = 0;
 	    let currentIng = 0;
@@ -234,14 +235,15 @@ $(document).ready(function() {
 		     currentIng="1";
 			 $('.songTitle').text(titlelist[currentIndex]);
 		}
-	    
-	    /* 아이디 검색 */
+		
+		/* 아이디 검색 */
 	    
 	    //검색 리스트
     	$.ajax({
     		url: "searchList",
     	    method: "get",
     	    success: function(list){
+    	    	console.log("abcd");
     	    	$.each(JSON.parse(list), function(key, m){ 
     	    		let tmp = "<option value='"+m.m_id+"'>"+m.m_nick+"</option>";
     	    		$("#ids").append(tmp);
@@ -258,32 +260,11 @@ $(document).ready(function() {
     		location.href = "myhome?id=" + s_id;
 		});
 		
-	    // 웹소켓 연결
-	    const sock = new SockJS('/cy/alram');
-
-	    // 데이터를 전달 받았을 때
-	    sock.onmessage = onMessage; // toast 생성
-	
-	    function onMessage(evt) {
-	    	let data = evt.data;
-	      	let toast = $('<div>', { class: 'toast', text: data });
-	      	$('body').append(toast);
-	      	
-	      	setTimeout(function() {
-	        	toast.addClass('show');
-	        	setTimeout(function() {
-	          		toast.removeClass('show');
-	          		setTimeout(function() {
-	            	toast.remove();
-	          		}, 300);
-	        	}, 3000);
-	      }, 100);
-	  }
 	  
 	  // 재생 시간 저장
 		function savePlaybackTime() {
-			localStorage.setItem(playbackTimeKey, audio.currentTime.toString());
-		}
+	  		localStorage.setItem(playbackTimeKey, audio.currentTime.toString());
+	  	}
 			    
 		//재생 순서 저장
 		function savePlaybackIndex(){
@@ -295,3 +276,19 @@ $(document).ready(function() {
 			localStorage.removeItem(playbackTimeKey);
 		}
 });
+
+function onMessage(evt) {
+	let data = evt.data;
+  	let toast = $('<div>', { class: 'toast', text: data });
+  	$('body').append(toast);
+  	
+  	setTimeout(function() {
+    	toast.addClass('show');
+    	setTimeout(function() {
+      		toast.removeClass('show');
+      		setTimeout(function() {
+        		toast.remove();
+      		}, 300);
+    	}, 3000);
+  	}, 100);
+}

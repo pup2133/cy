@@ -64,6 +64,13 @@
 		VALUES
 			(#{m_id})
 	</insert>
+	
+	<insert id="createHome" parameterType="Login">
+		INSERT INTO cy_home
+			(m_id)
+		VALUES
+			(#{m_id})
+	</insert>
         
     <select id="duplication" resultType="String">
     	SELECT m_id
