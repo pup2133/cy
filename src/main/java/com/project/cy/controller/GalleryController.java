@@ -42,7 +42,6 @@ public class GalleryController {
 	@GetMapping("gallery")
 	public String gallery(@RequestParam(defaultValue = "1") int page, Model model, HttpSession session, String id) {
 		String sessionId = (String)session.getAttribute("sessionId");
-		session.setAttribute("hostId", id);
 		
 		int totalCount = service.getTotalCount(id, sessionId);
 		pagination p = new pagination();
@@ -164,11 +163,5 @@ public class GalleryController {
 		file.delete(realPath, fileName);
 		return service.deleteGallery(g_num);
 	}
-
-	@GetMapping("alram")
-	public String alam(HttpSession session) {
-		return "alram";
-	}
-	
 
 }

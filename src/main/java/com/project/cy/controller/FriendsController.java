@@ -18,24 +18,23 @@ import com.project.cy.model.service.FriendsService;
 @Controller
 public class FriendsController {
 
-	@Autowired
 	FriendsService service;
+	
+	@Autowired
+	public FriendsController(FriendsService service) {
+		super();
+		this.service = service;
+	}
 
 	@RequestMapping("/friends")
 	public String getFriend(Model model, String id, HttpSession session) {
 
-		// 호스트 아이디 검사
-		String hostId = service.getMemberId(id);
-
-		session.setAttribute("hostId", hostId);
-
-		if (hostId != null) {
-			List<FriendsDTO> list1 = service.getRecieve(hostId);
-			List<FriendsDTO> list2 = service.getSend(hostId);
+		if (id != null) {
+			List<FriendsDTO> list1 = service.getRecieve(id);
+			List<FriendsDTO> list2 = service.getSend(id);
 			list1.addAll(list2);
 			
 			model.addAttribute("friendsList", list1);
-			System.out.println(list1);
 		} else {
 			return "error";
 		}
@@ -45,8 +44,7 @@ public class FriendsController {
 	@ResponseBody
 	@PostMapping("/deleteFriend")
 	public String deleteFriend(@RequestParam int f_num) {
-		// String m_id = session.getId();
-		int result = service.delete(f_num);
+		service.delete(f_num);
 		return "ddd";
 	}
 

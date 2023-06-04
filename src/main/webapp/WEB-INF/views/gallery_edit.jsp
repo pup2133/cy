@@ -34,7 +34,7 @@
 					<div class="gallery">
 						<div class="gallery_left">
 							<div class="gallery_img"
-								style="background-image: url('./resources/images/${pic}')">
+								style="background-image: url('./resources/file/${pic}')">
 								<input name="file" type="file" id="file" accept="image/*">
 								<input name="g_pic" type="hidden" value="${pic }">
 							</div>

@@ -18,13 +18,15 @@
 	let choiceMonth2 = days.substring(4, 6);
   	let choiceDay2 = days.substring(6, 8);
   	
+  
+window.onload = function () {
+	
     // 웹소켓 연결
     const sock = new SockJS('/cy/alram');
 
     // 데이터를 전달 받았을 때
     sock.onmessage = onMessage; // toast 생성
-  
-window.onload = function () {
+    
   buildCalendar();
   // 웹 페이지가 로드되면 buildCalendar 실행
 
@@ -144,7 +146,7 @@ function buildCalendar() {
     if (getMonth.length == 1) {
       getMonth = "0" + getMonth;
     }
-    nowColumn.id = getYear + getMonth + getDay;
+    
 
     if (nowDay.getDay() == 0) {
       // 일요일인 경우 글자색 빨강으로
@@ -182,6 +184,11 @@ function buildCalendar() {
         location.href = "diary?id=${hostId}&days=" + choicedays;
       };
     }
+    nowColumn.id = getYear + getMonth + getDay;
+    let ncid = nowColumn.id;
+    if(ncid == days){
+    	nowColumn.className += ' choiceDay';
+    }
   }
 }
 
@@ -208,6 +215,9 @@ function choiceDate(nowColumn) {
 
 // 이전달 버튼 클릭
 function prevCalendar() {
+	if(nowMonth.getDate() == 31){
+		nowMonth.setDate(1);
+	}
   nowMonth = new Date(
     nowMonth.getFullYear(),
     nowMonth.getMonth() - 1,
@@ -217,6 +227,9 @@ function prevCalendar() {
 }
 // 다음달 버튼 클릭
 function nextCalendar() {
+if(nowMonth.getDate() == 31){
+		nowMonth.setDate(1);
+	}
   nowMonth = new Date(
     nowMonth.getFullYear(),
     nowMonth.getMonth() + 1,
@@ -280,7 +293,7 @@ function change_diarydate(y, m, d) {
   diary_date.innerHTML = y + " - " + m + " - " + d;
 }
 
-
+let cnt = ${totalCount};
 //댓글 삭제
 function delete_comment(obj, dc_num) {
   let tf = confirm("댓글을 삭제하시겠습니까??");
@@ -293,14 +306,15 @@ function delete_comment(obj, dc_num) {
       data: {
         dc_num: dc_num,
       },
-      success: function(data){
+      success: function(){
       },
       error:function(err){
         console.log(err);
       }    
     });
+    cnt -= 1;
+	  $("#com_cnt").html("댓글("+cnt+")");
   }
-  
   com.remove();
 }
 

@@ -8,6 +8,7 @@ public class FriendsDTO {
 	String m_name;
 	String send_id;
 	String recieve_id;
+	String m_wave;
 	
 	public FriendsDTO() {
 		// TODO Auto-generated constructor stub
@@ -23,6 +24,14 @@ public class FriendsDTO {
 		this.m_name = m_name;
 		this.send_id = send_id;
 		this.recieve_id = recieve_id;
+	}
+
+	public String getM_wave() {
+		return m_wave;
+	}
+
+	public void setM_wave(String m_wave) {
+		this.m_wave = m_wave;
 	}
 
 	public int getF_num() {
@@ -90,8 +99,9 @@ public class FriendsDTO {
 	@Override
 	public String toString() {
 		return "FriendsDTO [f_num=" + f_num + ", h_pic=" + h_pic + ", m_id=" + m_id + ", m_nick=" + m_nick + ", m_name="
-				+ m_name + ", send_id=" + send_id + ", recieve_id=" + recieve_id + "]";
+				+ m_name + ", send_id=" + send_id + ", recieve_id=" + recieve_id + ", m_wave=" + m_wave + "]";
 	}
+	
 	
 	
 }

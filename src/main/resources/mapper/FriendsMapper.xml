@@ -15,7 +15,7 @@
 		on m.m_id=h.m_id
 		join cy_friends f
 		on f.recieve_id = m.m_id
-		where f.send_id=#{m_id} and f.accept=1
+		where f.send_id=#{m_id} and f.accept=1 
     </select>
     
     <select id="getSend" resultType="Friends">
@@ -28,6 +28,46 @@
 		where f.recieve_id=#{m_id} and f.accept=1
     </select>
     
+    <select id="getRecieve2" resultType="Friends">
+        select f.f_num, h.h_pic, m.m_id, m.m_nick, m.m_wave
+		from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		join cy_friends f
+		on f.recieve_id = m.m_id
+		where f.send_id= #{m_id} and f.accept=1 and m.m_wave != 0
+    </select>
+    
+    <select id="getSend2" resultType="Friends">
+        select f.f_num, h.h_pic, m.m_id, m.m_nick, m.m_wave
+		from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		join cy_friends f
+		on f.send_id = m.m_id
+		where f.recieve_id= #{m_id} and f.accept=1 and m.m_wave != 0
+    </select>
+    
+    <select id="getRecieve3" resultType="Friends">
+        select f.f_num, h.h_pic, m.m_id, m.m_nick
+		from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		join cy_friends f
+		on f.recieve_id = m.m_id
+		where f.send_id= #{m_id} and f.recieve_id = #{id} and f.accept=1
+    </select>
+    
+    <select id="getSend3" resultType="Friends">
+        select f.f_num, h.h_pic, m.m_id, m.m_nick
+		from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		join cy_friends f
+		on f.send_id = m.m_id
+		where f.send_id= #{id} and f.recieve_id = #{m_id} and f.accept=1
+    </select>
+    
     <delete id="delete" parameterType="int">
         delete from cy_friends where f_num=#{f_num}
     </delete>
@@ -35,5 +75,6 @@
     <select id="getSearchList" resultType="Friends" parameterType="String">
     	select m_id, m_nick from cy_member where m_id != #{m_id}
     </select>
+    
     
 </mapper>

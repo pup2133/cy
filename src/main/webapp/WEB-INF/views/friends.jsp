@@ -86,7 +86,7 @@ $(document).ready(function(){
                         <i class="fa-regular fa-x"></i>
                         <div class="friend_info">
                             <div class="img_wrap">
-                                <img src="./resources/images/${item.h_pic }" alt="">
+                                <img src="./resources/file/profile/${item.h_pic }" alt="">
                             </div>
                             <p class="f_nick">${item.m_nick }</p>
                             <p>${item.m_id }</p>

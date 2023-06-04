@@ -114,7 +114,7 @@ $(document).ready(function() {
                 <form name="frm" action="visit/reg" method="post">
 	                <div class="guest_reg">
 	                	<div class="pic_nickname">
-	                		<img src="${member.h_pic}">
+	                		<img src="./resources/file/profile/${member.h_pic}">
 	                   		<p>${member.m_nick}</p>
 	                	</div>
 	                    <textarea name="v_text"></textarea>
@@ -129,7 +129,7 @@ $(document).ready(function() {
 	                <c:forEach var="list" items="${list }">
 	                	<div class="geust_box">
 	                		<div class="guest_pic_nick">
-	                			<img src="${list.h_pic }">
+	                			<img src="./resources/file/profile/${list.h_pic }">
 	                    		<p>${list.m_nick }</p>
 	                		</div>
 	                		<form name="frmUpdate" action="visit/edit" method="post">

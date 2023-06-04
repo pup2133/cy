@@ -104,10 +104,15 @@ $(document).ready(function(){
             let h_msg = $(".home_profile_text").html();
            	h_msg = h_msg.replace(/<br>/g,"\n");
             $(".edit_msg").val(h_msg);
+            $('.hptw').css('border','0.5px solid black');
+            $('.edit_msg').css('border','0.5px solid black');
+            $('.edit_msg').css('border-bottom','0');
             ingEdit=1;
         }else if(ingEdit===1){
             $(".edit_msg").css("display","none");
             let h_msg=$(".edit_msg").val();
+            $('.hptw').css('border','0');
+            $('.edit_msg').css('border','0');
             
             //요 메시지를 ajax로 전달하여db에서 수정
             $.ajax({
@@ -194,7 +199,7 @@ $(document).ready(function(){
 							<!-- 이미지 10개만 불러오기 -->
 							<!-- 이미지 10개 이하인 경우 background보임 -->
 							<c:forEach var="item" items="${galleryList}" varStatus="status" end="9">
-								<img src="./resources/images/${item.g_pic}" alt="">
+								<img src="./resources/file/${item.g_pic}" alt="">
 							</c:forEach>
 						</div>
 					</div>
@@ -218,14 +223,13 @@ $(document).ready(function(){
 						<div class="home_profile_img">
 							<img src="./resources/file/profile/${homeProfile.h_pic}" alt="">
 						</div>
-						<div class="home_profile_text_wrap">
+						<div class="home_profile_text_wrap hptw">
 							<div class="home_profile_text">${homeProfile.h_msg}</div>
 							<button class="edit_button">
 								<i class="fa-solid fa-pen-to-square"></i>
 							</button>
 						</div>
-						<textarea rows="4" cols="15"
-							class="edit_msg home_profile_text_wrap"></textarea>
+						<textarea rows="4" cols="15" class="edit_msg home_profile_text_wrap"></textarea>
 					</div>
 					<!-- 친구목록, 파도타기 기능 -->
                     <div class="wave_wrap">

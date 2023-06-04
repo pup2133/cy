@@ -16,18 +16,22 @@ import com.project.cy.model.service.LoginService;
 @Controller
 public class HomeSettingController {
 
-	@Autowired
 	HomeSettingService service;
 	
-	@Autowired
 	LoginService lService;
 	
+	@Autowired
+	public HomeSettingController(HomeSettingService service, LoginService lService) {
+		super();
+		this.service = service;
+		this.lService = lService;
+	}
+
 	//기존 배너 공개,비공개 설정 세팅 가져오기
 	@GetMapping("/homeSetting")
 	public String homeSettingForm(HttpSession session, Model model) {
 		String sessionId = (String) session.getAttribute("sessionId");
 		HomeSettingDTO setting = service.getsetting(sessionId);
-		System.out.println(setting);
 		model.addAttribute("setting", setting);
 		return "homeSetting";
 	}
@@ -44,15 +48,14 @@ public class HomeSettingController {
 			return "redirect:/homeSetting";
 		} else {
 			// 업데이트 실패
-			return "error";
+			return "redirect:/error";
 		}
 	}
 
 	// 회원정보 수정화면에서 정보 가져오기
 	@GetMapping("/informModify")
 	public String informModifyForm(HttpSession session, Model model) {
-		String sessionId = (String) session.getAttribute("sessionId");
-						//Id 셀렉트 
+		String sessionId = (String) session.getAttribute("sessionId"); //Id 셀렉트 
 		LoginDTO member = lService.getInformation(sessionId);		
 		model.addAttribute("member" , member);
 		
@@ -70,7 +73,7 @@ public class HomeSettingController {
 			return "redirect:/informModify";
 		} else {
 			// 업데이트 실패
-			return "error";
+			return "redirect:/error";
 		}
 	
 	}

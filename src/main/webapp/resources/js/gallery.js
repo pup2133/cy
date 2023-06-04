@@ -50,7 +50,7 @@
 				innerDiv4.append(span4);
 				innerDiv4.append(span5);
 				innerDiv2.append(innerDiv4);
-				commentProfile.append($('<img>').attr('src', data[i].g_pic));
+				commentProfile.append($('<img>').attr('src', "./resources/file/profile/"+data[i].g_pic));
 				commentInfo.append(innerDiv1);
 				commentInfo.append(innerDiv2);
 				commentInfo.append(innerDiv3);
@@ -265,5 +265,4 @@
 
     // 데이터를 전달 받았을 때
     sock.onmessage = onMessage; // toast 생성
-    
 });

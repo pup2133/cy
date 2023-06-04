@@ -4,13 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.project.cy.model.dao.DiaryRepository;
 import com.project.cy.model.dto.DiaryCommentDTO;
 import com.project.cy.model.dto.DiaryDTO;
-import com.project.cy.model.dto.HomeProfileDTO;
 
 @Service
 public class DiaryService implements DiaryServiceImp{
@@ -61,7 +59,10 @@ public class DiaryService implements DiaryServiceImp{
 	}
 
 	@Override
-	public int updateText(HashMap<String, Object> map) {
+	public int updateText(String d_num, String d_text) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("d_num", d_num);
+		map.put("d_text", d_text);
 		return dao.updateText(map);
 	}
 

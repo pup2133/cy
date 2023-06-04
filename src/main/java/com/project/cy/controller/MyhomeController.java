@@ -26,47 +26,55 @@ import com.project.cy.model.service.HomeService;
 @Controller
 public class MyhomeController {
 
-	@Autowired
 	HomeService hservice;
 
-	@Autowired
 	DiaryService dservice;
 
 	FriendsService friendsService;
 
+	
 	@Autowired
-	public void setFriendsService(FriendsService friendsService) {
+	public MyhomeController(HomeService hservice, DiaryService dservice, FriendsService friendsService) {
+		super();
+		this.hservice = hservice;
+		this.dservice = dservice;
 		this.friendsService = friendsService;
+	}
+	
+	@GetMapping("error")
+	public String error() {
+		return "error";
 	}
 
 	@GetMapping("/myhome")
 	public String getHomeProfile(Model model, String id, HttpSession session) {
+		
+		System.out.println("myhome");
 
 		String sessionId = (String) session.getAttribute("sessionId");
-		String hostId = hservice.getMemberId(id);
-		session.setAttribute("hostId", hostId);
 
-		if (hostId != null) {
+		if (id != null) {
 			try {
 
-				hservice.updateToday(hostId);
+				hservice.updateToday(id);
 
 				// 메인
-				model.addAttribute("homeProfile", hservice.getHomeProfile(hostId));
-				model.addAttribute("previewNum", hservice.getPreview(hostId));
+				model.addAttribute("homeProfile", hservice.getHomeProfile(id));
+				model.addAttribute("previewNum", hservice.getPreview(id));
 				model.addAttribute("recieveFriends", hservice.getRecieveFriends(sessionId));
-				model.addAttribute("today", hservice.getToday(hostId));
-				model.addAttribute("diaryList", dservice.selectDiary2(hostId));
-				model.addAttribute("visitList", hservice.getHomeVisit(hostId));
-				model.addAttribute("galleryList", hservice.getHomeGallery(hostId));
+				model.addAttribute("today", hservice.getToday(id));
+				model.addAttribute("diaryList", dservice.selectDiary2(id));
+				model.addAttribute("visitList", hservice.getHomeVisit(id));
+				model.addAttribute("galleryList", hservice.getHomeGallery(id));
 
-				ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) friendsService.getRecieve(hostId);
-				friends.addAll(friendsService.getSend(hostId));
+				ArrayList<FriendsDTO> friends = friendsService.waveList(id, sessionId);
 				model.addAttribute("friends", friends);
-				
 				ArrayList<FriendsDTO> list = (ArrayList<FriendsDTO>) friendsService.getSearchList(sessionId);
+			
+
 
 				String r_id = "";
+				
 				if (!list.isEmpty()) {
 					Random r = new Random();
 					int r_num = r.nextInt(list.size());
@@ -79,7 +87,7 @@ public class MyhomeController {
 				e.printStackTrace();
 			}
 		} else {
-			return "error";
+			return "redirect:/error";
 		}
 		return "home";
 	}
@@ -89,7 +97,6 @@ public class MyhomeController {
 	@ResponseBody
 	public void acceptFriends(int f_num) {
 		hservice.acceptFriends(f_num);
-		System.out.println(f_num + "수락됨");
 	}
 
 	// 일촌거절
@@ -97,7 +104,6 @@ public class MyhomeController {
 	@ResponseBody
 	public void rejectFriends(int f_num) {
 		hservice.rejectFriends(f_num);
-		System.out.println(f_num + "거절됨");
 	}
 
 	// 일촌확인
@@ -107,10 +113,10 @@ public class MyhomeController {
 		String sessionId = (String) session.getAttribute("sessionId");
 
 		// 호스트 아이디 검사
-		String hostId = hservice.getMemberId(id);
-		List<FriendsDTO> list1 = hservice.getRecieve(hostId);
-		List<FriendsDTO> list2 = hservice.getSend(hostId);
+		List<FriendsDTO> list1 = hservice.getRecieve(id);
+		List<FriendsDTO> list2 = hservice.getSend(id);
 		list1.addAll(list2);
+		
 		int result = 0;
 		for (Object a : list1) {
 			if ((((FriendsDTO) a).getM_id()).equals(sessionId)) {
@@ -127,8 +133,7 @@ public class MyhomeController {
 		String sessionId = (String) session.getAttribute("sessionId");
 
 		// 호스트 아이디 검사
-		String hostId = hservice.getMemberId(id);
-		int result = hservice.sendFriend(sessionId, hostId);
+		int result = hservice.sendFriend(sessionId, id);
 
 		return result;
 	}
@@ -144,8 +149,7 @@ public class MyhomeController {
 	@PostMapping("/editMsg")
 	@ResponseBody
 	public int editMsg(String id, String h_msg, HttpSession session) {
-		String hostId = hservice.getMemberId(id);
-		int result = hservice.editMsg(h_msg, hostId);
+		int result = hservice.editMsg(h_msg, id);
 		return result;
 	}
 
@@ -153,9 +157,7 @@ public class MyhomeController {
 	@PostMapping("/getPlay")
 	@ResponseBody
 	public List<MyjukeDTO> getPlay(String id, HttpSession session) {
-		// 호스트 아이디 검사
-		String hostId = hservice.getMemberId(id);
-		return hservice.getPlay(hostId);
+			return hservice.getPlay(id);
 	}
 
 	@RequestMapping(value = "searchList", method = RequestMethod.GET, produces = "application/text; charset=UTF-8")
