@@ -6,13 +6,19 @@
 <title>Document</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./resources/css/header_nav.css">
 <link rel="stylesheet" href="./resources/css/homeSetting.css" />
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script>
 	
 	$(document).ready(function(){
+		
+	    // 웹소켓 연결
+	    const sock = new SockJS('/cy/alram');
+
+	    // 데이터를 전달 받았을 때
+	    sock.onmessage = onMessage; // toast 생성
 		
 	    let originalProfile = $('#profile').val();
 	    let originalMusic = $('#music').val();
