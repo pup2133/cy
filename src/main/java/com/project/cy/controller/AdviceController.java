@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,6 +31,10 @@ public class AdviceController {
 	public void populateModel(Model model, HttpSession session, HttpServletResponse response) throws IOException {
 		String sessionId = (String) session.getAttribute("sessionId");
 		String hostId = (String) session.getAttribute("hostId");
+		
+		if(sessionId==hostId) {
+			
+		}
 
 		// 헤더, 프로필, 네이게이션
 		model.addAttribute("headerProfile", service.getHomeProfile(sessionId));

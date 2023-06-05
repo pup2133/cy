@@ -8,13 +8,15 @@
 <link rel="stylesheet" href="resources/css/header_nav.css" />
 <link rel="stylesheet" href="resources/css/diary_reg.css" />
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
+<script src="./resources/js/header.js"></script>
 <script type="text/javascript">
 function diary_sub() {
 	frm.submit();
 }
 // 웹소켓 연결
-const sock = new SockJS('/cy/alram');
+const sock = new SockJS('./alram');
 
 // 데이터를 전달 받았을 때
 sock.onmessage = onMessage; // toast 생성

@@ -23,7 +23,7 @@ $(document).ready(function(){
 	const session = $('#sessionId').val();
 	
     // 웹소켓 연결
-    const sock = new SockJS('/cy/alram');
+    const sock = new SockJS('./alram');
 
     // 데이터를 전달 받았을 때
     sock.onmessage = onMessage; // toast 생성
@@ -55,7 +55,6 @@ $(document).ready(function(){
 			}
 		},
 		error:function(err){
-			console.log(err);
 		}
 	});
 		
@@ -85,7 +84,6 @@ $(document).ready(function(){
                         $(".send_friend").hide();
 					},
 					error:function(err){
-						console.log(err);
 					}
 				});
 			}
@@ -124,10 +122,8 @@ $(document).ready(function(){
             		h_msg:h_msg
             	},
             	success:function(data){
-            		console.log(data);
             	},
             	error:function(err){
-            		console.log(err);
             	}
             });
            	h_msg = h_msg.replace(/\n/g,"<br>");
@@ -248,20 +244,20 @@ $(document).ready(function(){
 					</div>
 					<!-- 프리뷰 가져오기 -->
 					<div class="preview_wrap">
-						<a href="/cy/diary?id=${hostId }&days=${sessionScope.days}" class="preview_diary preview">
+						<a href="./diary?id=${hostId }&days=${sessionScope.days}" class="preview_diary preview">
 							<i class="fa-solid fa-book preview_icon"></i>
 							<div class="preview_content">
 								<div>${previewNum.get(0)}</div>
 								<div>다이어리</div>
 							</div>
-						</a> <a href="/cy/gallery?id=${hostId}"
+						</a> <a href="./gallery?id=${hostId}"
 							class="preview_gallery preview"> <i
 							class="fa-solid fa-image preview_icon"></i>
 							<div class="preview_content">
 								<div>${previewNum.get(1)}</div>
 								<div>갤러리&nbsp;</div>
 							</div>
-						</a> <a href="/cy/friends?id=${hostId}"
+						</a> <a href="./friends?id=${hostId}"
 							class="preview_friends preview"> <i
 							class="fa-solid fa-user-group preview_icon"></i>
 							<div class="preview_content">
@@ -271,7 +267,7 @@ $(document).ready(function(){
 									<sapn>&nbsp;&nbsp;&nbsp;</sapn>
 								</div>
 							</div>
-						</a> <a href="/cy/visit?id=${hostId}" class="preview_visit preview">
+						</a> <a href="./visit?id=${hostId}" class="preview_visit preview">
 							<i class="fa-solid fa-pen-nib preview_icon"></i>
 							<div class="preview_content">
 								<div>${previewNum.get(3)}</div>

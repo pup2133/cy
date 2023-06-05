@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.cy.HomeMapper">
+
+	<select id="getMemberId" resultType="String">
+		select m_id from cy_member where m_id = #{id}
+	</select>
+
+    <select id="getHomeProfile" resultType="HomeProfile">
+    	select h.h_pic,m.m_nick,m.m_today,m.m_totaltoday,h.h_msg from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		where m.m_id=#{m_id}
+    </select>
+   	
+   	<select id="getHomeVisit" resultType="visit">
+		SELECT m.m_id, m.m_nick, h.h_pic, v.v_num, v.v_text, to_char(v.v_time,'yyyy-mm-dd hh24:mi') as v_time,
+		v.host_id as v_hostId, v.guest_id as v_guestId
+		FROM cy_visit v
+		JOIN cy_member m ON v.guest_id = m.m_id
+		JOIN cy_home h ON h.m_id = m.m_id
+    	where host_Id=#{m_id}
+		ORDER BY v.v_num DESC
+   	</select>
+   	
+   	<select id="getHomeGallery" resultType="gallery">
+   		SELECT ga.g_num, ga.g_title, ga.g_pic, ga.g_text, to_char(ga.g_time,'yyyy-mm-dd hh24:mi') g_time, ga.m_id, ga.g_secret,
+  		(
+    		SELECT COUNT(go.gg_good)
+    		FROM cy_gallery_good go
+    		WHERE go.g_num = ga.g_num
+      		AND go.gg_good = 1
+  		) AS good_count
+		FROM cy_gallery ga 
+		where ga.m_id=#{m_id} and ga.g_secret = 0
+		ORDER BY ga.g_num desc
+   	</select>
+   	
+   	<select id="getPreview" resultType="int">
+   		SELECT COUNT(*) AS 행개수 FROM cy_diary where cy_diary.m_id=#{m_id}
+		UNION ALL
+		SELECT COUNT(*) AS 행개수 FROM cy_gallery where cy_gallery.m_id=#{m_id}
+		UNION ALL
+		SELECT COUNT(*) AS 행개수 FROM cy_friends where (RECIEVE_ID=#{m_id} and ACCEPT=1) or (SEND_ID=#{m_id} and accept=1)
+		UNION ALL
+		SELECT COUNT(*) AS 행개수 FROM cy_visit where cy_visit.host_id=#{m_id}
+   	</select>
+
+	<select id="getBanner" resultType="HashMap">
+		select b_hide_profile, b_hide_music, b_hide_diary, b_hide_gallery from cy_banner where m_id=#{m_id}
+	</select>
+	
+	<select id="getRecieveFriends" resultType="Friends">
+		select f.f_num, h.h_pic, m.m_id, m.m_nick ,m.m_name, f.recieve_id, f.send_id
+		from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		join cy_friends f
+		on f.send_id = m.m_id
+		where f.recieve_id=#{m_id} and f.accept=0
+	</select>
+	
+	<update id="acceptFriends" parameterType="Friends">
+		update cy_friends set accept=1 where f_num=#{f_num}
+	</update>
+	
+	<delete id="rejectFriends" parameterType="Friends">
+		delete from cy_friends where f_num=#{f_num}
+	</delete>
+	
+	<select id="getRecieve" resultType="Friends">
+        select f.f_num, h.h_pic, m.m_id, m.m_nick
+		from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		join cy_friends f
+		on f.recieve_id = m.m_id
+		where f.send_id=#{m_id}
+    </select>
+    
+    <select id="getSend" resultType="Friends">
+        select f.f_num, h.h_pic, m.m_id, m.m_nick
+		from cy_member m
+		join cy_home h
+		on m.m_id=h.m_id
+		join cy_friends f
+		on f.send_id = m.m_id
+		where f.recieve_id=#{m_id}
+    </select>
+	
+	<insert id="sendFriend" parameterType="Friends">
+		insert into cy_friends(send_id,recieve_id) values(#{send_id},#{recieve_id})
+	</insert>
+
+	<update id="editMsg" parameterType="HomeProfile">
+		update cy_home set h_msg=#{h_msg} where m_id=#{m_id}
+	</update>
+	
+	<select id="getPlay" resultType="Myjukebox">
+		select m.mu_title,m.mu_artist,mu_url
+		from cy_play pl
+		join cy_music m
+		on pl.mu_code=m.mu_code
+		where m_id=#{m_id}
+		order by pl.pl_code
+	</select>
+	
+	<select id="getToday" resultType="HomeProfile">
+		select m_today, m_totaltoday from cy_member where m_id = #{m_id}
+	</select>
+	
+	<update id="clearToday">
+		UPDATE cy_member set m_today = 0
+	</update>
+	
+	<update id="updateToday" parameterType="String">
+		update cy_member set m_today = m_today +1, m_totaltoday = m_totaltoday+1 where m_id = #{m_id}
+	</update>
+    
+</mapper>

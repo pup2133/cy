@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>일촌관리</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./resources/css/header_nav.css"> 
 <link rel="stylesheet" href="./resources/css/friends.css"> 
@@ -23,6 +23,12 @@ $(document).ready(function(){
 	const host = $("#hostId").val();
 	const session = $("#sessionId").val();
 	
+    // 웹소켓 연결
+    const sock = new SockJS('./alram');
+
+    // 데이터를 전달 받았을 때
+    sock.onmessage = onMessage; // toast 생성
+	
 	//손님일 경우 기능 제한
 	if(host!==session){
 		$(".fa-x").hide();
@@ -32,7 +38,6 @@ $(document).ready(function(){
     $(".fa-x").on("click", function(){
         let f_num = $(this).parent().find(".f_num").text();
         let m_nick =$(this).parent().find(".f_nick").text();
-        console.log("삭제하려는 행번호:" + f_num);
         
         Swal.fire({
             title: '일촌 삭제하시겠습니까?',
@@ -53,11 +58,9 @@ $(document).ready(function(){
                     data: {f_num: f_num},
                     success: function(data) {
                         // 삭제 성공 시에만 새로고침
-                        console.log(data);
                     	window.location.reload();
                     },
                     error: function(err) {
-                        console.log(err)
                     }
                 });
         		

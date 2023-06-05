@@ -49,8 +49,6 @@ public class MyhomeController {
 	@GetMapping("/myhome")
 	public String getHomeProfile(Model model, String id, HttpSession session) {
 		
-		System.out.println("myhome");
-
 		String sessionId = (String) session.getAttribute("sessionId");
 
 		if (id != null) {

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>갤러리</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="resources/css/header_nav.css">
 <link rel="stylesheet" href="resources/css/gallery.css">
@@ -12,6 +12,7 @@
 <script src="./resources/js/gallery.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="./resources/js/header.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
 </head>
 <body>
@@ -22,7 +23,7 @@
 				<h1>갤러리</h1>
 				<div>
 					<c:if test="${hostId == sessionId}">
-						<a href="galleryReg"><i class="fa-solid fa-pen"></i></a>
+						<a href="./galleryReg"><i class="fa-solid fa-pen"></i></a>
 					</c:if>
 					<a href="gallery?id=${hostId }"><i class="fa-solid fa-list"></i></a>
 				</div>

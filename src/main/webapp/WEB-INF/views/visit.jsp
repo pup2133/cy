@@ -4,19 +4,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${host }님의 홈페이지</title>
+<title>방명록</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 <!-- CSS only -->
 <link rel="stylesheet" href="./resources/css/header_nav.css"> 
 <link rel="stylesheet" href="./resources/css/visit.css">
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
 <script>
 $(document).ready(function() {
 	
     // 웹소켓 연결
-    const sock = new SockJS('/cy/alram');
+    const sock = new SockJS('./alram');
 
     // 데이터를 전달 받았을 때
     sock.onmessage = onMessage; // toast 생성
@@ -95,7 +96,6 @@ $(document).ready(function() {
 
 			},
 			error: function(xhr, status, error) {
-				console.log(error);
 			}
 		});
 		

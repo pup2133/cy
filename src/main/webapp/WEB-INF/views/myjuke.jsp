@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>주크 박스</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./resources/css/header_nav.css">
 <link rel="stylesheet" href="./resources/css/myjuke.css">
@@ -21,7 +21,7 @@
 function playlistItem(data) {
 	
     // 웹소켓 연결
-    const sock = new SockJS('/cy/alram');
+    const sock = new SockJS('./alram');
 
     // 데이터를 전달 받았을 때
     sock.onmessage = onMessage; // toast 생성
@@ -31,7 +31,7 @@ function playlistItem(data) {
 		let item = data[i]
 		let html = '<div class="play_music">';
 		html += '<div class="play_music_info_wrap">';
-		html += '<img src="./resources/images/' + item.mu_img + '.jpg">';
+		html += '<img src="./resources/images/' + item.mu_img + '.png">';
 		html += '<div class="play_music_info">';
 		html += '<p class="hidden code">' + item.pl_code + '</p>';
 		html += '<p>' + item.mu_title + '</p>';
@@ -127,8 +127,12 @@ $(document).ready(function() {
 	<%@ include file="header_nav.jsp"%>
 		<section>
 			<div class="section_title">
-				<span>주크박스</span> <a href="jukestore"><button
-						class="btn-15 custom-btn">상점가기</button></a>
+				<span>주크박스</span> 
+				<c:if test="${sessionId == hostId}">
+					<a href="jukestore">
+						<button	class="btn-15 custom-btn">상점가기</button>
+					</a>
+				</c:if>
 			</div>
 			<div class="music_section">
 				<div class="music_wrap style-2">
@@ -138,7 +142,7 @@ $(document).ready(function() {
 								<div class="cover" href="">
 									<div>+</div>
 								</div>
-								<img src="./resources/images/${item.mu_img}.jpg" alt="">
+								<img src="./resources/images/${item.mu_img}.png" alt="">
 								<div class="music_info">
 									<p>${item.mu_title }</p>
 									<p>${item.mu_artist }</p>
@@ -159,7 +163,7 @@ $(document).ready(function() {
 						<c:forEach var="item" items="${myplay}">
 							<div class="play_music">
 								<div class="play_music_info_wrap">
-									<img src="./resources/images/${item.mu_img }.jpg">
+									<img src="./resources/images/${item.mu_img }.png">
 									<div class="play_music_info">
 										<p class="hidden code">${item.pl_code}</p>
 										<p>${item.mu_title }</p>

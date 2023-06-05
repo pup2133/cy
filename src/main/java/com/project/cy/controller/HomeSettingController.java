@@ -29,7 +29,7 @@ public class HomeSettingController {
 
 	//기존 배너 공개,비공개 설정 세팅 가져오기
 	@GetMapping("/homeSetting")
-	public String homeSettingForm(HttpSession session, Model model) {
+	public String homeSettingForm(HttpSession session, Model model, String id) {
 		String sessionId = (String) session.getAttribute("sessionId");
 		HomeSettingDTO setting = service.getsetting(sessionId);
 		model.addAttribute("setting", setting);
@@ -54,7 +54,7 @@ public class HomeSettingController {
 
 	// 회원정보 수정화면에서 정보 가져오기
 	@GetMapping("/informModify")
-	public String informModifyForm(HttpSession session, Model model) {
+	public String informModifyForm(HttpSession session, Model model, String id) {
 		String sessionId = (String) session.getAttribute("sessionId"); //Id 셀렉트 
 		LoginDTO member = lService.getInformation(sessionId);		
 		model.addAttribute("member" , member);

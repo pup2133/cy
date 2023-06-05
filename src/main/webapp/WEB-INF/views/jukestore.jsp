@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>음악 상점</title>
 <script src="https://kit.fontawesome.com/4ec79785b5.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="./resources/css/header_nav.css"> 
 <link rel="stylesheet" href="./resources/css/jukestore.css"> 
@@ -21,7 +21,7 @@
     $(document).ready(function(){
     	
         // 웹소켓 연결
-        const sock = new SockJS('/cy/alram');
+        const sock = new SockJS('./alram');
 
         // 데이터를 전달 받았을 때
         sock.onmessage = onMessage; // toast 생성
@@ -47,7 +47,6 @@
 	                url: "checkDuplicatePurchase",
 	                data: {"mu_code": mu_code},
 	                success: function(data) {
-	                    console.log(data);
 	                    if(data==="true"){
 	                    	Swal.fire({
 		                        icon: 'warning',
@@ -67,13 +66,11 @@
 	                            success: function(data) {
 	                            },
 	                            error: function(err) {
-	                                console.log(err)
 	                            }
 	                        });
 	                    }
 	                },
 	                error: function(err) {
-	                    console.log(err)
 	                }
 	    		})
     			//
@@ -110,7 +107,7 @@
                               albumHTML += '<a class="btn" data-mu-code="' + item.mu_code + '"><button>구매</button></a>';
                               albumHTML += '</div>';
                               albumHTML += '</div>';
-                              albumHTML += '<img src="./resources/images/' + item.mu_img + '.jpg" alt="">';
+                              albumHTML += '<img src="./resources/images/' + item.mu_img + '.png" alt="">';
                               albumHTML += '</div>';
                               albumHTML += '<span>' + item.mu_artist + '</span>';
                               albumHTML += '</div>';
@@ -122,7 +119,6 @@
                       },
                       error: function(err) {
                           // Handle errors
-                          console.log(err);
                       }
                   });
             }
@@ -161,7 +157,7 @@
                                 <a class="btn" data-mu-code="${item.mu_code}"><button>구매</button></a>
                             </div>
                         </div>
-                        <img src="./resources/images/${item.mu_img}.jpg" alt="">
+                        <img src="./resources/images/${item.mu_img}.png" alt="">
                     </div>
                     <span>${item.mu_artist}</span>
                 </div>

@@ -1,7 +1,5 @@
 package com.project.cy.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -13,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.project.cy.model.dto.DiaryCommentDTO;
@@ -33,14 +33,16 @@ public class DiaryController {
 	@GetMapping("diary")
 	public String diary(Model model, String id, String days, HttpSession session, @RequestParam(defaultValue = "1") int page) {
 		try {
+
 			
 			DiaryDTO diary = (DiaryDTO) service.selectDiary(id,days);
-						
+
 			pagination p = new pagination();
 			int totalCount = service.selectDiaryCommentCount(id,days);
+
 			Map<String, Integer> pagination = p.pagination(totalCount, page, 10);
 			ArrayList<DiaryCommentDTO> diaryComment = (ArrayList<DiaryCommentDTO>) service.selectDiaryComment(id,days,pagination.get("startItem"),pagination.get("itemsPerPage"));
-			
+
 			model.addAttribute("totalPages", pagination.get("totalPages"));
 			model.addAttribute("currentPage", page);
 			model.addAttribute("startPage", pagination.get("startPage"));
@@ -48,6 +50,7 @@ public class DiaryController {
 			model.addAttribute("diary", diary);
 			model.addAttribute("diaryComment", diaryComment);
 			model.addAttribute("totalCount", totalCount);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,11 +63,12 @@ public class DiaryController {
 	@PostMapping("diary/commentReg")
 	public String commentReg(String d_num, String d_date, String dc_text, HttpSession session) {
 		
-		String m_id = (String) session.getAttribute("hostId");
+		String m_id = (String) session.getAttribute("sessionId");
+		String id = (String) session.getAttribute("hostId");
 		DiaryCommentDTO dc = new DiaryCommentDTO(d_num, m_id, dc_text);
 		service.insertDiaryComment(dc);
 
-		return "redirect:/diary?id="+m_id+"&days=" + d_date;
+		return "redirect:/diary?id="+id+"&days=" + d_date;
 	}
 
 	// 댓글 수정
@@ -90,29 +94,17 @@ public class DiaryController {
 	}
 
 	// 다이어리 등록
-	@PostMapping("diary_reg")
-	public void post_diary_reg(HttpSession session, @RequestParam("d_text") String d_text, HttpServletResponse response) {
+	@RequestMapping(value = "diary_reg", method = RequestMethod.POST, produces = "application/text; charset=UTF-8")
+	public String post_diary_reg(HttpSession session, @RequestParam("d_text") String d_text, HttpServletResponse response) {
 		String m_id = (String) session.getAttribute("sessionId");
 		String strToday = (String) session.getAttribute("days");
 	
 		DiaryDTO d = new DiaryDTO(m_id, d_text);
 
-		PrintWriter out = null;
-		
-		try {
-			out = response.getWriter();
-			service.insertDiary(d);
+		service.insertDiary(d);
 
-		} catch (IOException e1) {
-		} catch (Exception e) {
-			out.write("<script>alert('이미 등록되어 있습니다.'); location.href='diary?id=" + m_id + "&days=" + strToday + "';</script>");
-			out.flush();
-			out.close();
-		}
+		return "redirect:/diary?id="+m_id+"&days="+strToday;
 		
-		out.write("<script>location.href='diary?id=" + m_id + "&days=" + strToday + "';</script>");
-		out.flush();
-		out.close();
 	}
 
 	// 다이어리 수정

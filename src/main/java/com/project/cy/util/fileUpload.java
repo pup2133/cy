@@ -16,19 +16,11 @@ public class fileUpload {
 		if (!file.isEmpty()) {
 			String fileRealName = file.getOriginalFilename(); // 파일명을 얻어낼 수 있는 메서드
 			long size = file.getSize(); // 파일 사이즈
-			System.out.println("파일명 : " + fileRealName);
-			System.out.println("용량크기(byte) : " + size);
 			String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."), fileRealName.length());
 			String uploadFolder = realPath;
-
 			UUID uuid = UUID.randomUUID();
-			System.out.println(uuid.toString());
 			String[] uuids = uuid.toString().split("-");
-
 			String uniqueName = uuids[0];
-			System.out.println("생성된 고유문자열" + uniqueName);
-			System.out.println("확장자명" + fileExtension);
-
 			String filePath = uploadFolder + "/" + uniqueName + fileExtension;
 
 			File saveFile = new File(filePath); // 적용 후

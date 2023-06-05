@@ -48,20 +48,11 @@ public class FriendsService implements FriendsServiceImp{
 		ArrayList<FriendsDTO> friends = (ArrayList<FriendsDTO>) dao.getRecieve2(m_id);
 		friends.addAll(dao.getSend2(m_id));
 		
-		for(FriendsDTO f : friends) {
-			System.out.println(f);
-		}
-	
-    	System.out.println("service : waveList");
-		
 		for(int i=0; i<friends.size(); i++) {
 			FriendsDTO recieve = (FriendsDTO) dao.getRecieve3(id,friends.get(i).getM_id());
 			FriendsDTO send = (FriendsDTO) dao.getSend3(friends.get(i).getM_id(),id);
-			System.out.println(recieve);
-			System.out.println(send);
 			
 			if(friends.get(i).getM_wave().equals("1") && recieve == null && send == null) {
-				System.out.println(friends.get(i));
 				friends.remove(i);
 			}
 		}

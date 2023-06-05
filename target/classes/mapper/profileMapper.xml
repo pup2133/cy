@@ -23,7 +23,7 @@
 	<update id="updateProfile2" parameterType="map">
 		update CY_MEMBER set 
 		m_name = #{m_name},
-		m_birth = #{m_birth},
+		m_birth = to_date(#{m_birth},'yyyy-mm-dd'),
 		m_email = #{m_email},
 		m_tel = #{m_tel}
 		where m_id = #{m_id}

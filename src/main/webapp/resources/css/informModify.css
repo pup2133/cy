@@ -36,12 +36,25 @@ body {
   margin-top: -11px;
 }
 
+.idbox label input[type="text"]{
+    width: 100%;
+    font-size: 19px;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.idbox input[type="text"]:focus {
+  outline: none;
+  border-color: #ccc;
+}
 
 .container2 form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 650px;
+  width: 600px;
   margin: 0 auto;
   padding: 25px;
   border-radius: 5px;
@@ -125,7 +138,7 @@ body {
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 30px;
   transition: background-color 0.3s ease;
 }
 
@@ -161,6 +174,8 @@ body {
 }
 .container2 span {
   vertical-align: middle;
+  margin-left: 5px;
+  margin-top: -2px;
 }
 
 .container2 [type="radio"] {
@@ -197,4 +212,16 @@ body {
 .container2 [type="radio"]:disabled + span {
   opacity: 0.7;
   cursor: not-allowed;
+}
+
+/*비밀번호 라벨*/
+.password-label {
+  position: relative;
+}
+
+.password-label i{
+  position: absolute;
+  left: 95%;
+  top: 35px;
+  color: #555;
 }

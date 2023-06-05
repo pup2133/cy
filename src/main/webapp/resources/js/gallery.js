@@ -69,8 +69,6 @@
 			let $reg = $(this).siblings('.comment_reg');
 			let g_num = $galleryText.find('input[name="g_num"]').val();
 			
-			console.log(g_num);
-
 			$comment.empty();
 			$galleryText.hide();
 			$comment.slideDown(700);
@@ -86,7 +84,6 @@
 					"g_num" : g_num,
 				},
 				success : function(data) {
-					console.log(data);
 					comment(data,$comment);
 				},
 				error : function(error) {
@@ -195,7 +192,6 @@
 			  let textSpan = $(this).parent().siblings('.comment_text').children('.spanDiv').find('span');
 			  textarea.height(textSpan.height());
 			  
-			  console.log(textSpan.height());
 			  textSpan.text('');
 
 			  let gc_num = $(this).closest('.comment_info').find('input[name="gc_num"]').val();
@@ -261,7 +257,7 @@
 			});
 		});
 	// 웹소켓 연결
-    const sock = new SockJS('/cy/alram');
+    const sock = new SockJS('./alram');
 
     // 데이터를 전달 받았을 때
     sock.onmessage = onMessage; // toast 생성

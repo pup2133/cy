@@ -1,0 +1,117 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: 'SUITE-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') 
+at('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'SUITE-Regular';
+}
+
+
+body {
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 93.5vh;
+  width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+ .id-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 600px
+}
+  
+ .id-container .doublecheck {
+  margin-left: 19px;
+  margin-top: -5px;   
+  padding: 13px;
+  background-color: #272727;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.container h1 {
+  font-size: 40px;
+  margin-top: -100px;
+}
+
+.container hr {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #ccc;
+  margin-bottom: 44px;
+}
+}
+
+.container form {
+  width: 100%;
+}
+
+.container h5 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.container input[type="text"],
+.container input[type="password"] {
+  width: 580px;
+  padding: 9px;
+  font-size:20px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.container input[type="button"]{
+	font-size: 15px
+}
+
+.container button[type="button"] {
+  width: 100%;
+  margin-top: 20px;
+  padding: 20px;
+  font-size: 28px;
+  background-color: #272727;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.container button[type="button"]:hover {
+  background-color: #000;
+}
+
+.password-label {
+  position: relative;
+}
+
+.password-label i{
+  position: absolute;
+  right: 18px;
+  top: 60px;
+  color: #555;
+}

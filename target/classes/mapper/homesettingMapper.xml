@@ -8,8 +8,7 @@
 		SELECT m_id , b_hide_profile,
 		b_hide_music, b_hide_diary, b_hide_gallery
 		FROM cy_banner
-		WHERE m_id =
-		#{m_id}
+		WHERE m_id = #{m_id}
 	</select>
 
 

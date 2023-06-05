@@ -25,7 +25,11 @@ public class Handler implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("sessionId");
 		String hostId = request.getParameter("id");
-		String host = service.getMemberId(hostId);
+		String host = "";
+		
+		if(hostId!=null) {
+			host = service.getMemberId(hostId);
+		}
 		
 		if(id == null) {
 			response.sendRedirect("./login");

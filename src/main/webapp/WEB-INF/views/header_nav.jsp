@@ -29,12 +29,12 @@
 			</div>
 			<div class="dropdown_profile dropdown">
 				<!-- 이동경로 입력 -->
-				<a href="informModify">
+				<a href="informModify?id=${sessionId}">
 					<div class="dropdown-item">
 						<i class="fa-solid fa-gear"></i>&nbsp회원설정
 					</div>
 				</a>
-				<a href="homeSetting">
+				<a href="homeSetting?id=${sessionId}">
 					<div class="dropdown-item">
 						<i class="fa-solid fa-house-lock"></i>&nbsp홈 설정
 					</div>
@@ -79,27 +79,27 @@
                     </div>
                 </div>
                 <div class="menu">
-					<a href="/cy/myhome?id=${hostId }">
+					<a href="./myhome?id=${hostId }">
 						<input type="hidden">
 						<div class="menu_box">홈</div>
 					</a> 
-					<a href="/cy/profile?id=${hostId }">
+					<a href="./profile?id=${hostId }">
 						<input type="hidden" value="${banner.B_HIDE_PROFILE}">
 						<div class="menu_box">프로필</div>
 					</a>
-					<a href="/cy/myjuke?id=${hostId }">
+					<a href="./myjuke?id=${hostId }">
 						<input type="hidden" value="${banner.B_HIDE_MUSIC }">
 						<div class="menu_box">주크박스</div>
 					</a>
-					<a href="/cy/diary?id=${hostId }&days=${sessionScope.days}">
+					<a href="./diary?id=${hostId }&days=${sessionScope.days}">
 						<input type="hidden" value="${banner.B_HIDE_DIARY }">
 						<div class="menu_box">다이어리</div>
 					</a>
-					<a	href="/cy/gallery?id=${hostId }">
+					<a	href="./gallery?id=${hostId }">
 						<input type="hidden" value="${banner.B_HIDE_GALLERY }">
 						<div class="menu_box">갤러리</div>
 					</a>
-					<a href="/cy/visit?id=${hostId }">
+					<a href="./visit?id=${hostId }">
 						<input type="hidden">
 						<div class="menu_box">방명록</div>
 					</a>

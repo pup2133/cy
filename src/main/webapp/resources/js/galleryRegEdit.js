@@ -11,7 +11,7 @@ $(document).ready(function() {
 	});
 	
 	// 웹소켓 연결
-    const sock = new SockJS('/cy/alram');
+    const sock = new SockJS('./alram');
 
     // 데이터를 전달 받았을 때
     sock.onmessage = onMessage; // toast 생성

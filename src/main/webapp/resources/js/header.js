@@ -53,7 +53,6 @@ $(document).ready(function() {
 						}
 					},
 					error:function(err){
-						console.log(err);
 					}
 				});
 				}else if(!result.isConfrmed){
@@ -68,7 +67,6 @@ $(document).ready(function() {
 	                        });
 						},
 						error:function(err){
-							console.log(err);
 						}
 					});
 				}
@@ -243,14 +241,12 @@ $(document).ready(function() {
     		url: "searchList",
     	    method: "get",
     	    success: function(list){
-    	    	console.log("abcd");
     	    	$.each(JSON.parse(list), function(key, m){ 
     	    		let tmp = "<option value='"+m.m_id+"'>"+m.m_nick+"</option>";
     	    		$("#ids").append(tmp);
     	    	});
     	    },
     	    error:function(err){
-    	    	console.log(err);
     	    }    
     	});
     	

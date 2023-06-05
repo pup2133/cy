@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.cy.model.dao.JukeboxRepository;
-import com.project.cy.model.dto.FriendsDTO;
 import com.project.cy.model.dto.JukeboxDTO;
 import com.project.cy.model.dto.JukeboxStoreDTO;
 import com.project.cy.model.dto.MyjukeDTO;

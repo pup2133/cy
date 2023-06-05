@@ -10,34 +10,33 @@
 <link rel="stylesheet" href="resources/css/header_nav.css" />
 <link rel="stylesheet" href="resources/css/profile.css" />
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
 <script>
-	$(document).ready(
-		    // 웹소켓 연결
-		    const sock = new SockJS('/cy/alram');
+	$(document).ready(function(){
+		// 웹소켓 연결
+		const sock = new SockJS('./alram');
 
-		    // 데이터를 전달 받았을 때
-		    sock.onmessage = onMessage; // toast 생성
+		// 데이터를 전달 받았을 때
+		sock.onmessage = onMessage; // toast 생성
 		    
-			function() {
-				$('#file').change(
-						function(event) {
-							let file = event.target.files[0];
-							let reader = new FileReader();
+		$('#file').change(function(event) {
+			let file = event.target.files[0];
+			let reader = new FileReader();
 
-							reader.onload = function(e) {
-								$("#pic_com").css("display", "none");
-								$('#p_pic').css('background-image',
-										'url(' + e.target.result + ')');
-							};
-							reader.readAsDataURL(file);
-						});
-			});
+			reader.onload = function(e) {
+				$("#pic_com").css("display", "none");
+				$('#p_pic').css('background-image','url(' + e.target.result + ')');
+			};
+			reader.readAsDataURL(file);
+		});
+	});
 
 	let updateText = 0;
 	function update_profile() {
 		let area = document.querySelectorAll(".update_profile");
 
+		let m_id = $("#m_id").val();
 		let m_name = $("#m_name").val();
 		let m_birth = $("#m_birth").val();
 		let m_email = $("#m_email").val();
@@ -53,9 +52,7 @@
 			$("#up_btn").css("color", "red");
 			updateText = 1;
 		} else if (updateText == 1) {
-			const file = $("#file")[0];
-			console.log("imageInput: ", file.files);
-			
+			const file = $("#file")[0];			
 			const formData = new FormData();
 			formData.append("file", file.files[0]);
 			
@@ -70,15 +67,14 @@
 			    	p_pic = d;
 			    },
 			    err: function(err){
-			      console.log(err)
 			    }
 			  });
 			
 			$.ajax({
-				url : "profile/profileUpdate",
+				url : "profileProfileUpdate",
 				method : "POST",
 				data : {
-					m_id : "${profile.m_id}",
+					m_id : m_id,
 					m_name : m_name,
 					m_birth : m_birth,
 					m_email : m_email,
@@ -86,10 +82,9 @@
 					p_text : p_text,
 					p_pic : p_pic
 				},
-				success : function() {
+				success : function(data) {
 				},
 				error : function(err) {
-					console.log(err);
 				},
 			});
 			
@@ -121,6 +116,7 @@
 				<div class="info_wrap">
 					<div class="info m_name">
 						<h2>이름</h2>
+						<input type="hidden" class="update_profile" id="m_id" value="${profile.m_id}"/>
 						<input type="text" class="update_profile" id="m_name" value="${profile.m_name}" maxlength="10" readonly />
 					</div>
 					<div class="info m_birth">

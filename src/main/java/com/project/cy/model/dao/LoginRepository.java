@@ -18,7 +18,6 @@ public class LoginRepository {
 	
 	// 로그인
 	public LoginDTO login(String id) {
-		System.out.println(id);
 		return session.selectOne(namespace + "login",id);
 	}
 	
