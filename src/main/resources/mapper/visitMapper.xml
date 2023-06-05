@@ -38,7 +38,7 @@
 	<update id="editVisit" parameterType="visit">
 		UPDATE cy_visit
 		SET v_text = #{v_text},
-			v_time = #{v_time},
+			v_time = to_date(#{v_time},'yyyy-mm-dd hh24:mi'),
 			host_id = #{v_hostId},
 			guest_id = #{v_guestId}
 		WHERE v_num = #{v_num}

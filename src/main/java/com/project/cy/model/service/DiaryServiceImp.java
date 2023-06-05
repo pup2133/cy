@@ -1,6 +1,5 @@
 package com.project.cy.model.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.project.cy.model.dto.DiaryCommentDTO;
@@ -19,7 +18,7 @@ public interface DiaryServiceImp {
 	
 	public int insertDiary(DiaryDTO d);
 	
-	public int updateText(HashMap<String, Object> map);
+	public int updateText(String d_num, String d_text);
 	
 	public int deleteText(String d_num);
 	

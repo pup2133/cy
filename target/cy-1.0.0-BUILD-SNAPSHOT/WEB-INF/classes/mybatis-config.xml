@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias alias="gallery" type="com.project.cy.model.dto.gallery" />
+		<typeAlias alias="visit" type="com.project.cy.model.dto.visit"/>
+
+		<typeAlias alias="JukeboxStore" type="com.project.cy.model.dto.JukeboxStoreDTO"/>
+		<typeAlias alias="Jukebox" type="com.project.cy.model.dto.JukeboxDTO"/>
+		<typeAlias alias="Myjukebox" type="com.project.cy.model.dto.MyjukeDTO"/>
+		<typeAlias alias="Friends" type="com.project.cy.model.dto.FriendsDTO"/>
+		<typeAlias alias="HomeProfile" type="com.project.cy.model.dto.HomeProfileDTO"/>
+
+		<typeAlias alias="DiaryDTO" type="com.project.cy.model.dto.DiaryDTO" />
+		<typeAlias alias="DiaryCommentDTO" type="com.project.cy.model.dto.DiaryCommentDTO" />
+		<typeAlias alias="ProfileDTO" type="com.project.cy.model.dto.ProfileDTO" />
+
+		<typeAlias alias="Login" type="com.project.cy.model.dto.LoginDTO"/>
+		<typeAlias alias="HomeSetting" type="com.project.cy.model.dto.HomeSettingDTO"/>
+		
+	</typeAliases>
+</configuration>

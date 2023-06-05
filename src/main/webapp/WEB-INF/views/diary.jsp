@@ -11,13 +11,23 @@
 <link rel="stylesheet" href="resources/css/header_nav.css" />
 <link rel="stylesheet" href="resources/css/diary.css" />
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.js"></script>
 <script type="text/javascript">
 	let days = "${param.days}";
 	let choiceYear2 = days.substr(0, 4);
 	let choiceMonth2 = days.substring(4, 6);
   	let choiceDay2 = days.substring(6, 8);
+  	
   
 window.onload = function () {
+	
+    // 웹소켓 연결
+    const sock = new SockJS('./alram');
+
+    // 데이터를 전달 받았을 때
+    sock.onmessage = onMessage; // toast 생성
+    
   buildCalendar();
   // 웹 페이지가 로드되면 buildCalendar 실행
 
@@ -55,9 +65,6 @@ if (choiceDay.length == 1) {
 }
 
 let choicedays = choiceYear + choiceMonth + choiceDay;
-console.log(choicedays);
-
-
 
 
 // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣는다.
@@ -67,8 +74,6 @@ function buildCalendar() {
 
   let tbody_Calendar = document.querySelector(".calendar > tbody");
   document.getElementById("calYear").innerText = nowMonth.getFullYear(); // 연도 숫자 갱신
-  //   document.getElementById("calMonth").innerText = leftPad(
-  //     nowMonth.getMonth() + 1
   let month = document.getElementById("calMonth"); // 월 숫자 갱신
   switch (nowMonth.getMonth() + 1) {
     case 1:
@@ -137,7 +142,7 @@ function buildCalendar() {
     if (getMonth.length == 1) {
       getMonth = "0" + getMonth;
     }
-    nowColumn.id = getYear + getMonth + getDay;
+    
 
     if (nowDay.getDay() == 0) {
       // 일요일인 경우 글자색 빨강으로
@@ -175,6 +180,11 @@ function buildCalendar() {
         location.href = "diary?id=${hostId}&days=" + choicedays;
       };
     }
+    nowColumn.id = getYear + getMonth + getDay;
+    let ncid = nowColumn.id;
+    if(ncid == days){
+    	nowColumn.className += ' choiceDay';
+    }
   }
 }
 
@@ -196,11 +206,13 @@ function choiceDate(nowColumn) {
     choiceMonth = "0" + choiceMonth;
   }
   choicedays = choiceYear + choiceMonth + choiceDay;
-  console.log(choicedays);  
 }
 
 // 이전달 버튼 클릭
 function prevCalendar() {
+	if(nowMonth.getDate() == 31){
+		nowMonth.setDate(1);
+	}
   nowMonth = new Date(
     nowMonth.getFullYear(),
     nowMonth.getMonth() - 1,
@@ -210,6 +222,9 @@ function prevCalendar() {
 }
 // 다음달 버튼 클릭
 function nextCalendar() {
+if(nowMonth.getDate() == 31){
+		nowMonth.setDate(1);
+	}
   nowMonth = new Date(
     nowMonth.getFullYear(),
     nowMonth.getMonth() + 1,
@@ -259,7 +274,6 @@ function update_comment(obj, dc_num) {
       	location.reload();
       },
       error:function(err){
-        console.log(err);
       }    
     });
     
@@ -273,29 +287,38 @@ function change_diarydate(y, m, d) {
   diary_date.innerHTML = y + " - " + m + " - " + d;
 }
 
-
+let cnt = ${totalCount};
 //댓글 삭제
 function delete_comment(obj, dc_num) {
-  let tf = confirm("댓글을 삭제하시겠습니까??");
   let com = obj.parentElement.parentElement.parentElement.parentElement;
   
-  if (tf) {
-    $.ajax({
-      url: "diary/commentDelete",
-      method: "POST",
-      data: {
-        dc_num: dc_num,
-      },
-      success: function(data){
-      },
-      error:function(err){
-        console.log(err);
-      }    
+  Swal.fire({
+	  title: '댓글을 삭제하시겠습니까?',
+	  icon: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  confirmButtonText: '삭제',
+	  cancelButtonText: '취소',
+	  reverseButtons: true, // 버튼 순서 거꾸로
+  }).then((result) => {
+    	if(result.isConfirmed){
+    		 $.ajax({
+    			 url: "diary/commentDelete",
+    		     method: "POST",
+    		     data: {
+    		        dc_num: dc_num,
+    		     },success: function(){
+    		     },error:function(err){
+    		   	}
+    		 });
+   
+    	}
+    	cnt -= 1;
+    	$("#com_cnt").html("댓글("+cnt+")");
+    	com.remove();
     });
   }
-  
-  com.remove();
-}
 
 //다이어리 수정 readonly 풀기
 let updateText = 0;
@@ -320,7 +343,6 @@ function update_Text() {
       success: function(data){
       },
       error:function(err){
-        console.log(err);
       }    
     });
     
@@ -330,27 +352,36 @@ function update_Text() {
 
 // 다이어리 삭제
 function delete_text() {
-  let tf = confirm("다이어리를 삭제하시겠습니까??");
   let d_num = document.getElementById("d_num").value;
   
-  if (tf) {
-    $.ajax({
-      url: "diary/textDelete",
-      method: "POST",
-      data: {
-        d_num: d_num,
-      },
-      success: function(){
-      },
-      error:function(err){
-        console.log(err);
-      }    
+  Swal.fire({
+	  title: '다이어리를 삭제하시겠습니까?',
+	  icon: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  confirmButtonText: '삭제',
+	  cancelButtonText: '취소',
+	  reverseButtons: true, // 버튼 순서 거꾸로
+  }).then((result) => {
+    	if(result.isConfirmed){
+    	    $.ajax({
+    	        url: "diary/textDelete",
+    	        method: "POST",
+    	        data: {
+    	          d_num: d_num,
+    	        },
+    	        success: function(){
+    	        },
+    	        error:function(err){
+    	        }    
+    	    });
+    	    $("#hide_com").css("display", "none");
+    	  	$("textarea[name=d_text]").text("");
+    	  	document.getElementById('comment_all').innerHTML="";
+    	  	$("h4").text("댓글(0)");
+        }
     });
-      $("#hide_com").css("display", "none");
-	  $("textarea[name=d_text]").text("");
-	  document.getElementById('comment_all').innerHTML="";
-	  $("h4").text("댓글(0)");
-  }
 }
 </script>
 <script src="./resources/js/header.js"></script>
@@ -391,10 +422,16 @@ function delete_text() {
 												<b>${cm.m_nick}</b> <span>${cm.dc_time}</span>
 											</div>
 											<div class="com_up_del" id="com_up_del${cm.dc_num}">
-												<c:if test="${sessionId == cm.m_id}">
+												<c:choose>
+												<c:when test="${sessionId != cm.m_id && sessionId == hostId}">
+													<a href="javascript:void(0);" class="com_under" onclick="delete_comment(this, ${cm.dc_num})">삭제</a>
+												</c:when>													
+												<c:when test="${sessionId == cm.m_id}">
 													<a href="javascript:void(0);" class="com_under" onclick="update_comment(this, ${cm.dc_num})">수정</a> | 
 													<a href="javascript:void(0);" class="com_under" onclick="delete_comment(this, ${cm.dc_num})">삭제</a>
-												</c:if>
+												</c:when>
+												<c:otherwise></c:otherwise>
+												</c:choose>
 											</div>
 										</div>
 										<textarea class="comment_" maxlength="100" onkeydown="resize(this)" onkeyup="resize(this)" readonly>${cm.dc_text}</textarea>
@@ -404,11 +441,11 @@ function delete_text() {
 						</div>
 						<div class="page">
 							<ul class="pagination">
-								<li class="page-item page_side"><a class="page-link" href="diary?id=${hostId}&days=${selectDay}&page=1"><</a></li>
+								<li class="page-item page_side"><a class="page-link" href="diary?id=${hostId}&days=${param.days}&page=1"><</a></li>
 								<c:forEach var="pageNumber" begin="${startPage}" end="${endPage}">
-									<li class="page-item"><a class="page-link" href="diary?id=${hostId}&days=${selectDay}&page=${pageNumber}">${pageNumber}</a></li>
+									<li class="page-item"><a class="page-link" href="diary?id=${hostId}&days=${param.days}&page=${pageNumber}">${pageNumber}</a></li>
 								</c:forEach>
-								<li class="page-item page_side"><a class="page-link" href="diary?id=${hostId}&days=${selectDay}&page=${totalPages}">></a></li>
+								<li class="page-item page_side"><a class="page-link" href="diary?id=${hostId}&days=${param.days}&page=${totalPages}">></a></li>
 							</ul>
 						</div>
 					</div>
@@ -435,7 +472,7 @@ function delete_text() {
 						<tbody></tbody>
 					</table>
 					<a href="diary_reg" class="diary_reg">
-						<c:if test="${sessionId == hostId}">
+						<c:if test="${sessionId == hostId && diary.d_text == null && days == param.days}">
 							<i class="fa-solid fa-pen"> 일기쓰기</i>
 						</c:if>
 					</a>

@@ -1,6 +1,5 @@
 package com.project.cy.model.dao;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -19,7 +18,6 @@ public class ProfileRepository implements ProfileRepositoryImp{
 	
 	@Override
 	public ProfileDTO selectProfile(String m_id) throws Exception {
-		System.out.println(m_id);
 		return session.selectOne(namespace + "selectProfile", m_id);
 	}
 	

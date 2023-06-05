@@ -33,7 +33,8 @@
     		WHERE go.g_num = ga.g_num
       		AND go.gg_good = 1
   		) AS good_count
-		FROM cy_gallery ga where ga.m_id=#{m_id}
+		FROM cy_gallery ga 
+		where ga.m_id=#{m_id} and ga.g_secret = 0
 		ORDER BY ga.g_num desc
    	</select>
    	

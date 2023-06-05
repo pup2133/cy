@@ -63,6 +63,10 @@ public class LoginService implements LoginServiceImp{
 		return dao.findPw(id, name, email);
 	}
 	
+	@Override
+	public int createHome(String m_id) {
+		return dao.createHome(m_id);
+	}
 	
 	
 }

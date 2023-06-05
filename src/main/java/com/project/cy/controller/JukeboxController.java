@@ -22,12 +22,17 @@ import com.project.cy.model.service.JukeboxService;
 @Controller
 public class JukeboxController{
 	
-	@Autowired
 	JukeboxService service;
 	
-	@Autowired
 	HomeRepository homedao;
-
+	
+	@Autowired
+	public JukeboxController(JukeboxService service, HomeRepository homedao) {
+		super();
+		this.service = service;
+		this.homedao = homedao;
+	}
+	
 	//--주크박스 상점--
 	@GetMapping("/jukestore")
 	public String getMusicList(Model model) {
@@ -38,17 +43,13 @@ public class JukeboxController{
 	@PostMapping("/jukesearch")
 	@ResponseBody
 	public List<JukeboxStoreDTO> getMusicList(Model model, String search_word, String search_select) {
-		System.out.println("찾는 단어:"+search_word+" 찾는 범위:"+search_select);
-		System.out.println(service.AllSearch(search_select ,search_word));
 		return service.AllSearch(search_select ,search_word);
 	}
 	//음악구매
 	@PostMapping("/buymusic")
 	public void buyMusic(@RequestParam("mu_code") String mu_code, HttpSession session) {		
-		// 임시 세션 아이디
+		//세션 아이디
 		String sessionId = (String) session.getAttribute("sessionId");
-		//뮤직코드 가져오기
-		//String mu_code = "a02";
 		
 		JukeboxDTO dto = new JukeboxDTO();
 		dto.setMu_code(mu_code);
@@ -59,11 +60,11 @@ public class JukeboxController{
 	@PostMapping("/checkDuplicatePurchase")
 	@ResponseBody
 	public String checkDuplicatePurchase(@RequestParam("mu_code") String mu_code, HttpSession session) {
-		System.out.println(mu_code);
-		// 임시 세션 아이디
+		// 세션 아이디
 		String sessionId = (String) session.getAttribute("sessionId");
 		String isDu = "false";
 		ArrayList<MyjukeDTO> mylist = (ArrayList<MyjukeDTO>) service.getMyjuke(sessionId);
+		
 		for(Object item:mylist) {
 			if(((MyjukeDTO)item).getMu_code().equals(mu_code)) {
 				isDu="true";
@@ -76,17 +77,12 @@ public class JukeboxController{
 	@GetMapping("/myjuke")
 	public String getMyjuke(Model model,String id, HttpSession session) {
 		
-		//호스트 아이디 검사
-		String hostId = service.getMemberId(id);
-
-		session.setAttribute("hostId", hostId);
-
-		if(hostId!=null) {
-			model.addAttribute("mylist",service.getMyjuke(hostId));
-			model.addAttribute("myplay",service.getMyplay(hostId));
+		if(id!=null) {
+			model.addAttribute("mylist",service.getMyjuke(id));
+			model.addAttribute("myplay",service.getMyplay(id));
 
 		}else {
-			return "error";
+			return "redirect:/error";
 		}
 		
 		return "myjuke";
@@ -97,22 +93,20 @@ public class JukeboxController{
 	@PostMapping("/addPlaylist")
 	@ResponseBody
 	public List<MyjukeDTO> addPlaylist(@RequestParam("mu_code") String mu_code, HttpSession session){
-		// 임시 세션 아이디
+		//세션 아이디
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		service.addPlay(sessionId, mu_code);
-		System.out.println(service.getMyplay(sessionId));
 		return service.getMyplay(sessionId);
 	}
 	//플레이리스트 제거
 	@PostMapping("/subPlaylist")
 	@ResponseBody
 	public List<MyjukeDTO> subPlaylist(@RequestParam("pl_code") int pl_code, HttpSession session){
-		// 임시 세션 아이디
+		//세션 아이디
 		String sessionId = (String) session.getAttribute("sessionId");
 		
 		service.subPlay(sessionId, pl_code);
-		System.out.println(service.getMyplay(sessionId));
 		return service.getMyplay(sessionId);
 	}
 	

@@ -30,5 +30,8 @@ public interface LoginServiceImp {
 		
 	// 비밀번호 찾기
 	public String findPw(String m_id,String m_name,String m_email);
+	
+	//회원가입시 홈테이블 자동생성
+	public int createHome(String m_id);
 		
 }

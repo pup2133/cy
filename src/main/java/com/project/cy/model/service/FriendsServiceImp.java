@@ -15,4 +15,7 @@ public interface FriendsServiceImp {
 	int delete(int f_num);
 	
 	List<FriendsDTO> getSearchList(String m_id);
+	
+	List<FriendsDTO> waveList(String m_id, String id);
+
 }

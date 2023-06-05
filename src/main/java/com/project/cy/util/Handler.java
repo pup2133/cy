@@ -7,36 +7,50 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.cy.model.service.FriendsService;
+
 public class Handler implements HandlerInterceptor {
+	
+	@Autowired
+	FriendsService service;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-				
+		
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("sessionId");
+		String hostId = request.getParameter("id");
+		String host = "";
+		
+		if(hostId!=null) {
+			host = service.getMemberId(hostId);
+		}
+		
+		if(id == null) {
+			response.sendRedirect("./login");
+			return false;
+		}else if(host==null) {
+			response.sendRedirect("./error");
+			return false;
+
+		}
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		Calendar c1 = Calendar.getInstance();
 		String strToday = sdf.format(c1.getTime());
 		session.setAttribute("days", strToday);
 
-		String hostId = request.getParameter("id");
 
 		if(hostId==null) {
 			hostId = (String)session.getAttribute("hostId");
-			System.out.println(hostId);
 			session.setAttribute("hostId", hostId);
 		}else {
 			session.setAttribute("hostId", hostId);
-		}
-		
-		if(id == null) {
-			response.sendRedirect("./login");
-			return false;
 		}
 		
 		return true;

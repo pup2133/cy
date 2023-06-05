@@ -32,8 +32,6 @@ public class JukeboxRepository implements JukeboxRepositoryImp{
     	Map<String,Object> parameters = new HashMap<>();
     	parameters.put("search_select", search_select);
     	parameters.put("search_word", search_word);
-    	System.out.println("이건 파라미터:"+parameters);
-    	System.out.println(session.selectList(namespace+"AllSearch",parameters));
 		return session.selectList(namespace+"AllSearch",parameters);
     }
     @Override

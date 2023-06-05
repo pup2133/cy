@@ -18,7 +18,6 @@ public class LoginRepository {
 	
 	// 로그인
 	public LoginDTO login(String id) {
-		System.out.println(id);
 		return session.selectOne(namespace + "login",id);
 	}
 	
@@ -36,7 +35,6 @@ public class LoginRepository {
 	public int createP_text(String id) {
 		return session.insert(namespace + "createP_text",id);
 	}
-	
 	
 	//회원정보 가져오기
 	public LoginDTO getInformation(String id) {
@@ -67,6 +65,10 @@ public class LoginRepository {
 		parameterMap.put("m_name", m_name);
 		parameterMap.put("m_email", m_email);
 		return session.selectOne(namespace + "findPw", parameterMap);
+	}
+	
+	public int createHome(String m_id) {
+		return session.insert(namespace + "createHome",m_id);
 	}
 	
 	

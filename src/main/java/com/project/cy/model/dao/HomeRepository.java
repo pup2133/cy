@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import com.project.cy.model.dto.FriendsDTO;
@@ -91,8 +90,6 @@ public class HomeRepository implements HomeRepositoryImp {
 	@Override
 	public int editMsg(String h_msg, String m_id) {
 		HashMap<String, Object> param = new HashMap<>();
-		System.out.println(h_msg);
-		System.out.println(m_id);
 		param.put("h_msg", h_msg);
 		param.put("m_id", m_id);
 		return session.update(namespace + "editMsg", param);

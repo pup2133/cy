@@ -30,13 +30,10 @@ public class VisitController {
 	public String visit(@RequestParam(defaultValue = "1") int page, Model model, String id, HttpSession session) {
 
 		String sessionId = (String) session.getAttribute("sessionId");
-		session.setAttribute("hostId", id);
 
 		try {
-			
-			String hostId = service.getMemberId(id); // 호스트 아이디가 존재하는지 확인
-			
-			if (hostId != null) {
+						
+			if (id != null) {
 				
 				int totalCount = service.getTotalCount(id); // 방명록이 총 몇개 있는지
 
@@ -53,7 +50,7 @@ public class VisitController {
 				model.addAttribute("endPage", pagination.get("endPage"));
 
 			} else {
-				return "error";
+				return "redirect:/error";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,12 +61,7 @@ public class VisitController {
 	
 	@PostMapping("visit/reg")
 	public String visitReg(visit dto) {
-
-		String hostId = dto.getV_hostId();
 		
-		System.out.println(dto.getV_hostId());
-		System.out.println(dto.getV_guestId());
-
 		try {
 			visit newVisit = new visit(dto.getV_text(), dto.getV_hostId(), dto.getV_guestId());
 			service.addVisit(newVisit);
@@ -77,7 +69,7 @@ public class VisitController {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/visit?id=" + hostId;
+		return "redirect:/visit?id=" + dto.getV_hostId();
 	}
 
 	@PostMapping("visit/edit")

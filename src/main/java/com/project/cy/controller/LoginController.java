@@ -4,7 +4,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,73 +14,74 @@ import com.project.cy.model.service.LoginService;
 
 @Controller
 public class LoginController {
-	
-	@Autowired
+
 	LoginService service;
-	
+
+	@Autowired
+	public LoginController(LoginService service) {
+		super();
+		this.service = service;
+	}
+
 	// 회원가입
 	@GetMapping("/register")
 	public String registerForm() {
 		return "register";
 	}
-	
+
 	// 로그인
 	@GetMapping("/login")
 	public String loginForm() {
 		return "login";
 	}
-	
+
 	// 아이디찾기
 	@GetMapping("/findid")
 	public String FindIdForm() {
 		return "FindId";
 	}
-	
+
 	// 비밀번호 찾기
 	@GetMapping("/findpw")
 	public String FindPwForm() {
 		return "FindPw";
 	}
-	
+
 	// 로그인
 	@PostMapping("/login")
-	public String login(@RequestParam("id") String id, @RequestParam("pw") String pw, HttpSession session) {
+	@ResponseBody
+	public int login(String id, String pw, HttpSession session) {
 		LoginDTO member = service.login(id);
 
 		if (member == null) {
-			return "login";
-		} else if (member.getM_id().equals(id) && member.getM_pw().equals(pw)) {
-			System.out.println("로그인 성공");
+			return 1;
+		} else if (member.getM_id().equals(id) && !member.getM_pw().equals(pw)) {
+			return 2;
+		} else {
 			session.setAttribute("sessionId", id);
 			session.setAttribute("hostId", id);
-
-			// 세션 아이디 확인용
-			String sessionId = (String) session.getAttribute("sessionId");
-			System.out.println(sessionId);
-			return "redirect:/myhome?id=" + id;
-		} else {
-			System.out.println("로그인실패");
-			return "redirect:/login";
-
+			return 3;
 		}
 	}
 
 	// 회원가입
 	@PostMapping("register")
 	public String register(LoginDTO dto) {
-	     LoginDTO member = new LoginDTO(dto.getM_id(), dto.getM_pw(), dto.getM_name(), dto.getM_nick(), dto.getM_birth(), dto.getM_email(), dto.getM_tel());
-		 service.register(member);
-		 //배너 테이블 자동생성
-		 service.createBanner(dto.getM_id());
-		 service.createP_text(dto.getM_id());
-	    	return "redirect:/login";
+		LoginDTO member = new LoginDTO(dto.getM_id(), dto.getM_pw(), dto.getM_name(), dto.getM_nick(), dto.getM_birth(), dto.getM_email(), dto.getM_tel());
+		service.register(member);
+		
+		// 배너 테이블, 프로필 테이블, 홈 테이블 자동생성
+		service.createBanner(dto.getM_id());
+		service.createP_text(dto.getM_id());
+		service.createHome(dto.getM_id());
+
+		return "redirect:/login";
 	}
 
 	// 아이디 중복확인
 	@PostMapping("dup")
 	@ResponseBody
 	public Boolean duplication(String m_id) {
-		System.out.println(m_id);
 		String result = service.duplication(m_id);
 
 		if (result == null) {
@@ -89,9 +89,6 @@ public class LoginController {
 		} else {
 			return false;
 		}
-		
-		
-
 	}
 
 	// 아이디 찾기

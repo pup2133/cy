@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.cy.JukeboxStoreMapper">
+
+	<select id="getMemberId" resultType="String">
+		select m_id from cy_member where m_id = #{id}
+	</select>
+
+    <select id="All" resultType="JukeboxStore">
+        select mu_code,mu_img,mu_title,mu_artist from cy_music
+    </select>
+    
+    <select id="AllSearch" resultType="JukeboxStore">
+        <!-- select mu_img,mu_title,mu_artist from cy_music where mu_title='${mu_title}' -->
+        select mu_code,mu_img,mu_title,mu_artist from cy_music where lower(${search_select}) like '%'||lower(#{search_word})||'%'
+    </select>
+    
+    <insert id="insert" parameterType="Jukebox">
+      insert into cy_mymusic
+      	(mu_code,m_id) 
+      VALUES
+      	(#{mu_code},#{m_id})
+    </insert>
+    
+    <select id="Myjuke" resultType="Myjukebox">
+        select mu.mu_code, mu.mu_title ,mu.mu_artist, mu.mu_genre, mu.mu_date, mu.mu_img, mu.mu_url, mm.m_id, mm.mm_in
+		from cy_music mu 
+		join cy_mymusic mm 
+		on mu.mu_code = mm.mu_code 
+		where m_id=#{m_id}
+    </select>
+    
+    <select id="Myplay" resultType="Myjukebox">
+		select mu.mu_code, mu.mu_title ,mu.mu_artist, mu.mu_genre, mu.mu_date, mu.mu_img, mu.mu_url, pl.m_id , pl.pl_code
+		from cy_music mu 
+		join cy_play pl
+		on mu.mu_code = pl.mu_code 
+		where m_id=#{m_id}
+		order by pl_code asc
+    </select>
+	
+	<update id="addPlay" parameterType="Myjukebox">
+		insert into cy_play(mu_code,m_id) values(#{mu_code},#{m_id})
+	</update>
+	
+	<update id="subPlay" parameterType="Myjukebox">
+		delete from cy_play where pl_code=#{pl_code}
+	</update>
+	
+    
+</mapper>
