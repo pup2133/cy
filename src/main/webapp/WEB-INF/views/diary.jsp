@@ -441,11 +441,11 @@ function delete_text() {
 						</div>
 						<div class="page">
 							<ul class="pagination">
-								<li class="page-item page_side"><a class="page-link" href="diary?id=${hostId}&days=${selectDay}&page=1"><</a></li>
+								<li class="page-item page_side"><a class="page-link" href="diary?id=${hostId}&days=${param.days}&page=1"><</a></li>
 								<c:forEach var="pageNumber" begin="${startPage}" end="${endPage}">
-									<li class="page-item"><a class="page-link" href="diary?id=${hostId}&days=${selectDay}&page=${pageNumber}">${pageNumber}</a></li>
+									<li class="page-item"><a class="page-link" href="diary?id=${hostId}&days=${param.days}&page=${pageNumber}">${pageNumber}</a></li>
 								</c:forEach>
-								<li class="page-item page_side"><a class="page-link" href="diary?id=${hostId}&days=${selectDay}&page=${totalPages}">></a></li>
+								<li class="page-item page_side"><a class="page-link" href="diary?id=${hostId}&days=${param.days}&page=${totalPages}">></a></li>
 							</ul>
 						</div>
 					</div>
